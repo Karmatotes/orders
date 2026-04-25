@@ -434,9 +434,21 @@ textarea.form-control{resize:none}
         <div class="stock-alert" id="stock-alert-handles"></div>
       </div>
       <div class="form-group">
-        <label>Zippers (nos)</label>
-        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="1" oninput="checkStock('zippers')">
+        <label>Zippers (metres)</label>
+        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('zippers')">
         <div class="stock-alert" id="stock-alert-zippers"></div>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Lace (metres)</label>
+        <input class="form-control" id="f-lace-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('lace')">
+        <div class="stock-alert" id="stock-alert-lace"></div>
+      </div>
+      <div class="form-group">
+        <label>Runners (nos)</label>
+        <input class="form-control" id="f-runners-qty" type="number" placeholder="0" min="0" step="1" oninput="checkStock('runners')">
+        <div class="stock-alert" id="stock-alert-runners"></div>
       </div>
     </div>
 
@@ -791,8 +803,10 @@ function checkStock(type){
   const matMap={
     primary:  {qty:'f-primary-fabric-qty',  alert:'stock-alert-primary',  mat:()=>document.getElementById('f-primary-material').value},
     secondary:{qty:'f-secondary-fabric-qty', alert:'stock-alert-secondary', mat:()=>document.getElementById('f-secondary-material').value},
-    zippers:  {qty:'f-zippers-qty',          alert:'stock-alert-zippers',   mat:()=>'Zippers'},
+    zippers:  {qty:'f-zippers-qty',          alert:'stock-alert-zippers',   mat:()=>'Zippers', unit:'m'},
     handles:  {qty:'f-handles-qty',          alert:'stock-alert-handles',   mat:()=>'Handles', unit:'m'},
+    lace:     {qty:'f-lace-qty',             alert:'stock-alert-lace',      mat:()=>'Lace',    unit:'m'},
+    runners:  {qty:'f-runners-qty',          alert:'stock-alert-runners',   mat:()=>'Runners', unit:'nos'},
   };
   const cfg=matMap[type];if(!cfg)return;
   const qty=Number(document.getElementById(cfg.qty).value)||0;
@@ -847,6 +861,8 @@ async function submitOrder(){
   const secondaryFabricQty=Number(document.getElementById('f-secondary-fabric-qty').value)||0;
   const zippersQty=Number(document.getElementById('f-zippers-qty').value)||0;
   const handlesQty=Number(document.getElementById('f-handles-qty').value)||0;
+  const laceQty=Number(document.getElementById('f-lace-qty').value)||0;
+  const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;
   const printCost=Number(document.getElementById('f-print-cost').value)||0;
   const secondaryMaterial=document.getElementById('f-secondary-material').value||'';
   const hardwareItems=getHardwareItems();
@@ -876,12 +892,14 @@ async function submitOrder(){
     secondaryFabricQty,
     zippersQty,
     handlesQty,
+    laceQty,
+    runnersQty,
     printCost,
     paymentStatus:    advance>=orderValue?'Paid':advance>0?'Partial':'Pending',
     entryDate,
     cuttingDate:      '',
     hardwareItems:    hardwareItems,
-    deductStock:      (primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||hardwareItems.length>0)
+    deductStock:      (primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||hardwareItems.length>0)
   };
 
   // Disable button
@@ -939,6 +957,7 @@ function resetForm(){
   ['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks',
    'f-order-value','f-advance','f-color','f-length','f-width','f-height',
    'f-primary-fabric-qty','f-secondary-fabric-qty','f-zippers-qty','f-handles-qty',
+   'f-lace-qty','f-runners-qty',
    'f-print-cost','f-features-other','f-sale-other'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
@@ -956,7 +975,7 @@ function resetForm(){
   selectedFeatures=[];
   document.querySelectorAll('.feature-chip').forEach(c=>c.classList.remove('active'));
   formWorkers=[];renderFormWorkers();
-  ['stock-alert-primary','stock-alert-secondary','stock-alert-zippers','stock-alert-handles'].forEach(id=>{
+  ['stock-alert-primary','stock-alert-secondary','stock-alert-zippers','stock-alert-handles','stock-alert-lace','stock-alert-runners'].forEach(id=>{
     document.getElementById(id).classList.remove('visible');
   });
   resetHardware();
