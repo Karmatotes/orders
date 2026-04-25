@@ -963,6 +963,57 @@ function resetForm(){
 }
 
 // ── OVERVIEW ───────────────────────────────────────────────────
+
+// ── DATE FILTER ───────────────────────────────────────────
+let activeDateFilter='all';
+
+function setDateFilter(f,btn){
+  activeDateFilter=f;
+  document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  const cw=document.getElementById('df-custom-wrap');
+  if(f==='custom')cw.classList.add('visible');
+  else cw.classList.remove('visible');
+  renderOverview();
+}
+
+function getDateFilterRange(){
+  const now=new Date();
+  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
+  switch(activeDateFilter){
+    case 'thisweek':{
+      const day=today.getDay();
+      const mon=new Date(today);mon.setDate(today.getDate()-(day===0?6:day-1));
+      return{from:mon,to:new Date(today.getTime()+86400000)};
+    }
+    case 'thismonth':
+      return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(today.getTime()+86400000)};
+    case 'lastmonth':
+      return{from:new Date(now.getFullYear(),now.getMonth()-1,1),to:new Date(now.getFullYear(),now.getMonth(),1)};
+    case 'thisyear':
+      return{from:new Date(now.getFullYear(),0,1),to:new Date(today.getTime()+86400000)};
+    case 'custom':{
+      const from=document.getElementById('df-from').value;
+      const to=document.getElementById('df-to').value;
+      return{from:from?new Date(from):null,to:to?new Date(new Date(to).getTime()+86400000):null};
+    }
+    default:return{from:null,to:null};
+  }
+}
+
+function orderMatchesDateFilter(o){
+  if(activeDateFilter==='all')return true;
+  const range=getDateFilterRange();
+  if(!range.from&&!range.to)return true;
+  const dateStr=o.entryDate||o.date||'';
+  if(!dateStr)return true;
+  let d=new Date(dateStr);
+  if(isNaN(d.getTime()))return true;
+  if(range.from&&d<range.from)return false;
+  if(range.to&&d>=range.to)return false;
+  return true;
+}
+
 function renderOverviewKPIs(){
   const td=todayISO();
   document.getElementById('ov-delayed').textContent=orders.filter(o=>o.status==='delayed').length;
