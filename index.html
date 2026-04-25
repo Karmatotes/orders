@@ -176,6 +176,16 @@ textarea.form-control{resize:none}
 .stock-alert.danger{background:var(--red-soft);color:var(--red)}
 .stock-alert.ok{background:var(--green-soft);color:var(--moss)}
 
+/* ── GSM & VARIATION ── */
+.gsm-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
+.gsm-select{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}
+.gsm-select:focus{border-color:var(--moss);background:var(--surface)}
+.gsm-custom-input{width:90px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;display:none}
+.gsm-custom-input.visible{display:block}
+.gsm-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.4);font-family:'DM Mono',monospace}
+.fabric-detail-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border);flex-direction:column;gap:8px}
+.fabric-detail-wrap.visible{display:flex}
+
 /* ── HARDWARE CHECKBOXES ── */
 .hardware-row{display:flex;align-items:flex-start;gap:12px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;flex-wrap:wrap}
 .hw-check-label{display:flex;align-items:center;gap:8px;cursor:pointer;min-width:180px}
@@ -329,6 +339,10 @@ textarea.form-control{resize:none}
           <option value="Kadhi Fabric">Kadhi Fabric</option>
           <option value="Non-woven">Non-woven</option>
           <option value="POV Sheet">POV Sheet</option>
+          <option value="Parachute">Parachute</option>
+          <option value="Matt Fabric">Matt Fabric</option>
+          <option value="Parachute">Parachute</option>
+          <option value="Matt Fabric">Matt Fabric</option>
         </select>
       </div>
       <div class="form-group">
@@ -340,7 +354,7 @@ textarea.form-control{resize:none}
     <div class="secondary-material-wrap" id="secondary-wrap">
       <div class="form-group" style="margin-bottom:0">
         <label>Secondary Material (patch / lining)</label>
-        <select class="form-control" id="f-secondary-material">
+        <select class="form-control" id="f-secondary-material" onchange="onSecondaryMaterialChange()">
           <option value="">None</option>
           <option value="Cotton Canvas">Cotton Canvas</option>
           <option value="Kadhi Fabric">Kadhi Fabric</option>
@@ -348,7 +362,44 @@ textarea.form-control{resize:none}
           <option value="Jute Fabric">Jute Fabric</option>
           <option value="Non-woven">Non-woven</option>
           <option value="POV Sheet">POV Sheet</option>
+          <option value="Parachute">Parachute</option>
+          <option value="Matt Fabric">Matt Fabric</option>
         </select>
+      </div>
+      <!-- Secondary fabric variation + GSM -->
+      <div class="fabric-detail-wrap" id="secondary-fabric-detail">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Secondary Variation</label>
+          <select class="gsm-select" id="f-secondary-variation"></select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Secondary GSM</label>
+          <div class="gsm-wrap">
+            <select class="gsm-select" id="f-secondary-gsm" onchange="toggleCustomGSM('secondary')">
+              <option value="">Select GSM…</option>
+            </select>
+            <input class="gsm-custom-input" id="f-secondary-gsm-custom" type="text" placeholder="Custom">
+            <span class="gsm-unit">GSM</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Primary fabric variation + GSM -->
+    <div class="fabric-detail-wrap" id="primary-fabric-detail" style="margin-top:10px">
+      <div class="form-group" style="margin-bottom:0">
+        <label>Variation</label>
+        <select class="gsm-select" id="f-primary-variation"></select>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>GSM</label>
+        <div class="gsm-wrap">
+          <select class="gsm-select" id="f-primary-gsm" onchange="toggleCustomGSM('primary')">
+            <option value="">Select GSM…</option>
+          </select>
+          <input class="gsm-custom-input" id="f-primary-gsm-custom" type="text" placeholder="Custom">
+          <span class="gsm-unit">GSM</span>
+        </div>
       </div>
     </div>
 
@@ -757,9 +808,78 @@ function toggleFeature(el,name){
   else selectedFeatures=selectedFeatures.filter(f=>f!==name);
 }
 
+
+// ── FABRIC CONFIG ─────────────────────────────────────────
+const FABRIC_CONFIG={
+  'Jute Fabric':   {variations:['Half-White','Natural','Printed','Colored'],gsm:['14/15','13/13','12/12']},
+  'Cotton Canvas': {variations:['Natural','Colored','Laminated'],           gsm:['225','300','310','340','400','490','570']},
+  'Juco Fabric':   {variations:['Laminated','Non-Laminated'],               gsm:[]},
+  'Kadhi Fabric':  {variations:['Natural'],                                 gsm:['90','120','135','150']},
+};
+const FABRICS_WITH_DETAIL=['Jute Fabric','Cotton Canvas','Juco Fabric','Kadhi Fabric'];
+
+function populateFabricDetail(fabricName, varSelectId, gsmSelectId){
+  const varSel=document.getElementById(varSelectId);
+  const gsmSel=document.getElementById(gsmSelectId);
+  if(!varSel||!gsmSel)return;
+  const cfg=FABRIC_CONFIG[fabricName];
+  // Populate variation
+  varSel.innerHTML='<option value="">Select variation…</option>';
+  if(cfg&&cfg.variations.length){
+    cfg.variations.forEach(v=>{
+      const opt=document.createElement('option');
+      opt.value=v;opt.textContent=v;varSel.appendChild(opt);
+    });
+  }
+  // Populate GSM
+  gsmSel.innerHTML='<option value="">Select GSM…</option>';
+  if(cfg&&cfg.gsm.length){
+    cfg.gsm.forEach(g=>{
+      const opt=document.createElement('option');
+      opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);
+    });
+    const custom=document.createElement('option');
+    custom.value='custom';custom.textContent='Custom…';
+    gsmSel.appendChild(custom);
+  }
+}
+
+function toggleCustomGSM(type){
+  const sel=document.getElementById('f-'+type+'-gsm');
+  const custom=document.getElementById('f-'+type+'-gsm-custom');
+  if(!sel||!custom)return;
+  if(sel.value==='custom')custom.classList.add('visible');
+  else custom.classList.remove('visible');
+}
+
+function getGSMValue(type){
+  const sel=document.getElementById('f-'+type+'-gsm');
+  const custom=document.getElementById('f-'+type+'-gsm-custom');
+  if(!sel)return'';
+  return sel.value==='custom'?(custom?custom.value:''):sel.value;
+}
+
+function onSecondaryMaterialChange(){
+  const mat=document.getElementById('f-secondary-material').value;
+  const detailWrap=document.getElementById('secondary-fabric-detail');
+  if(FABRICS_WITH_DETAIL.includes(mat)){
+    detailWrap.classList.add('visible');
+    populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
+  }else{
+    detailWrap.classList.remove('visible');
+  }
+}
+
 function onPrimaryMaterialChange(){
   const v=document.getElementById('f-primary-material').value;
   document.getElementById('secondary-wrap').classList.toggle('visible', v!=='');
+  const detailWrap=document.getElementById('primary-fabric-detail');
+  if(FABRICS_WITH_DETAIL.includes(v)){
+    detailWrap.classList.add('visible');
+    populateFabricDetail(v,'f-primary-variation','f-primary-gsm');
+  }else{
+    detailWrap.classList.remove('visible');
+  }
 }
 
 function updateBalance(){
@@ -897,6 +1017,10 @@ async function submitOrder(){
   const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;
   const printCost=Number(document.getElementById('f-print-cost').value)||0;
   const secondaryMaterial=document.getElementById('f-secondary-material').value||'';
+  const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';
+  const primaryGSM=getGSMValue('primary');
+  const secondaryVariation=document.getElementById('f-secondary-variation')?document.getElementById('f-secondary-variation').value||'':'';
+  const secondaryGSM=getGSMValue('secondary');
   const hardwareItems=getHardwareItems();
 
   const newOrder={
@@ -916,6 +1040,8 @@ async function submitOrder(){
     secondaryMaterial,
     dimensions,
     color:            document.getElementById('f-color').value||'',
+    primaryVariation, primaryGSM,
+    secondaryVariation, secondaryGSM,
     features:         featuresStr,
     orderValue,
     advance,
@@ -965,7 +1091,7 @@ function showSuccess(o){
     <div class="success-row"><label>Product</label><span>${o.product}</span></div>
     <div class="success-row"><label>Quantity</label><span>${o.qty} pcs</span></div>
     <div class="success-row"><label>Delivery</label><span>${fmtDate(o.date)||'TBD'}</span></div>
-    <div class="success-row"><label>Material</label><span>${o.primaryMaterial}${o.secondaryMaterial?' + '+o.secondaryMaterial:''}</span></div>
+    <div class="success-row"><label>Material</label><span>${o.primaryMaterial}${o.primaryVariation?' — '+o.primaryVariation:''}${o.primaryGSM?' ('+o.primaryGSM+' GSM)':''}${o.secondaryMaterial?' + '+o.secondaryMaterial+(o.secondaryVariation?' — '+o.secondaryVariation:'')+(o.secondaryGSM?' ('+o.secondaryGSM+' GSM)':''):''}</span></div>
     ${o.dimensions?`<div class="success-row"><label>Dimensions</label><span>${o.dimensions}</span></div>`:''}
     ${o.features?`<div class="success-row"><label>Features</label><span>${o.features}</span></div>`:''}
     <div class="success-row"><label>Order Value</label><span>${fmtINR(o.orderValue)}</span></div>
@@ -994,6 +1120,14 @@ function resetForm(){
     const el=document.getElementById(id);if(el)el.value='';
   });
   document.getElementById('f-primary-material').value='';
+  document.getElementById('primary-fabric-detail').classList.remove('visible');
+  document.getElementById('secondary-fabric-detail').classList.remove('visible');
+  if(document.getElementById('f-primary-variation'))document.getElementById('f-primary-variation').value='';
+  if(document.getElementById('f-primary-gsm'))document.getElementById('f-primary-gsm').value='';
+  if(document.getElementById('f-primary-gsm-custom'))document.getElementById('f-primary-gsm-custom').value='';
+  if(document.getElementById('f-secondary-variation'))document.getElementById('f-secondary-variation').value='';
+  if(document.getElementById('f-secondary-gsm'))document.getElementById('f-secondary-gsm').value='';
+  if(document.getElementById('f-secondary-gsm-custom'))document.getElementById('f-secondary-gsm-custom').value='';
   document.getElementById('f-secondary-material').value='';
   document.getElementById('f-stage').value='Cutting';
   document.getElementById('f-priority').value='ok';
