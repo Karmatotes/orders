@@ -164,6 +164,10 @@ textarea.form-control{resize:none}
 .balance-display.positive{background:var(--green-soft);color:var(--moss)}
 .balance-display.zero{background:var(--green-soft);color:var(--moss)}
 .balance-display.negative{background:var(--red-soft);color:var(--red)}
+.btn-refresh{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;transition:all .2s}
+.btn-refresh:hover{background:rgba(255,255,255,0.25)}
+.btn-refresh.spinning span{display:inline-block;animation:spin .6s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── STOCK ALERT ── */
 .stock-alert{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;display:none}
@@ -219,6 +223,7 @@ textarea.form-control{resize:none}
   </div>
   <div class="header-right">
     <div class="date-badge" id="live-date"></div>
+    <button class="btn-refresh" id="btn-refresh" onclick="refreshData()"><span>↻</span> Refresh</button>
     <a href="https://karmatotes.github.io/tracker/" target="_blank" class="btn-tracker">⊞ Production</a>
   </div>
 </header>
@@ -638,6 +643,33 @@ async function sheetPost(body){
 }
 
 // ── INIT ───────────────────────────────────────────────────────
+async function refreshData(){
+  const btn=document.getElementById('btn-refresh');
+  if(btn){btn.classList.add('spinning');btn.disabled=true;}
+  try{
+    const [ordersData,materialsData]=await Promise.all([sheetCall({action:'getAll'}),sheetCall({action:'getMaterials'})]);
+    if(ordersData&&ordersData.orders){
+      orders=ordersData.orders.map(row=>({
+        id:Number(row['ID']),client:String(row['Client']||''),product:String(row['Product']||''),
+        qty:Number(row['Qty'])||0,date:String(row['Delivery Date']||''),time:String(row['Time']||''),
+        stage:String(row['Stage']||'Cutting'),status:String(row['Status']||'ok'),
+        print:String(row['Print']||'none'),saleBy:String(row['Sale By']||''),
+        primaryMaterial:String(row['Primary Material']||''),secondaryMaterial:String(row['Secondary Material']||''),
+        dimensions:String(row['Dimensions']||''),color:String(row['Color']||''),
+        features:String(row['Features']||''),orderValue:Number(row['Order Value'])||0,
+        advance:Number(row['Advance'])||0,balance:Number(row['Balance'])||0,
+        paymentStatus:String(row['Payment Status']||'Pending'),entryDate:String(row['Created At']||''),
+      })).filter(o=>o.client&&o.client.trim()!=='');
+      nextId=Math.max(...orders.map(o=>o.id),0)+1;
+    }
+    if(materialsData&&materialsData.materials)materials=materialsData.materials;
+    renderOverviewKPIs();renderOverview();
+    showToast('✓ Refreshed');
+  }finally{
+    if(btn){btn.classList.remove('spinning');btn.disabled=false;}
+  }
+}
+
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
 
