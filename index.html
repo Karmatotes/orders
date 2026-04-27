@@ -366,11 +366,18 @@ textarea.form-control{resize:none}
           <option value="Matt Fabric">Matt Fabric</option>
         </select>
       </div>
-      <!-- Secondary fabric variation + GSM -->
+      <!-- Secondary fabric variation + GSM + Color -->
       <div class="fabric-detail-wrap" id="secondary-fabric-detail">
         <div class="form-group" style="margin-bottom:0">
           <label>Secondary Variation</label>
-          <select class="gsm-select" id="f-secondary-variation"></select>
+          <select class="gsm-select" id="f-secondary-variation" onchange="onSecondaryVariationChange()"></select>
+        </div>
+        <div class="form-group" style="margin-bottom:0;display:none" id="secondary-color-wrap">
+          <label id="secondary-color-label">Color</label>
+          <select class="gsm-select" id="f-secondary-color" onchange="toggleCustomColor('secondary')">
+            <option value="">Select color…</option>
+          </select>
+          <input class="gsm-custom-input" id="f-secondary-color-custom" type="text" placeholder="Enter color name" style="margin-top:6px">
         </div>
         <div class="form-group" style="margin-bottom:0">
           <label>Secondary GSM</label>
@@ -385,11 +392,19 @@ textarea.form-control{resize:none}
       </div>
     </div>
 
-    <!-- Primary fabric variation + GSM -->
+    <!-- Primary fabric variation + GSM + Color -->
     <div class="fabric-detail-wrap" id="primary-fabric-detail" style="margin-top:10px">
       <div class="form-group" style="margin-bottom:0">
         <label>Variation</label>
-        <select class="gsm-select" id="f-primary-variation"></select>
+        <select class="gsm-select" id="f-primary-variation" onchange="onPrimaryVariationChange()"></select>
+      </div>
+      <!-- Color / Pattern field — shown when Colored or Printed selected -->
+      <div class="form-group" style="margin-bottom:0;display:none" id="primary-color-wrap">
+        <label id="primary-color-label">Color</label>
+        <select class="gsm-select" id="f-primary-color" onchange="toggleCustomColor('primary')">
+          <option value="">Select color…</option>
+        </select>
+        <input class="gsm-custom-input" id="f-primary-color-custom" type="text" placeholder="Enter color name" style="margin-top:6px">
       </div>
       <div class="form-group" style="margin-bottom:0">
         <label>GSM</label>
@@ -817,6 +832,97 @@ function toggleFeature(el,name){
 }
 
 
+
+// ── COLOR CONFIG PER FABRIC+VARIATION ──────────────────────
+const JUTE_COLORS = ['Navy Blue','Black Laminated','Brown','Mustard','Maroon','Pink','Red','Parrot Green','Green','Teal Blue','Orange','Purple','Yellow','Royal Blue','Light Green'];
+const JUTE_PATTERNS = ['Viala Jute Maroon','Viala Jute Pink','Butterfly Jute','Flower Print Jute','Gold & Black Jute','Red Flower Natural','Natural & Black Blocks','Half White & Pink Flowers','Half White & Elephant','Ajrak Hearts','Ajrak Waves','Orange Wareli','Brown Checks Jute'];
+const CANVAS_COLORS = ['Purple','Dark Grey','Royal Blue','Black','Navy Blue','Yellow','Red','Pink','Orange','Dark Green','Sky Blue','Marine Blue','Mustard','Honey','Pista Green','Blue','Cream','White','Rani Pink','Mehendi','Light Blue','Light Grey','Maroon','Dark Brown','Chocolate Brown','Teal Blue','Bottle Green'];
+const LINING_COLORS = ['Red','Navy Blue','Light Green','Dark Green','Mustard','Pink','White','Royal Blue','Black','Cream','Yellow','Grey','Khaki','Sky Blue','Teal Blue','Dark Pink','Natural','Pista'];
+const KALAMKARI_PATTERNS = ['Pochampally','Ajrak Hearts','Ajrak Waves','Cows Kalamkari Blue','Cows Kalamkari Black','Orange Flower Kalamkari','Kantha Work Pink','Blue with Flowers','Hand Print','Purple White Flowers','Grey Maroon Flowers','Black & White Curtains','Mustard with Mandala','Blue Flamingo','Orange Wareli'];
+
+function getColorsForFabricVariation(fabric, variation){
+  if(fabric==='Jute Fabric'){
+    if(variation==='Colored')return{label:'Color',list:JUTE_COLORS};
+    if(variation==='Printed')return{label:'Pattern Name',list:JUTE_PATTERNS};
+  }
+  if(fabric==='Cotton Canvas'&&variation==='Colored')return{label:'Color',list:CANVAS_COLORS};
+  if(fabric==='Lining')return{label:'Color',list:LINING_COLORS};
+  if(fabric==='Kalamkari / Designer'||fabric==='Kalamkari')return{label:'Pattern Name',list:KALAMKARI_PATTERNS};
+  return null;
+}
+
+function populateColorField(wrapId, labelId, selectId, customId, colors, label){
+  const wrap=document.getElementById(wrapId);
+  const lbl=document.getElementById(labelId);
+  const sel=document.getElementById(selectId);
+  if(!wrap||!sel)return;
+  if(!colors){wrap.style.display='none';return;}
+  wrap.style.display='block';
+  if(lbl)lbl.textContent=label;
+  sel.innerHTML='<option value="">Select '+label.toLowerCase()+'...</option>';
+  colors.forEach(c=>{
+    const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);
+  });
+  const other=document.createElement('option');other.value='Other';other.textContent='Other (type below)';sel.appendChild(other);
+}
+
+function toggleCustomColor(type){
+  const sel=document.getElementById('f-'+type+'-color');
+  const custom=document.getElementById('f-'+type+'-color-custom');
+  if(!sel||!custom)return;
+  custom.style.display=sel.value==='Other'?'block':'none';
+  custom.classList.toggle('visible',sel.value==='Other');
+}
+
+function getColorValue(type){
+  const sel=document.getElementById('f-'+type+'-color');
+  const custom=document.getElementById('f-'+type+'-color-custom');
+  if(!sel)return'';
+  return sel.value==='Other'?(custom?custom.value:''):sel.value;
+}
+
+function onPrimaryVariationChange(){
+  const fabric=document.getElementById('f-primary-material').value;
+  const variation=document.getElementById('f-primary-variation').value;
+  const colorData=getColorsForFabricVariation(fabric,variation);
+  populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',
+    colorData?colorData.list:null, colorData?colorData.label:'Color');
+}
+
+function onSecondaryVariationChange(){
+  const fabric=document.getElementById('f-secondary-material').value;
+  const variation=document.getElementById('f-secondary-variation').value;
+  const colorData=getColorsForFabricVariation(fabric,variation);
+  populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',
+    colorData?colorData.list:null, colorData?colorData.label:'Color');
+}
+
+// Also trigger for Lining always
+function onSecondaryMaterialChange(){
+  const mat=document.getElementById('f-secondary-material').value;
+  const detailWrap=document.getElementById('secondary-fabric-detail');
+  if(FABRICS_WITH_DETAIL.includes(mat)||mat==='Lining'){
+    detailWrap.classList.add('visible');
+    if(mat==='Lining'){
+      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
+      // Lining always shows color
+      populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',LINING_COLORS,'Color');
+    }else if(mat==='Kalamkari / Designer'||mat==='Kalamkari'){
+      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
+      populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',KALAMKARI_PATTERNS,'Pattern Name');
+    }else{
+      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
+      // Hide color until variation selected
+      const cw=document.getElementById('secondary-color-wrap');
+      if(cw)cw.style.display='none';
+    }
+  }else{
+    detailWrap.classList.remove('visible');
+    const cw=document.getElementById('secondary-color-wrap');
+    if(cw)cw.style.display='none';
+  }
+}
+
 // ── FABRIC CONFIG ─────────────────────────────────────────
 const FABRIC_CONFIG={
   'Jute Fabric':   {variations:['Half-White','Natural','Printed','Colored'],gsm:['14/15','13/13','12/12']},
@@ -867,16 +973,6 @@ function getGSMValue(type){
   return sel.value==='custom'?(custom?custom.value:''):sel.value;
 }
 
-function onSecondaryMaterialChange(){
-  const mat=document.getElementById('f-secondary-material').value;
-  const detailWrap=document.getElementById('secondary-fabric-detail');
-  if(FABRICS_WITH_DETAIL.includes(mat)){
-    detailWrap.classList.add('visible');
-    populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
-  }else{
-    detailWrap.classList.remove('visible');
-  }
-}
 
 function onPrimaryMaterialChange(){
   const v=document.getElementById('f-primary-material').value;
@@ -1027,6 +1123,8 @@ async function submitOrder(){
   const secondaryMaterial=document.getElementById('f-secondary-material').value||'';
   const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';
   const primaryGSM=getGSMValue('primary');
+  const primaryColor=getColorValue('primary');
+  const secondaryColor=getColorValue('secondary');
   const secondaryVariation=document.getElementById('f-secondary-variation')?document.getElementById('f-secondary-variation').value||'':'';
   const secondaryGSM=getGSMValue('secondary');
   const hardwareItems=getHardwareItems();
@@ -1048,8 +1146,8 @@ async function submitOrder(){
     secondaryMaterial,
     dimensions,
     color:            document.getElementById('f-color').value||'',
-    primaryVariation, primaryGSM,
-    secondaryVariation, secondaryGSM,
+    primaryVariation, primaryGSM, primaryColor,
+    secondaryVariation, secondaryGSM, secondaryColor,
     features:         featuresStr,
     orderValue,
     advance,
