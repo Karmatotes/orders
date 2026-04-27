@@ -587,7 +587,15 @@ textarea.form-control{resize:none}
       </div>
     </div>
 
-    <button class="btn-submit" id="btn-submit" onclick="submitOrder()">＋ Add Order — Save to Sheets & Deduct Stock</button>
+    <!-- Stock Deduction Option -->
+    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cream);border-radius:8px;border:1px solid var(--border);margin-top:16px">
+      <input type="checkbox" id="cb-deduct-stock" checked style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;flex-shrink:0">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--bark)">Deduct stock automatically</div>
+        <div style="font-size:11px;color:rgba(44,31,20,0.5);margin-top:2px">Uncheck if inventory hasn't been set up yet — order will save without affecting stock levels</div>
+      </div>
+    </div>
+    <button class="btn-submit" id="btn-submit" onclick="submitOrder()">＋ Add Order</button>
   </div>
 
   <!-- SUCCESS SCREEN -->
@@ -1057,7 +1065,7 @@ async function submitOrder(){
     entryDate,
     cuttingDate:      '',
     hardwareItems:    hardwareItems,
-    deductStock:      (primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||hardwareItems.length>0)
+    deductStock:      document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||hardwareItems.length>0)
   };
 
   // Disable button
@@ -1110,7 +1118,7 @@ function resetForm(){
   document.getElementById('form-body').style.display='block';
   document.getElementById('success-screen').classList.remove('visible');
   document.getElementById('btn-submit').disabled=false;
-  document.getElementById('btn-submit').textContent='＋ Add Order — Save to Sheets & Deduct Stock';
+  document.getElementById('btn-submit').textContent='＋ Add Order';
   // Reset all fields
   ['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks',
    'f-order-value','f-advance','f-color','f-length','f-width','f-height',
