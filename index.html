@@ -1743,24 +1743,21 @@ function renderOverview(){
     if(sortVal==='qty-asc')return (Number(a.qty)||0)-(Number(b.qty)||0);
     if(sortVal==='value-desc')return (Number(b.orderValue)||0)-(Number(a.orderValue)||0);
     if(sortVal==='delivery-asc'){
-      const da=parseOrderDate({date:a.date})||new Date(9999,0);
-      const db=parseOrderDate({date:b.date})||new Date(9999,0);
+      const da=parseIndianDate(a.date)||new Date(9999,0);
+      const db=parseIndianDate(b.date)||new Date(9999,0);
       return da-db;
     }
     if(sortVal==='date-asc'){
-      const da=parseOrderDate(a)||new Date(0);
-      const db=parseOrderDate(b)||new Date(0);
+      const da=parseIndianDate(a.entryDate||a.date)||new Date(0);
+      const db=parseIndianDate(b.entryDate||b.date)||new Date(0);
       return da-db;
     }
     // date-desc (default)
-    const da=parseOrderDate(a)||new Date(0);
-    const db=parseOrderDate(b)||new Date(0);
+    const da=parseIndianDate(a.entryDate||a.date)||new Date(0);
+    const db=parseIndianDate(b.entryDate||b.date)||new Date(0);
     return db-da;
   });
   // Update results count
-  if(sortByQty){
-    filtered.sort((a,b)=>sortQtyDir==='desc'?b.qty-a.qty:a.qty-b.qty);
-  }
   const resEl=document.getElementById('df-results');
   if(resEl)resEl.textContent=filtered.length+' order'+(filtered.length!==1?'s':'')+(activeDateFilter!=='all'?' in period':'');
 
