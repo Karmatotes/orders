@@ -485,41 +485,235 @@ textarea.form-control{resize:none}
 
     <!-- MATERIAL REQUIREMENTS -->
     <div class="section-label">Material Requirements</div>
-    <div class="form-hint" style="margin-bottom:12px">Stock deducted automatically on submit</div>
+    <div class="form-hint" style="margin-bottom:12px">Stock deducted automatically on submit &middot; Uncheck "Deduct stock" below if inventory not set up yet</div>
+
+    <!-- PRIMARY & SECONDARY FABRIC -->
     <div class="form-row">
       <div class="form-group">
         <label>Primary Fabric (metres)</label>
-        <input class="form-control" id="f-primary-fabric-qty" type="number" placeholder="e.g. 0.6" min="0" step="0.1" oninput="checkStock('primary')">
+        <input class="form-control" id="f-primary-fabric-qty" type="number" placeholder="e.g. 0.6" min="0" step="0.1">
         <div class="stock-alert" id="stock-alert-primary"></div>
       </div>
       <div class="form-group">
         <label>Secondary Fabric (metres)</label>
-        <input class="form-control" id="f-secondary-fabric-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('secondary')">
+        <input class="form-control" id="f-secondary-fabric-qty" type="number" placeholder="0" min="0" step="0.1">
         <div class="stock-alert" id="stock-alert-secondary"></div>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Handles (metres)</label>
-        <input class="form-control" id="f-handles-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('handles')">
+
+    <!-- HANDLES -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Handles</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Type</label>
+          <select class="form-control" id="f-handle-type">
+            <option value="">Select type...</option>
+            <option value="Cotton">Cotton</option>
+            <option value="Jute">Jute</option>
+            <option value="Rope">Rope</option>
+            <option value="Leather">Leather</option>
+            <option value="Nylon">Nylon</option>
+            <option value="Chain">Chain</option>
+            <option value="Other">Other</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-handle-color">
+            <option value="">Select color...</option>
+            <option value="Natural">Natural</option>
+            <option value="Black">Black</option>
+            <option value="Brown">Brown</option>
+            <option value="Cream">Cream</option>
+            <option value="Navy Blue">Navy Blue</option>
+            <option value="Tan">Tan</option>
+            <option value="Beige">Beige</option>
+            <option value="White">White</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-handle-color-custom" placeholder="Enter color" style="display:none;margin-top:4px" oninput="">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-handles-qty" type="number" placeholder="0" min="0" step="0.1">
         <div class="stock-alert" id="stock-alert-handles"></div>
       </div>
-      <div class="form-group">
-        <label>Zippers (metres)</label>
-        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('zippers')">
+    </div>
+
+    <!-- ZIPPERS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Zippers</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-zipper-color" onchange="toggleMECustom('f-zipper-color','f-zipper-color-custom')">
+            <option value="">Select color...</option>
+            <option value="Black">Black</option><option value="White">White</option>
+            <option value="Cream">Cream</option><option value="Juco">Juco</option>
+            <option value="Dark Juco">Dark Juco</option><option value="Light Green">Light Green</option>
+            <option value="Green">Green</option><option value="Orange">Orange</option>
+            <option value="Navy Blue">Navy Blue</option><option value="Light Cream">Light Cream</option>
+            <option value="Red">Red</option><option value="Purple">Purple</option>
+            <option value="Blue">Blue</option><option value="Olive">Olive</option>
+            <option value="Bottle Green">Bottle Green</option><option value="Maroon">Maroon</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-zipper-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Number</label>
+          <select class="form-control" id="f-zipper-number">
+            <option value="">Select...</option>
+            <option value="No.3">No.3</option>
+            <option value="No.5">No.5</option>
+            <option value="No.8">No.8</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="0.1">
         <div class="stock-alert" id="stock-alert-zippers"></div>
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Lace (metres)</label>
-        <input class="form-control" id="f-lace-qty" type="number" placeholder="0" min="0" step="0.1" oninput="checkStock('lace')">
+
+    <!-- LACE -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Lace</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-lace-color" onchange="toggleMECustom('f-lace-color','f-lace-color-custom')">
+            <option value="">Select color...</option>
+            <option value="Cream">Cream</option><option value="White">White</option>
+            <option value="Baby Pink">Baby Pink</option><option value="Light Blue">Light Blue</option>
+            <option value="Dark Blue">Dark Blue</option><option value="Blue Zari">Blue Zari</option>
+            <option value="Black with Juco">Black with Juco</option><option value="Pink with Juco">Pink with Juco</option>
+            <option value="Light Green with Juco">Light Green with Juco</option>
+            <option value="Black Zari">Black Zari</option><option value="Green Zari">Green Zari</option>
+            <option value="Maroon Zari">Maroon Zari</option><option value="Gold Zari">Gold Zari</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-lace-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Size</label>
+          <select class="form-control" id="f-lace-size">
+            <option value="">Select size...</option>
+            <option value="1 inch">1 inch</option>
+            <option value="1.5 inch">1.5 inch</option>
+            <option value="2 inch">2 inch</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Type</label>
+        <select class="form-control" id="f-lace-type">
+          <option value="">Select type...</option>
+          <option value="Plain">Plain</option>
+          <option value="Zari">Zari</option>
+          <option value="With Juco">With Juco</option>
+          <option value="Cotton">Cotton</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-lace-qty" type="number" placeholder="0" min="0" step="0.1">
         <div class="stock-alert" id="stock-alert-lace"></div>
       </div>
-      <div class="form-group">
-        <label>Runners (nos)</label>
-        <input class="form-control" id="f-runners-qty" type="number" placeholder="0" min="0" step="1" oninput="checkStock('runners')">
-        <div class="stock-alert" id="stock-alert-runners"></div>
+    </div>
+
+    <!-- WEBBING -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Webbing</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-webbing-color" onchange="toggleMECustom('f-webbing-color','f-webbing-color-custom')">
+            <option value="">Select color...</option>
+            <option value="Juco">Juco</option><option value="Cream">Cream</option>
+            <option value="Orange">Orange</option><option value="Green">Green</option>
+            <option value="Yellow">Yellow</option><option value="Mustard">Mustard</option>
+            <option value="Bottle Green">Bottle Green</option><option value="Parrot Green">Parrot Green</option>
+            <option value="Purple">Purple</option><option value="Black">Black</option>
+            <option value="Light Blue">Light Blue</option><option value="Brick">Brick</option>
+            <option value="Coffee">Coffee</option><option value="Pink">Pink</option>
+            <option value="Red">Red</option><option value="Maroon">Maroon</option>
+            <option value="Grey">Grey</option><option value="White">White</option>
+            <option value="Dark Blue">Dark Blue</option><option value="Navy Blue">Navy Blue</option>
+            <option value="Grape">Grape</option><option value="Teal">Teal</option>
+            <option value="Zig-Zag">Zig-Zag</option><option value="Multicolor">Multicolor</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-webbing-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Width</label>
+          <select class="form-control" id="f-webbing-width">
+            <option value="">Select width...</option>
+            <option value="1 inch">1 inch</option>
+            <option value="1.5 inch">1.5 inch</option>
+            <option value="2 inch">2 inch</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-webbing-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- THREADS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Threads</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-thread-color" onchange="toggleMECustom('f-thread-color','f-thread-color-custom')">
+            <option value="">Select color...</option>
+            <option value="Cream">Cream</option><option value="Black">Black</option>
+            <option value="Light Blue">Light Blue</option><option value="Red">Red</option>
+            <option value="Purple">Purple</option><option value="Light Green">Light Green</option>
+            <option value="Bottle Green">Bottle Green</option><option value="Maroon">Maroon</option>
+            <option value="Blue Dark">Blue Dark</option><option value="Navy Blue">Navy Blue</option>
+            <option value="Brown">Brown</option><option value="White">White</option>
+            <option value="Yellow">Yellow</option><option value="Parrot Green">Parrot Green</option>
+            <option value="Juco Colour">Juco Colour</option><option value="Dark Pink">Dark Pink</option>
+            <option value="Orange">Orange</option><option value="Baby Pink">Baby Pink</option>
+            <option value="Grey">Grey</option><option value="Teal">Teal</option>
+            <option value="Mustard">Mustard</option><option value="Honey">Honey</option>
+            <option value="Thin Cream">Thin Cream</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-thread-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Quantity (nos/boxes)</label>
+          <input class="form-control" id="f-thread-qty" type="number" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- RUNNERS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Runners</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Number</label>
+          <select class="form-control" id="f-runner-number">
+            <option value="">Select...</option>
+            <option value="No.3">No.3</option>
+            <option value="No.5">No.5</option>
+            <option value="No.8">No.8</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Quantity (nos)</label>
+          <input class="form-control" id="f-runners-qty" type="number" placeholder="0" min="0" step="1">
+          <div class="stock-alert" id="stock-alert-runners"></div>
+        </div>
       </div>
     </div>
 
@@ -534,7 +728,17 @@ textarea.form-control{resize:none}
             <span class="hw-name">Dog Hooks</span>
           </label>
           <div class="hw-qty-wrap" id="hw-qty-doghooks" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-doghooks" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('Dog Hooks','hw-qty-input-doghooks','hw-alert-doghooks')">
+            <select class="form-control hw-qty-input" id="hw-size-doghooks" style="width:130px">
+              <option value="">Size...</option>
+              <option value="Big (1.5 inch)">Big 1.5"</option>
+              <option value="Medium (1 inch)">Medium 1"</option>
+              <option value="Small (0.5 inch)">Small 0.5"</option>
+            </select>
+            <select class="form-control hw-qty-input" id="hw-finish-doghooks" style="width:100px">
+              <option value="Steel">Steel</option>
+              <option value="Antique">Antique</option>
+            </select>
+            <input class="form-control hw-qty-input" id="hw-qty-input-doghooks" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('Dog Hooks','hw-qty-input-doghooks','hw-alert-doghooks')">
             <span class="hw-unit">nos</span>
             <div class="stock-alert" id="hw-alert-doghooks"></div>
           </div>
@@ -546,7 +750,18 @@ textarea.form-control{resize:none}
             <span class="hw-name">Buckles</span>
           </label>
           <div class="hw-qty-wrap" id="hw-qty-buckles" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-buckles" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('Buckles','hw-qty-input-buckles','hw-alert-buckles')">
+            <select class="form-control hw-qty-input" id="hw-size-buckles" style="width:130px">
+              <option value="">Size...</option>
+              <option value="Big (1.5 inch)">Big 1.5"</option>
+              <option value="Medium (1 inch)">Medium 1"</option>
+              <option value="Small (0.5 inch)">Small 0.5"</option>
+            </select>
+            <select class="form-control hw-qty-input" id="hw-finish-buckles" style="width:100px">
+              <option value="Steel">Steel</option>
+              <option value="Antique">Antique</option>
+              <option value="Plastic">Plastic</option>
+            </select>
+            <input class="form-control hw-qty-input" id="hw-qty-input-buckles" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('Buckles','hw-qty-input-buckles','hw-alert-buckles')">
             <span class="hw-unit">nos</span>
             <div class="stock-alert" id="hw-alert-buckles"></div>
           </div>
@@ -558,7 +773,18 @@ textarea.form-control{resize:none}
             <span class="hw-name">D-Ring</span>
           </label>
           <div class="hw-qty-wrap" id="hw-qty-dring" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-dring" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('D-Ring','hw-qty-input-dring','hw-alert-dring')">
+            <select class="form-control hw-qty-input" id="hw-size-dring" style="width:130px">
+              <option value="">Size...</option>
+              <option value="Big (1.5 inch)">Big 1.5"</option>
+              <option value="Medium (1 inch)">Medium 1"</option>
+              <option value="Small (0.5 inch)">Small 0.5"</option>
+              <option value="Tiny (1 cm)">Tiny 1cm</option>
+            </select>
+            <select class="form-control hw-qty-input" id="hw-finish-dring" style="width:100px">
+              <option value="Steel">Steel</option>
+              <option value="Antique">Antique</option>
+            </select>
+            <input class="form-control hw-qty-input" id="hw-qty-input-dring" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('D-Ring','hw-qty-input-dring','hw-alert-dring')">
             <span class="hw-unit">nos</span>
             <div class="stock-alert" id="hw-alert-dring"></div>
           </div>
@@ -651,6 +877,14 @@ textarea.form-control{resize:none}
   </div>
   <div class="overview-filters">
     <input class="ov-search" id="ov-search" placeholder="🔍 Search orders…" oninput="renderOverview()">
+    <select class="ov-filter" id="ov-sort" onchange="renderOverview()" style="border-radius:8px;padding:6px 10px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);border:1px solid var(--border);color:var(--bark);cursor:pointer">
+      <option value="date-desc">Newest First</option>
+      <option value="date-asc">Oldest First</option>
+      <option value="qty-desc">Qty: High to Low</option>
+      <option value="qty-asc">Qty: Low to High</option>
+      <option value="delivery-asc">Delivery: Soonest</option>
+      <option value="value-desc">Order Value: High to Low</option>
+    </select>
     <button class="ov-filter active" id="ovf-all"      onclick="setOvFilter('all',this)">All</button>
     <button class="ov-filter"        id="ovf-active"   onclick="setOvFilter('active',this)">Active</button>
     <button class="ov-filter"        id="ovf-delayed"  onclick="setOvFilter('delayed',this)">Delayed</button>
@@ -672,6 +906,102 @@ textarea.form-control{resize:none}
 </div>
 
 <div class="toast" id="toast"></div>
+
+<!-- EDIT ORDER MODAL -->
+<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(44,31,20,0.7);z-index:400;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px">
+  <div style="background:var(--surface);border-radius:14px;width:100%;max-width:600px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
+    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--moss);border-radius:14px 14px 0 0">
+      <div style="font-size:15px;font-weight:700;color:#fff">&#9998; Edit Order <span id="edit-order-id" style="font-weight:400;opacity:.7"></span></div>
+      <button onclick="closeEditModal()" style="background:none;border:none;cursor:pointer;font-size:20px;color:rgba(255,255,255,0.7)">&#10005;</button>
+    </div>
+    <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Client / Order Name <span class="req">*</span></label>
+          <input class="form-control" id="edit-client" placeholder="Client name">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Product / Description</label>
+          <input class="form-control" id="edit-product" placeholder="e.g. Jute tote bags">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Quantity <span class="req">*</span></label>
+          <input class="form-control" id="edit-qty" type="number" min="1">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Delivery Date</label>
+          <input class="form-control" id="edit-date" type="date">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Order Value &#8377;</label>
+          <input class="form-control" id="edit-order-value" type="number" min="0">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Advance Received &#8377;</label>
+          <input class="form-control" id="edit-advance" type="number" min="0">
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Stage</label>
+          <select class="form-control" id="edit-stage">
+            <option value="Cutting">Cutting</option>
+            <option value="Printing">Printing</option>
+            <option value="Stitching">Stitching</option>
+            <option value="Finishing">Finishing</option>
+            <option value="Packing & Del">Packing &amp; Del</option>
+            <option value="Done">Done</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Priority</label>
+          <select class="form-control" id="edit-priority">
+            <option value="Normal">Normal</option>
+            <option value="High">High</option>
+            <option value="Urgent">Urgent</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Payment Status</label>
+          <select class="form-control" id="edit-payment-status">
+            <option value="Pending">Pending</option>
+            <option value="Partial">Partial</option>
+            <option value="Paid">Paid</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Sale By</label>
+          <select class="form-control" id="edit-sale-by">
+            <option value="Sridevi">Sridevi</option>
+            <option value="Anu Prasad">Anu Prasad</option>
+            <option value="Esha">Esha</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Remarks / Notes</label>
+        <input class="form-control" id="edit-remarks" placeholder="Any notes...">
+      </div>
+      <div class="form-group" style="margin-bottom:0">
+        <label>Print Type</label>
+        <select class="form-control" id="edit-print">
+          <option value="none">None</option>
+          <option value="screen">Screen Print</option>
+          <option value="dtf">DTF</option>
+          <option value="embroidery">Embroidery</option>
+        </select>
+      </div>
+      <div id="edit-save-msg" style="display:none;padding:8px 12px;background:#E8F5E9;border-radius:8px;color:#166534;font-size:13px;font-weight:600"></div>
+      <button id="edit-save-btn" onclick="saveEditOrder()" style="background:var(--moss);color:#fff;border:none;border-radius:8px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%">&#10003; Save Changes</button>
+    </div>
+  </div>
+</div>
 
 <script>
 const SHEET_URL="https://script.google.com/macros/s/AKfycbxpcfocezAqlwg37_SujPuDilIyXEeve5A8Niir1vohU3pz2sytBrSIjQyX6vLmoIPN/exec";
@@ -1022,21 +1352,32 @@ function checkStockHardware(matName,inputId,alertId){
   else{alertEl.className='stock-alert visible ok';alertEl.textContent='Stock OK — '+stock+' nos available';}
 }
 
+function toggleMECustom(selectId, customId){
+  const sel=document.getElementById(selectId);
+  const custom=document.getElementById(customId);
+  if(!sel||!custom)return;
+  custom.style.display=sel.value==='Other'?'block':'none';
+}
+
 function getHardwareItems(){
   const hwMap=[
-    {key:'doghooks', mat:'Dog Hooks'},
-    {key:'buckles',  mat:'Buckles'},
-    {key:'dring',    mat:'D-Ring'},
-    {key:'snapbtn',  mat:'Snap Magnetic Button'},
-    {key:'highlight',mat:'Highlight'},
-    {key:'reveat',   mat:'Reveat'},
+    {key:'doghooks', mat:'Dog Hooks',    hasSize:true, hasFinish:true},
+    {key:'buckles',  mat:'Buckles',      hasSize:true, hasFinish:true},
+    {key:'dring',    mat:'D-Ring',       hasSize:true, hasFinish:true},
+    {key:'snapbtn',  mat:'Snap Magnetic Button', hasSize:false, hasFinish:false},
+    {key:'highlight',mat:'Highlight',    hasSize:false, hasFinish:false},
+    {key:'reveat',   mat:'Reveat',       hasSize:false, hasFinish:false},
   ];
   const result=[];
   hwMap.forEach(h=>{
     const cb=document.getElementById('hw-'+h.key);
     if(cb&&cb.checked){
       const qty=Number(document.getElementById('hw-qty-input-'+h.key).value)||0;
-      if(qty>0)result.push({material:h.mat,qty});
+      if(qty>0){
+        const size=h.hasSize?(document.getElementById('hw-size-'+h.key)?document.getElementById('hw-size-'+h.key).value:''):'';
+        const finish=h.hasFinish?(document.getElementById('hw-finish-'+h.key)?document.getElementById('hw-finish-'+h.key).value:''):'';
+        result.push({material:h.mat,qty,size,finish});
+      }
     }
   });
   return result;
@@ -1119,6 +1460,20 @@ async function submitOrder(){
   const handlesQty=Number(document.getElementById('f-handles-qty').value)||0;
   const laceQty=Number(document.getElementById('f-lace-qty').value)||0;
   const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;
+  const webbingQty=Number(document.getElementById('f-webbing-qty')?document.getElementById('f-webbing-qty').value:0)||0;
+  const threadQty=Number(document.getElementById('f-thread-qty')?document.getElementById('f-thread-qty').value:0)||0;
+  // Sub-selections
+  const handleType=document.getElementById('f-handle-type')?document.getElementById('f-handle-type').value:'';
+  const handleColor=document.getElementById('f-handle-color')?document.getElementById('f-handle-color').value==='Other'?(document.getElementById('f-handle-color-custom')?document.getElementById('f-handle-color-custom').value:''):document.getElementById('f-handle-color').value:'';
+  const zipperColor=document.getElementById('f-zipper-color')?document.getElementById('f-zipper-color').value==='Other'?(document.getElementById('f-zipper-color-custom')?document.getElementById('f-zipper-color-custom').value:''):document.getElementById('f-zipper-color').value:'';
+  const zipperNumber=document.getElementById('f-zipper-number')?document.getElementById('f-zipper-number').value:'';
+  const laceColor=document.getElementById('f-lace-color')?document.getElementById('f-lace-color').value==='Other'?(document.getElementById('f-lace-color-custom')?document.getElementById('f-lace-color-custom').value:''):document.getElementById('f-lace-color').value:'';
+  const laceSize=document.getElementById('f-lace-size')?document.getElementById('f-lace-size').value:'';
+  const laceType=document.getElementById('f-lace-type')?document.getElementById('f-lace-type').value:'';
+  const webbingColor=document.getElementById('f-webbing-color')?document.getElementById('f-webbing-color').value==='Other'?(document.getElementById('f-webbing-color-custom')?document.getElementById('f-webbing-color-custom').value:''):document.getElementById('f-webbing-color').value:'';
+  const webbingWidth=document.getElementById('f-webbing-width')?document.getElementById('f-webbing-width').value:'';
+  const threadColor=document.getElementById('f-thread-color')?document.getElementById('f-thread-color').value==='Other'?(document.getElementById('f-thread-color-custom')?document.getElementById('f-thread-color-custom').value:''):document.getElementById('f-thread-color').value:'';
+  const runnerNumber=document.getElementById('f-runner-number')?document.getElementById('f-runner-number').value:'';
   const printCost=Number(document.getElementById('f-print-cost').value)||0;
   const secondaryMaterial=document.getElementById('f-secondary-material').value||'';
   const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';
@@ -1156,14 +1511,18 @@ async function submitOrder(){
     secondaryFabricQty,
     zippersQty,
     handlesQty,
-    laceQty,
-    runnersQty,
+    laceQty, laceColor, laceSize, laceType,
+    runnersQty, runnerNumber,
+    webbingQty, webbingColor, webbingWidth,
+    threadQty, threadColor,
+    handleType, handleColor,
+    zipperColor, zipperNumber,
     printCost,
     paymentStatus:    advance>=orderValue?'Paid':advance>0?'Partial':'Pending',
     entryDate,
     cuttingDate:      '',
     hardwareItems:    hardwareItems,
-    deductStock:      document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||hardwareItems.length>0)
+    deductStock:      document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||webbingQty>0||threadQty>0||hardwareItems.length>0)
   };
 
   // Disable button
@@ -1207,7 +1566,7 @@ function showSuccess(o){
     <div class="success-row"><label>Sale By</label><span>${o.saleBy||'—'}</span></div>
     ${o.primaryFabricQty>0?`<div class="success-row"><label>Fabric deducted</label><span>${o.primaryFabricQty}m ${o.primaryMaterial}</span></div>`:''}
     ${o.zippersQty>0?`<div class="success-row"><label>Zippers deducted</label><span>${o.zippersQty} pcs</span></div>`:''}
-    ${o.handlesQty>0?`<div class="success-row"><label>Handles deducted</label><span>${o.handlesQty}m</span></div>`:''}
+    ${o.handlesQty>0?`<div class="success-row"><label>Handles</label><span>${o.handlesQty}m${o.handleType?' — '+o.handleType:''}${o.handleColor?' '+o.handleColor:''}</span></div>`:''}
     ${o.hardwareItems&&o.hardwareItems.length?o.hardwareItems.map(h=>`<div class="success-row"><label>${h.material}</label><span>${h.qty} nos</span></div>`).join(''):''}
   `;
 }
@@ -1221,11 +1580,22 @@ function resetForm(){
   ['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks',
    'f-order-value','f-advance','f-color','f-length','f-width','f-height',
    'f-primary-fabric-qty','f-secondary-fabric-qty','f-zippers-qty','f-handles-qty',
-   'f-lace-qty','f-runners-qty',
-   'f-print-cost','f-features-other','f-sale-other'].forEach(id=>{
+   'f-lace-qty','f-runners-qty','f-webbing-qty','f-thread-qty',
+   'f-print-cost','f-features-other','f-sale-other',
+   'f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom',
+   'f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{
     const el=document.getElementById(id);if(el)el.value='';
   });
   document.getElementById('f-primary-material').value='';
+  ['f-handle-type','f-handle-color','f-zipper-color','f-zipper-number',
+   'f-lace-color','f-lace-size','f-lace-type','f-webbing-color','f-webbing-width',
+   'f-thread-color','f-runner-number'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  ['f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom',
+   'f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.style.display='none';
+  });
   document.getElementById('primary-fabric-detail').classList.remove('visible');
   document.getElementById('secondary-fabric-detail').classList.remove('visible');
   if(document.getElementById('f-primary-variation'))document.getElementById('f-primary-variation').value='';
@@ -1292,17 +1662,49 @@ function getDateFilterRange(){
   }
 }
 
+function parseIndianDate(str){
+  if(!str)return null;
+  // Handle "28/4/2026, 10:39:00" or "28/4/2026" format
+  const m=String(str).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
+  if(m)return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));
+  // Handle ISO format YYYY-MM-DD
+  const iso=String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);
+  if(iso)return new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));
+  // Handle "25-Apr" format
+  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const dm=String(str).match(/(\d{1,2})-([A-Za-z]{3})/);
+  if(dm){const mi=mon.indexOf(dm[2]);if(mi>=0)return new Date(new Date().getFullYear(),mi,Number(dm[1]));}
+  const d=new Date(str);
+  return isNaN(d.getTime())?null:d;
+}
+
 function orderMatchesDateFilter(o){
   if(activeDateFilter==='all')return true;
   const range=getDateFilterRange();
   if(!range.from&&!range.to)return true;
-  const dateStr=o.entryDate||o.date||'';
-  if(!dateStr)return true;
-  let d=new Date(dateStr);
-  if(isNaN(d.getTime()))return true;
+  // Try entryDate first, then delivery date
+  const d=parseIndianDate(o.entryDate)||parseIndianDate(o.date);
+  if(!d)return true;
   if(range.from&&d<range.from)return false;
   if(range.to&&d>=range.to)return false;
   return true;
+}
+
+let sortByQty = false;
+let sortQtyDir = 'desc'; // desc = highest first
+
+function toggleSortQty(btn){
+  if(!sortByQty){
+    sortByQty=true;sortQtyDir='desc';
+    btn.classList.add('active');btn.textContent='⇅ Qty: High→Low';
+  }else if(sortQtyDir==='desc'){
+    sortQtyDir='asc';
+    btn.textContent='⇅ Qty: Low→High';
+  }else{
+    sortByQty=false;
+    btn.classList.remove('active');btn.textContent='⇅ Sort by Qty';
+  }
+  renderOverview();
 }
 
 function renderOverviewKPIs(){
@@ -1334,7 +1736,31 @@ function renderOverview(){
     const df=orderMatchesDateFilter(o);
     return ms&&mf&&df;
   });
+  // Apply sort
+  const sortVal=document.getElementById('ov-sort')?document.getElementById('ov-sort').value:'date-desc';
+  filtered.sort((a,b)=>{
+    if(sortVal==='qty-desc')return (Number(b.qty)||0)-(Number(a.qty)||0);
+    if(sortVal==='qty-asc')return (Number(a.qty)||0)-(Number(b.qty)||0);
+    if(sortVal==='value-desc')return (Number(b.orderValue)||0)-(Number(a.orderValue)||0);
+    if(sortVal==='delivery-asc'){
+      const da=parseOrderDate({date:a.date})||new Date(9999,0);
+      const db=parseOrderDate({date:b.date})||new Date(9999,0);
+      return da-db;
+    }
+    if(sortVal==='date-asc'){
+      const da=parseOrderDate(a)||new Date(0);
+      const db=parseOrderDate(b)||new Date(0);
+      return da-db;
+    }
+    // date-desc (default)
+    const da=parseOrderDate(a)||new Date(0);
+    const db=parseOrderDate(b)||new Date(0);
+    return db-da;
+  });
   // Update results count
+  if(sortByQty){
+    filtered.sort((a,b)=>sortQtyDir==='desc'?b.qty-a.qty:a.qty-b.qty);
+  }
   const resEl=document.getElementById('df-results');
   if(resEl)resEl.textContent=filtered.length+' order'+(filtered.length!==1?'s':'')+(activeDateFilter!=='all'?' in period':'');
 
@@ -1358,14 +1784,106 @@ function renderOverview(){
       <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?fmtINR(o.orderValue):'—'}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'var(--red)':'var(--moss)'}">${o.orderValue?fmtINR(o.balance):'—'}</td>
       <td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td>
-      <td style="font-size:11px">${o.saleBy||'—'}</td>
+      <font-size:11px">${o.saleBy||'—'}</td>
+      <td><button onclick="event.stopPropagation();openEditOrder(${o.id})" style="background:#3B6B45;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer">&#9998;</button></td>
     `;
-    tbody.appendChild(tr);
+    tbody.appendChild(tr);;
   });
   renderOverviewKPIs();
 }
 
 // ── TOAST ──────────────────────────────────────────────────────
+
+// ── EDIT ORDER ──────────────────────────────────────────────
+let editingOrderId = null;
+
+function openEditOrder(id){
+  const o=orders.find(x=>x.id===id);
+  if(!o)return;
+  editingOrderId=id;
+  document.getElementById('edit-order-id').textContent='#'+id;
+  document.getElementById('edit-client').value=o.client||'';
+  document.getElementById('edit-product').value=o.product||'';
+  document.getElementById('edit-qty').value=o.qty||'';
+  document.getElementById('edit-order-value').value=o.orderValue||'';
+  document.getElementById('edit-advance').value=o.advance||'';
+  document.getElementById('edit-remarks').value=o.remarks||'';
+  document.getElementById('edit-stage').value=o.stage||'Cutting';
+  document.getElementById('edit-priority').value=o.priority||'Normal';
+  document.getElementById('edit-payment-status').value=o.paymentStatus||'Pending';
+  document.getElementById('edit-sale-by').value=o.saleBy||'';
+  document.getElementById('edit-print').value=o.print||'none';
+  // Convert delivery date to ISO for date input
+  const dateISO=o.date?convertToISO(o.date):'';
+  document.getElementById('edit-date').value=dateISO;
+  document.getElementById('edit-save-msg').style.display='none';
+  document.getElementById('edit-modal').style.display='flex';
+}
+
+function convertToISO(dateStr){
+  if(!dateStr)return'';
+  // Handle "25-Apr" → assume current year
+  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  const m=String(dateStr).match(/(\d{1,2})-([A-Za-z]{3})/);
+  if(m){const mi=mon.indexOf(m[2]);if(mi>=0){const yr=new Date().getFullYear();return yr+'-'+(mi+1).toString().padStart(2,'0')+'-'+m[1].padStart(2,'0');}}
+  // Already ISO
+  if(String(dateStr).match(/^\d{4}-\d{2}-\d{2}/))return dateStr.substring(0,10);
+  return'';
+}
+
+function closeEditModal(){
+  document.getElementById('edit-modal').style.display='none';
+  editingOrderId=null;
+}
+
+async function saveEditOrder(){
+  if(!editingOrderId)return;
+  const client=document.getElementById('edit-client').value.trim();
+  if(!client){showToast('Client name required');return;}
+  const qty=Number(document.getElementById('edit-qty').value)||0;
+  if(!qty){showToast('Quantity required');return;}
+
+  const btn=document.getElementById('edit-save-btn');
+  btn.disabled=true;btn.textContent='Saving...';
+
+  const updates={
+    action:         'updateOrder',
+    id:             editingOrderId,
+    client:         client,
+    product:        document.getElementById('edit-product').value||'',
+    qty:            qty,
+    date:           document.getElementById('edit-date').value||'',
+    orderValue:     Number(document.getElementById('edit-order-value').value)||0,
+    advance:        Number(document.getElementById('edit-advance').value)||0,
+    stage:          document.getElementById('edit-stage').value,
+    priority:       document.getElementById('edit-priority').value,
+    paymentStatus:  document.getElementById('edit-payment-status').value,
+    saleBy:         document.getElementById('edit-sale-by').value,
+    remarks:        document.getElementById('edit-remarks').value||'',
+    print:          document.getElementById('edit-print').value,
+  };
+
+  const result=await sheetPost(updates);
+  if(result&&result.success){
+    // Update local orders array
+    const idx=orders.findIndex(x=>x.id===editingOrderId);
+    if(idx>=0){
+      orders[idx]={...orders[idx],...updates,
+        balance:updates.orderValue-updates.advance,
+        status:orders[idx].status
+      };
+    }
+    renderOverview();renderOverviewKPIs();
+    const msg=document.getElementById('edit-save-msg');
+    msg.style.display='block';msg.textContent='✓ Order #'+editingOrderId+' updated successfully';
+    showToast('Order updated');
+    setTimeout(()=>closeEditModal(),1500);
+  }else{
+    showToast('Save failed. Try again.');
+  }
+  btn.disabled=false;btn.textContent='✓ Save Changes';
+}
+
 function showToast(msg){
   const t=document.getElementById('toast');
   t.textContent=msg;t.classList.add('show');
