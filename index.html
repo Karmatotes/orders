@@ -1784,10 +1784,10 @@ function renderOverview(){
       <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?fmtINR(o.orderValue):'—'}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'var(--red)':'var(--moss)'}">${o.orderValue?fmtINR(o.balance):'—'}</td>
       <td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td>
-      <font-size:11px">${o.saleBy||'—'}</td>
+      <td style="font-size:11px">${o.saleBy||'—'}</td>
       <td><button onclick="event.stopPropagation();openEditOrder(${o.id})" style="background:#3B6B45;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer">&#9998;</button></td>
     `;
-    tbody.appendChild(tr);;
+    tbody.appendChild(tr);
   });
   renderOverviewKPIs();
 }
