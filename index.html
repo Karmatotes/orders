@@ -1217,6 +1217,14 @@ function getColorValue(type){
 function onPrimaryVariationChange(){
   const fabric=document.getElementById('f-primary-material').value;
   const variation=document.getElementById('f-primary-variation').value;
+  // Oxford Jute — no color, no GSM needed
+  const gsmWrap=document.getElementById('primary-fabric-detail');
+  const gsmSel=document.getElementById('f-primary-gsm');
+  if(variation==='Oxford Jute'){
+    populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',null,'Color');
+    if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}
+    return;
+  }
   const colorData=getColorsForFabricVariation(fabric,variation);
   populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',
     colorData?colorData.list:null, colorData?colorData.label:'Color');
@@ -1225,6 +1233,12 @@ function onPrimaryVariationChange(){
 function onSecondaryVariationChange(){
   const fabric=document.getElementById('f-secondary-material').value;
   const variation=document.getElementById('f-secondary-variation').value;
+  if(variation==='Oxford Jute'){
+    populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',null,'Color');
+    const gsmSel=document.getElementById('f-secondary-gsm');
+    if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}
+    return;
+  }
   const colorData=getColorsForFabricVariation(fabric,variation);
   populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',
     colorData?colorData.list:null, colorData?colorData.label:'Color');
@@ -1258,7 +1272,7 @@ function onSecondaryMaterialChange(){
 
 // ── FABRIC CONFIG ─────────────────────────────────────────
 const FABRIC_CONFIG={
-  'Jute Fabric':   {variations:['Half-White','Natural','Printed','Colored'],gsm:['14/15','13/13','12/12']},
+  'Jute Fabric':   {variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},
   'Cotton Canvas': {variations:['Natural','Colored','Laminated'],           gsm:['225','300','310','340','400','490','570']},
   'Juco Fabric':   {variations:['Laminated','Non-Laminated'],               gsm:[]},
   'Kadhi Fabric':  {variations:['Natural'],                                 gsm:['90','120','135','150']},
