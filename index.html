@@ -1081,6 +1081,13 @@ async function refreshData(){
 
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+  // Load config data (fabrics, products, sales reps)
+  const cfgData = await fetch(`${CONFIG_URL}?action=getConfig`)
+    .then(r => r.json()).catch(err => {console.error('Config load failed', err); return null;});
+  if (cfgData) {
+    configData = cfgData;
+    populateConfigDropdowns();
+  }
 
   // Load orders and materials in parallel
   const [ordersData, materialsData] = await Promise.all([
@@ -1909,7 +1916,67 @@ function showToast(msg){
 document.getElementById('pi-worker').addEventListener('keydown',function(e){
   if(e.key==='Enter'){e.preventDefault();addWorker();}
 });
+function populateConfigDropdowns(){
+  if(!configData) return;
+  
+  // Populate Products
+  const productSel = document.getElementById('f-product');
+  if(productSel && configData.products){
+    productSel.innerHTML = '<option value="">Select product…</option>';
+    configData.products.forEach(p => {
+      const opt = document.createElement('option');
+      opt.value = p.name;
+      opt.textContent = p.name;
+      productSel.appendChild(opt);
+    });
+  }
 
+  // Populate Sales Reps (Sale By buttons)
+  if(configData.people){
+    const salesReps = configData.people.filter(p => p.type === 'sales').map(p => p.name);
+    const gridEl = document.querySelector('.sale-by-grid');
+    if(gridEl){
+      gridEl.innerHTML = '';
+      salesReps.forEach(name => {
+        const btn = document.createElement('div');
+        btn.className = 'sale-by-btn';
+        btn.textContent = name;
+        btn.onclick = () => selectSaleBy(name);
+        gridEl.appendChild(btn);
+      });
+      const otherBtn = document.createElement('div');
+      otherBtn.className = 'sale-by-btn';
+      otherBtn.textContent = 'Other…';
+      otherBtn.onclick = () => selectSaleBy('Other');
+      gridEl.appendChild(otherBtn);
+    }
+  }
+
+  // Populate Primary Materials (fabrics)
+  if(configData.fabrics){
+    const fabricSel = document.getElementById('f-primary-material');
+    if(fabricSel){
+      fabricSel.innerHTML = '<option value="">Select material…</option>';
+      configData.fabrics.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f.name;
+        opt.textContent = f.name;
+        fabricSel.appendChild(opt);
+      });
+    }
+    
+    const secSel = document.getElementById('f-secondary-material');
+    if(secSel){
+      secSel.innerHTML = '<option value="">None</option>';
+      configData.fabrics.forEach(f => {
+        const opt = document.createElement('option');
+        opt.value = f.name;
+        opt.textContent = f.name;
+        secSel.appendChild(opt);
+      });
+    }
+  }
+}
 initApp();
 </script>
 </body>
