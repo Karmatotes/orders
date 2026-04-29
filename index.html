@@ -167,7 +167,6 @@ textarea.form-control{resize:none}
 .btn-refresh{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;transition:all .2s}
 .btn-refresh:hover{background:rgba(255,255,255,0.25)}
 .btn-refresh.spinning span{display:inline-block;animation:spin .6s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
 
 /* ── STOCK ALERT ── */
 .stock-alert{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;display:none}
@@ -265,7 +264,7 @@ textarea.form-control{resize:none}
     <div class="form-row">
       <div class="form-group">
         <label>Product / Description</label>
-        <input class="form-control" id="f-product" placeholder="e.g. Jute tote bags">
+        <select class="form-control" id="f-product" placeholder="e.g. Jute tote bags"></select>
       </div>
       <div class="form-group">
         <label>Quantity <span class="req">*</span></label>
@@ -339,8 +338,6 @@ textarea.form-control{resize:none}
           <option value="Kadhi Fabric">Kadhi Fabric</option>
           <option value="Non-woven">Non-woven</option>
           <option value="POV Sheet">POV Sheet</option>
-          <option value="Parachute">Parachute</option>
-          <option value="Matt Fabric">Matt Fabric</option>
           <option value="Parachute">Parachute</option>
           <option value="Matt Fabric">Matt Fabric</option>
         </select>
@@ -907,105 +904,6 @@ textarea.form-control{resize:none}
 
 <div class="toast" id="toast"></div>
 
-<!-- EDIT ORDER MODAL -->
-<div id="edit-modal" style="display:none;position:fixed;inset:0;background:rgba(44,31,20,0.7);z-index:400;align-items:flex-start;justify-content:center;overflow-y:auto;padding:20px">
-  <div style="background:var(--surface);border-radius:14px;width:100%;max-width:600px;margin:0 auto;box-shadow:0 20px 60px rgba(0,0,0,0.3)">
-    <div style="padding:16px 20px;border-bottom:1px solid var(--border);display:flex;justify-content:space-between;align-items:center;background:var(--moss);border-radius:14px 14px 0 0">
-      <div style="font-size:15px;font-weight:700;color:#fff">&#9998; Edit Order <span id="edit-order-id" style="font-weight:400;opacity:.7"></span></div>
-      <button onclick="closeEditModal()" style="background:none;border:none;cursor:pointer;font-size:20px;color:rgba(255,255,255,0.7)">&#10005;</button>
-    </div>
-    <div style="padding:20px;display:flex;flex-direction:column;gap:12px">
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Client / Order Name <span class="req">*</span></label>
-          <input class="form-control" id="edit-client" placeholder="Client name">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Product / Description</label>
-          <input class="form-control" id="edit-product" placeholder="e.g. Jute tote bags">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Quantity <span class="req">*</span></label>
-          <input class="form-control" id="edit-qty" type="number" min="1">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Delivery Date</label>
-          <input class="form-control" id="edit-date" type="date">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Order Value &#8377;</label>
-          <input class="form-control" id="edit-order-value" type="number" min="0">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Advance Received &#8377;</label>
-          <input class="form-control" id="edit-advance" type="number" min="0">
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Stage</label>
-          <select class="form-control" id="edit-stage">
-            <option value="Cutting">Cutting</option>
-            <option value="Printing">Printing</option>
-            <option value="Stitching">Stitching</option>
-            <option value="Finishing">Finishing</option>
-            <option value="Packing & Del">Packing &amp; Del</option>
-            <option value="Done">Done</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Priority</label>
-          <select class="form-control" id="edit-priority">
-            <option value="Normal">Normal</option>
-            <option value="High">High</option>
-            <option value="Urgent">Urgent</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Payment Status</label>
-          <select class="form-control" id="edit-payment-status">
-            <option value="Pending">Pending</option>
-            <option value="Partial">Partial</option>
-            <option value="Paid">Paid</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Sale By</label>
-          <select class="form-control" id="edit-sale-by">
-            <option value="Sridevi">Sridevi</option>
-            <option value="Anu Prasad">Anu Prasad</option>
-            <option value="Esha">Esha</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label>Remarks / Notes</label>
-        <input class="form-control" id="edit-remarks" placeholder="Any notes...">
-      </div>
-      <div class="form-group" style="margin-bottom:0">
-        <label>Print Type</label>
-        <select class="form-control" id="edit-print">
-          <option value="none">None</option>
-          <option value="screen">Screen Print</option>
-          <option value="dtf">DTF</option>
-          <option value="embroidery">Embroidery</option>
-        </select>
-      </div>
-      <div id="edit-save-msg" style="display:none;padding:8px 12px;background:#E8F5E9;border-radius:8px;color:#166534;font-size:13px;font-weight:600"></div>
-      <div style="font-size:11px;color:rgba(44,31,20,0.45);background:var(--cream);border-radius:7px;padding:8px 12px;border:1px solid var(--border)">
-        &#9432; To adjust material quantities used for this order, use <strong>Stock Adjustment</strong> in the Inventory tool.
-      </div>
-      <button id="edit-save-btn" onclick="saveEditOrder()" style="background:var(--moss);color:#fff;border:none;border-radius:8px;padding:12px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:700;cursor:pointer;width:100%">&#10003; Save Changes</button>
-    </div>
-  </div>
-</div>
-
 <script>
 const SHEET_URL="https://script.google.com/macros/s/AKfycbxpcfocezAqlwg37_SujPuDilIyXEeve5A8Niir1vohU3pz2sytBrSIjQyX6vLmoIPN/exec";
 const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH0-Hrp13qP_PcA7h-1KddIPx6TzfMzY6KoYnTMxaa8mnSa/exec";
@@ -1017,7 +915,6 @@ let orders=[], materials=[], nextId=1;
 let selectedPrint='none', selectedSaleBy='', formWorkers=[], selectedFeatures=[];
 let ovFilter='all';
 
-// ── UTILS ──────────────────────────────────────────────────────
 function nowLabel(){const n=new Date();return n.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+', '+n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});}
 function todayISO(){return new Date().toISOString().split('T')[0]}
 function fmtDate(iso){if(!iso||!iso.match(/^\d{4}-\d{2}-\d{2}$/))return iso||'TBD';const[,m,d]=iso.split('-');const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${parseInt(d)}-${mo[parseInt(m)-1]}`;}
@@ -1051,932 +948,240 @@ async function sheetPost(body){
   }catch(err){setSyncStatus('err','Save failed.');console.error(err);return null;}
 }
 
-// ── INIT ───────────────────────────────────────────────────────
-async function refreshData(){
-  const btn=document.getElementById('btn-refresh');
-  if(btn){btn.classList.add('spinning');btn.disabled=true;}
-  try{
-    const [ordersData,materialsData]=await Promise.all([sheetCall({action:'getAll'}),sheetCall({action:'getMaterials'})]);
-    if(ordersData&&ordersData.orders){
-      orders=ordersData.orders.map(row=>({
-        id:Number(row['ID']),client:String(row['Client']||''),product:String(row['Product']||''),
-        qty:Number(row['Qty'])||0,date:String(row['Delivery Date']||''),time:String(row['Time']||''),
-        stage:String(row['Stage']||'Cutting'),status:String(row['Status']||'ok'),
-        print:String(row['Print']||'none'),saleBy:String(row['Sale By']||''),
-        primaryMaterial:String(row['Primary Material']||''),secondaryMaterial:String(row['Secondary Material']||''),
-        dimensions:String(row['Dimensions']||''),color:String(row['Color']||''),
-        features:String(row['Features']||''),orderValue:Number(row['Order Value'])||0,
-        advance:Number(row['Advance'])||0,balance:Number(row['Balance'])||0,
-        paymentStatus:String(row['Payment Status']||'Pending'),entryDate:String(row['Created At']||''),
-      })).filter(o=>o.client&&o.client.trim()!=='');
-      nextId=Math.max(...orders.map(o=>o.id),0)+1;
-    }
-    if(materialsData&&materialsData.materials)materials=materialsData.materials;
-    renderOverviewKPIs();renderOverview();
-    showToast('✓ Refreshed');
-  }finally{
-    if(btn){btn.classList.remove('spinning');btn.disabled=false;}
-  }
-}
-
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  // Load config data (fabrics, products, sales reps)
-  const cfgData = await fetch(`${CONFIG_URL}?action=getConfig`)
-    .then(r => r.json()).catch(err => {console.error('Config load failed', err); return null;});
-  if (cfgData) {
-    configData = cfgData;
-    populateConfigDropdowns();
-  }
-
-  // Load orders and materials in parallel
-  const [ordersData, materialsData] = await Promise.all([
-    sheetCall({action:'getAll'}),
-    sheetCall({action:'getMaterials'})
-  ]);
-
+  const cfgData=await fetch(`${CONFIG_URL}?action=getConfig`).then(r=>r.json()).catch(err=>{console.error('Config load failed',err);return null;});
+  if(cfgData){configData=cfgData;populateConfigDropdowns();}
+  const[ordersData,materialsData]=await Promise.all([sheetCall({action:'getAll'}),sheetCall({action:'getMaterials'})]);
   document.getElementById('loading-overlay').classList.add('hidden');
-
-  if(ordersData && ordersData.orders){
-    orders = ordersData.orders.map(row=>({
-      id:           Number(row['ID']),
-      client:       String(row['Client']||''),
-      product:      String(row['Product']||''),
-      qty:          Number(row['Qty'])||0,
-      date:         String(row['Delivery Date']||''),
-      time:         String(row['Time']||''),
-      stage:        String(row['Stage']||'Cutting'),
-      status:       String(row['Status']||'ok'),
-      print:        String(row['Print']||'none'),
-      saleBy:       String(row['Sale By']||''),
-      primaryMaterial:   String(row['Primary Material']||''),
-      secondaryMaterial: String(row['Secondary Material']||''),
-      dimensions:   String(row['Dimensions']||''),
-      color:        String(row['Color']||''),
-      features:     String(row['Features']||''),
-      orderValue:   Number(row['Order Value'])||0,
-      advance:      Number(row['Advance'])||0,
-      balance:      Number(row['Balance'])||0,
-      paymentStatus:String(row['Payment Status']||'Pending'),
-      entryDate:    String(row['Created At']||''),
-    })).filter(o=>o.client && o.client.trim()!=='');
-    nextId = Math.max(...orders.map(o=>o.id), 0)+1;
+  if(ordersData&&ordersData.orders){
+    orders=ordersData.orders.map(row=>({id:Number(row['ID']),client:String(row['Client']||''),product:String(row['Product']||''),qty:Number(row['Qty'])||0,date:String(row['Delivery Date']||''),time:String(row['Time']||''),stage:String(row['Stage']||'Cutting'),status:String(row['Status']||'ok'),print:String(row['Print']||'none'),saleBy:String(row['Sale By']||''),primaryMaterial:String(row['Primary Material']||''),secondaryMaterial:String(row['Secondary Material']||''),dimensions:String(row['Dimensions']||''),color:String(row['Color']||''),features:String(row['Features']||''),orderValue:Number(row['Order Value'])||0,advance:Number(row['Advance'])||0,balance:Number(row['Balance'])||0,paymentStatus:String(row['Payment Status']||'Pending'),entryDate:String(row['Created At']||''),})).filter(o=>o.client&&o.client.trim()!=='');
+    nextId=Math.max(...orders.map(o=>o.id),0)+1;
   }
-
-  if(materialsData && materialsData.materials){
-    materials = materialsData.materials;
-  }
-
-  renderOverviewKPIs();
-  renderOverview();
+  if(materialsData&&materialsData.materials)materials=materialsData.materials;
+  renderOverviewKPIs();renderOverview();
 }
 
-// ── TAB SWITCHING ──────────────────────────────────────────────
-function switchTab(tab){
-  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
-  document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
-  document.getElementById('tab-'+tab).classList.add('active');
-  document.getElementById('page-'+tab).classList.add('active');
-  if(tab==='overview'){renderOverviewKPIs();renderOverview();}
-}
+function switchTab(tab){document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');document.getElementById('page-'+tab).classList.add('active');if(tab==='overview'){renderOverviewKPIs();renderOverview();}}
 
-// ── FORM INTERACTIONS ──────────────────────────────────────────
-function selectPrint(v){
-  selectedPrint=v;
-  document.querySelectorAll('.print-type-btn').forEach(b=>b.classList.remove('active-none','active-screen','active-dtf'));
-  document.getElementById(v==='screen'?'pt-screen':v==='dtf'?'pt-dtf':'pt-none').classList.add(v==='screen'?'active-screen':v==='dtf'?'active-dtf':'active-none');
-  document.getElementById('print-cost-wrap').style.display=v==='none'?'none':'block';
-}
+function selectPrint(v){selectedPrint=v;document.querySelectorAll('.print-type-btn').forEach(b=>b.classList.remove('active-none','active-screen','active-dtf'));document.getElementById(v==='screen'?'pt-screen':v==='dtf'?'pt-dtf':'pt-none').classList.add(v==='screen'?'active-screen':v==='dtf'?'active-dtf':'active-none');document.getElementById('print-cost-wrap').style.display=v==='none'?'none':'block';}
 
-function selectSaleBy(v){
-  selectedSaleBy=v;
-  document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
-  const m={"Sridevi":"sb-sridevi","Anu Prasad":"sb-anuprasad","Esha":"sb-esha","Other":"sb-other"};
-  if(m[v])document.getElementById(m[v]).classList.add('active');
-  document.getElementById('f-sale-other').style.display=v==='Other'?'block':'none';
-}
+function selectSaleBy(v){selectedSaleBy=v;document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));const m={"Sridevi":"sb-sridevi","Anu Prasad":"sb-anuprasad","Esha":"sb-esha","Other":"sb-other"};if(m[v])document.getElementById(m[v]).classList.add('active');document.getElementById('f-sale-other').style.display=v==='Other'?'block':'none';}
 
-function addWorker(){
-  const inp=document.getElementById('pi-worker');
-  const v=inp.value.trim();
-  if(!v||formWorkers.includes(v))return;
-  formWorkers.push(v);inp.value='';renderFormWorkers();
-}
+function addWorker(){const inp=document.getElementById('pi-worker');const v=inp.value.trim();if(!v||formWorkers.includes(v))return;formWorkers.push(v);inp.value='';renderFormWorkers();}
 function removeWorker(n){formWorkers=formWorkers.filter(x=>x!==n);renderFormWorkers();}
-function renderFormWorkers(){
-  document.getElementById('pt-workers').innerHTML=formWorkers.map(n=>`<span class="ptag worker">${n}<span class="ptag-x" onclick="removeWorker('${n}')">✕</span></span>`).join('');
-}
+function renderFormWorkers(){document.getElementById('pt-workers').innerHTML=formWorkers.map(n=>`<span class="ptag worker">${n}<span class="ptag-x" onclick="removeWorker('${n}')">✕</span></span>`).join('');}
 
-function toggleFeature(el,name){
-  el.classList.toggle('active');
-  if(el.classList.contains('active'))selectedFeatures.push(name);
-  else selectedFeatures=selectedFeatures.filter(f=>f!==name);
-}
+function toggleFeature(el,name){el.classList.toggle('active');if(el.classList.contains('active'))selectedFeatures.push(name);else selectedFeatures=selectedFeatures.filter(f=>f!==name);}
 
+const JUTE_COLORS=['Navy Blue','Black Laminated','Brown','Mustard','Maroon','Pink','Red','Parrot Green','Green','Teal Blue','Orange','Purple','Yellow','Royal Blue','Light Green'];
+const JUTE_PATTERNS=['Viala Jute Maroon','Viala Jute Pink','Butterfly Jute','Flower Print Jute','Gold & Black Jute','Red Flower Natural','Natural & Black Blocks','Half White & Pink Flowers','Half White & Elephant','Ajrak Hearts','Ajrak Waves','Orange Wareli','Brown Checks Jute'];
+const CANVAS_COLORS=['Purple','Dark Grey','Royal Blue','Black','Navy Blue','Yellow','Red','Pink','Orange','Dark Green','Sky Blue','Marine Blue','Mustard','Honey','Pista Green','Blue','Cream','White','Rani Pink','Mehendi','Light Blue','Light Grey','Maroon','Dark Brown','Chocolate Brown','Teal Blue','Bottle Green'];
+const LINING_COLORS=['Red','Navy Blue','Light Green','Dark Green','Mustard','Pink','White','Royal Blue','Black','Cream','Yellow','Grey','Khaki','Sky Blue','Teal Blue','Dark Pink','Natural','Pista'];
+const KALAMKARI_PATTERNS=['Pochampally','Ajrak Hearts','Ajrak Waves','Cows Kalamkari Blue','Cows Kalamkari Black','Orange Flower Kalamkari','Kantha Work Pink','Blue with Flowers','Hand Print','Purple White Flowers','Grey Maroon Flowers','Black & White Curtains','Mustard with Mandala','Blue Flamingo','Orange Wareli'];
 
+function getColorsForFabricVariation(fabric,variation){if(fabric==='Jute Fabric'){if(variation==='Colored')return{label:'Color',list:JUTE_COLORS};if(variation==='Printed')return{label:'Pattern Name',list:JUTE_PATTERNS};}if(fabric==='Cotton Canvas'&&variation==='Colored')return{label:'Color',list:CANVAS_COLORS};if(fabric==='Lining')return{label:'Color',list:LINING_COLORS};if(fabric==='Kalamkari / Designer'||fabric==='Kalamkari')return{label:'Pattern Name',list:KALAMKARI_PATTERNS};return null;}
 
-// ── COLOR CONFIG PER FABRIC+VARIATION ──────────────────────
-const JUTE_COLORS = ['Navy Blue','Black Laminated','Brown','Mustard','Maroon','Pink','Red','Parrot Green','Green','Teal Blue','Orange','Purple','Yellow','Royal Blue','Light Green'];
-const JUTE_PATTERNS = ['Viala Jute Maroon','Viala Jute Pink','Butterfly Jute','Flower Print Jute','Gold & Black Jute','Red Flower Natural','Natural & Black Blocks','Half White & Pink Flowers','Half White & Elephant','Ajrak Hearts','Ajrak Waves','Orange Wareli','Brown Checks Jute'];
-const CANVAS_COLORS = ['Purple','Dark Grey','Royal Blue','Black','Navy Blue','Yellow','Red','Pink','Orange','Dark Green','Sky Blue','Marine Blue','Mustard','Honey','Pista Green','Blue','Cream','White','Rani Pink','Mehendi','Light Blue','Light Grey','Maroon','Dark Brown','Chocolate Brown','Teal Blue','Bottle Green'];
-const LINING_COLORS = ['Red','Navy Blue','Light Green','Dark Green','Mustard','Pink','White','Royal Blue','Black','Cream','Yellow','Grey','Khaki','Sky Blue','Teal Blue','Dark Pink','Natural','Pista'];
-const KALAMKARI_PATTERNS = ['Pochampally','Ajrak Hearts','Ajrak Waves','Cows Kalamkari Blue','Cows Kalamkari Black','Orange Flower Kalamkari','Kantha Work Pink','Blue with Flowers','Hand Print','Purple White Flowers','Grey Maroon Flowers','Black & White Curtains','Mustard with Mandala','Blue Flamingo','Orange Wareli'];
+function populateColorField(wrapId,labelId,selectId,customId,colors,label){const wrap=document.getElementById(wrapId);const lbl=document.getElementById(labelId);const sel=document.getElementById(selectId);if(!wrap||!sel)return;if(!colors){wrap.style.display='none';return;}wrap.style.display='block';if(lbl)lbl.textContent=label;sel.innerHTML='<option value="">Select '+label.toLowerCase()+'...</option>';colors.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});const other=document.createElement('option');other.value='Other';other.textContent='Other (type below)';sel.appendChild(other);}
 
-function getColorsForFabricVariation(fabric, variation){
-  if(fabric==='Jute Fabric'){
-    if(variation==='Colored')return{label:'Color',list:JUTE_COLORS};
-    if(variation==='Printed')return{label:'Pattern Name',list:JUTE_PATTERNS};
-  }
-  if(fabric==='Cotton Canvas'&&variation==='Colored')return{label:'Color',list:CANVAS_COLORS};
-  if(fabric==='Lining')return{label:'Color',list:LINING_COLORS};
-  if(fabric==='Kalamkari / Designer'||fabric==='Kalamkari')return{label:'Pattern Name',list:KALAMKARI_PATTERNS};
-  return null;
-}
+function toggleCustomColor(type){const sel=document.getElementById('f-'+type+'-color');const custom=document.getElementById('f-'+type+'-color-custom');if(!sel||!custom)return;custom.style.display=sel.value==='Other'?'block':'none';custom.classList.toggle('visible',sel.value==='Other');}
 
-function populateColorField(wrapId, labelId, selectId, customId, colors, label){
-  const wrap=document.getElementById(wrapId);
-  const lbl=document.getElementById(labelId);
-  const sel=document.getElementById(selectId);
-  if(!wrap||!sel)return;
-  if(!colors){wrap.style.display='none';return;}
-  wrap.style.display='block';
-  if(lbl)lbl.textContent=label;
-  sel.innerHTML='<option value="">Select '+label.toLowerCase()+'...</option>';
-  colors.forEach(c=>{
-    const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);
-  });
-  const other=document.createElement('option');other.value='Other';other.textContent='Other (type below)';sel.appendChild(other);
-}
+function getColorValue(type){const sel=document.getElementById('f-'+type+'-color');const custom=document.getElementById('f-'+type+'-color-custom');if(!sel)return'';return sel.value==='Other'?(custom?custom.value:''):sel.value;}
 
-function toggleCustomColor(type){
-  const sel=document.getElementById('f-'+type+'-color');
-  const custom=document.getElementById('f-'+type+'-color-custom');
-  if(!sel||!custom)return;
-  custom.style.display=sel.value==='Other'?'block':'none';
-  custom.classList.toggle('visible',sel.value==='Other');
-}
+function onPrimaryVariationChange(){const fabric=document.getElementById('f-primary-material').value;const variation=document.getElementById('f-primary-variation').value;const gsmWrap=document.getElementById('primary-fabric-detail');const gsmSel=document.getElementById('f-primary-gsm');if(variation==='Oxford Jute'){populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',null,'Color');if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}return;}const colorData=getColorsForFabricVariation(fabric,variation);populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',colorData?colorData.list:null,colorData?colorData.label:'Color');}
 
-function getColorValue(type){
-  const sel=document.getElementById('f-'+type+'-color');
-  const custom=document.getElementById('f-'+type+'-color-custom');
-  if(!sel)return'';
-  return sel.value==='Other'?(custom?custom.value:''):sel.value;
-}
+function onSecondaryVariationChange(){const fabric=document.getElementById('f-secondary-material').value;const variation=document.getElementById('f-secondary-variation').value;if(variation==='Oxford Jute'){populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',null,'Color');const gsmSel=document.getElementById('f-secondary-gsm');if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}return;}const colorData=getColorsForFabricVariation(fabric,variation);populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',colorData?colorData.list:null,colorData?colorData.label:'Color');}
 
-function onPrimaryVariationChange(){
-  const fabric=document.getElementById('f-primary-material').value;
-  const variation=document.getElementById('f-primary-variation').value;
-  // Oxford Jute — no color, no GSM needed
-  const gsmWrap=document.getElementById('primary-fabric-detail');
-  const gsmSel=document.getElementById('f-primary-gsm');
-  if(variation==='Oxford Jute'){
-    populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',null,'Color');
-    if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}
-    return;
-  }
-  const colorData=getColorsForFabricVariation(fabric,variation);
-  populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',
-    colorData?colorData.list:null, colorData?colorData.label:'Color');
-}
+function onSecondaryMaterialChange(){const mat=document.getElementById('f-secondary-material').value;const detailWrap=document.getElementById('secondary-fabric-detail');if(FABRICS_WITH_DETAIL.includes(mat)||mat==='Lining'){detailWrap.classList.add('visible');if(mat==='Lining'){populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',LINING_COLORS,'Color');}else if(mat==='Kalamkari / Designer'||mat==='Kalamkari'){populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',KALAMKARI_PATTERNS,'Pattern Name');}else{populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');const cw=document.getElementById('secondary-color-wrap');if(cw)cw.style.display='none';}}else{detailWrap.classList.remove('visible');const cw=document.getElementById('secondary-color-wrap');if(cw)cw.style.display='none';}}
 
-function onSecondaryVariationChange(){
-  const fabric=document.getElementById('f-secondary-material').value;
-  const variation=document.getElementById('f-secondary-variation').value;
-  if(variation==='Oxford Jute'){
-    populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',null,'Color');
-    const gsmSel=document.getElementById('f-secondary-gsm');
-    if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}
-    return;
-  }
-  const colorData=getColorsForFabricVariation(fabric,variation);
-  populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',
-    colorData?colorData.list:null, colorData?colorData.label:'Color');
-}
-
-// Also trigger for Lining always
-function onSecondaryMaterialChange(){
-  const mat=document.getElementById('f-secondary-material').value;
-  const detailWrap=document.getElementById('secondary-fabric-detail');
-  if(FABRICS_WITH_DETAIL.includes(mat)||mat==='Lining'){
-    detailWrap.classList.add('visible');
-    if(mat==='Lining'){
-      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
-      // Lining always shows color
-      populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',LINING_COLORS,'Color');
-    }else if(mat==='Kalamkari / Designer'||mat==='Kalamkari'){
-      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
-      populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',KALAMKARI_PATTERNS,'Pattern Name');
-    }else{
-      populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');
-      // Hide color until variation selected
-      const cw=document.getElementById('secondary-color-wrap');
-      if(cw)cw.style.display='none';
-    }
-  }else{
-    detailWrap.classList.remove('visible');
-    const cw=document.getElementById('secondary-color-wrap');
-    if(cw)cw.style.display='none';
-  }
-}
-
-// ── FABRIC CONFIG ─────────────────────────────────────────
-const FABRIC_CONFIG={
-  'Jute Fabric':   {variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},
-  'Cotton Canvas': {variations:['Natural','Colored','Laminated'],           gsm:['225','300','310','340','400','490','570']},
-  'Juco Fabric':   {variations:['Laminated','Non-Laminated'],               gsm:[]},
-  'Kadhi Fabric':  {variations:['Natural'],                                 gsm:['90','120','135','150']},
-};
+const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},};
 const FABRICS_WITH_DETAIL=['Jute Fabric','Cotton Canvas','Juco Fabric','Kadhi Fabric'];
 
-function populateFabricDetail(fabricName, varSelectId, gsmSelectId){
-  const varSel=document.getElementById(varSelectId);
-  const gsmSel=document.getElementById(gsmSelectId);
-  if(!varSel||!gsmSel)return;
-  const cfg=FABRIC_CONFIG[fabricName];
-  // Populate variation
-  varSel.innerHTML='<option value="">Select variation…</option>';
-  if(cfg&&cfg.variations.length){
-    cfg.variations.forEach(v=>{
-      const opt=document.createElement('option');
-      opt.value=v;opt.textContent=v;varSel.appendChild(opt);
-    });
-  }
-  // Populate GSM
-  gsmSel.innerHTML='<option value="">Select GSM…</option>';
-  if(cfg&&cfg.gsm.length){
-    cfg.gsm.forEach(g=>{
-      const opt=document.createElement('option');
-      opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);
-    });
-    const custom=document.createElement('option');
-    custom.value='custom';custom.textContent='Custom…';
-    gsmSel.appendChild(custom);
-  }
+function populateFabricDetail(fabricName,varSelectId,gsmSelectId){const varSel=document.getElementById(varSelectId);const gsmSel=document.getElementById(gsmSelectId);if(!varSel||!gsmSel)return;const cfg=FABRIC_CONFIG[fabricName];varSel.innerHTML='<option value="">Select variation…</option>';if(cfg&&cfg.variations.length){cfg.variations.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;varSel.appendChild(opt);});}gsmSel.innerHTML='<option value="">Select GSM…</option>';if(cfg&&cfg.gsm.length){cfg.gsm.forEach(g=>{const opt=document.createElement('option');opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);});const custom=document.createElement('option');custom.value='custom';custom.textContent='Custom…';gsmSel.appendChild(custom);}}
+
+function toggleCustomGSM(type){const sel=document.getElementById('f-'+type+'-gsm');const custom=document.getElementById('f-'+type+'-gsm-custom');if(!sel||!custom)return;if(sel.value==='custom')custom.classList.add('visible');else custom.classList.remove('visible');}
+
+function getGSMValue(type){const sel=document.getElementById('f-'+type+'-gsm');const custom=document.getElementById('f-'+type+'-gsm-custom');if(!sel)return'';return sel.value==='custom'?(custom?custom.value:''):sel.value;}
+
+function onPrimaryMaterialChange(){const v=document.getElementById('f-primary-material').value;document.getElementById('secondary-wrap').classList.toggle('visible',v!=='');const detailWrap=document.getElementById('primary-fabric-detail');if(FABRICS_WITH_DETAIL.includes(v)){detailWrap.classList.add('visible');populateFabricDetail(v,'f-primary-variation','f-primary-gsm');}else{detailWrap.classList.remove('visible');}}
+
+function updateBalance(){const ov=Number(document.getElementById('f-order-value').value)||0;const adv=Number(document.getElementById('f-advance').value)||0;const bal=ov-adv;const el=document.getElementById('balance-display');if(!ov){el.classList.remove('visible');return;}el.classList.add('visible');el.className='balance-display visible '+(bal<=0?'zero':'positive');el.textContent=`Balance due: ${fmtINR(bal)} ${bal===0?'· Fully paid':''}`;}
+
+function toggleHardware(key){const cb=document.getElementById('hw-'+key);const wrap=document.getElementById('hw-qty-'+key);wrap.style.display=cb.checked?'flex':'none';if(!cb.checked){const inp=document.getElementById('hw-qty-input-'+key);if(inp)inp.value='';const alert=document.getElementById('hw-alert-'+key);if(alert)alert.classList.remove('visible');}}
+
+function checkStockHardware(matName,inputId,alertId){const qty=Number(document.getElementById(inputId).value)||0;const alertEl=document.getElementById(alertId);if(!qty){alertEl.classList.remove('visible');return;}const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());if(!mat){alertEl.classList.remove('visible');return;}const stock=Number(mat['Current Stock'])||0;alertEl.classList.add('visible');if(stock===0){alertEl.className='stock-alert visible danger';alertEl.textContent='No stock! '+matName+' is out';}else if(stock<qty){alertEl.className='stock-alert visible danger';alertEl.textContent='Only '+stock+' nos available';}else{alertEl.className='stock-alert visible ok';alertEl.textContent='Stock OK — '+stock+' nos available';}}
+
+function toggleMECustom(selectId,customId){const sel=document.getElementById(selectId);const custom=document.getElementById(customId);if(!sel||!custom)return;custom.style.display=sel.value==='Other'?'block':'none';}
+
+function getHardwareItems(){const hwMap=[{key:'doghooks',mat:'Dog Hooks',hasSize:true,hasFinish:true},{key:'buckles',mat:'Buckles',hasSize:true,hasFinish:true},{key:'dring',mat:'D-Ring',hasSize:true,hasFinish:true},{key:'snapbtn',mat:'Snap Magnetic Button',hasSize:false,hasFinish:false},{key:'highlight',mat:'Highlight',hasSize:false,hasFinish:false},{key:'reveat',mat:'Reveat',hasSize:false,hasFinish:false},];const result=[];hwMap.forEach(h=>{const cb=document.getElementById('hw-'+h.key);if(cb&&cb.checked){const qty=Number(document.getElementById('hw-qty-input-'+h.key).value)||0;if(qty>0){const size=h.hasSize?(document.getElementById('hw-size-'+h.key)?document.getElementById('hw-size-'+h.key).value:''):'';const finish=h.hasFinish?(document.getElementById('hw-finish-'+h.key)?document.getElementById('hw-finish-'+h.key).value:''):'';result.push({material:h.mat,qty,size,finish});}}});return result;}
+
+function resetHardware(){['doghooks','buckles','dring','snapbtn','highlight','reveat'].forEach(key=>{const cb=document.getElementById('hw-'+key);if(cb)cb.checked=false;const wrap=document.getElementById('hw-qty-'+key);if(wrap)wrap.style.display='none';const inp=document.getElementById('hw-qty-input-'+key);if(inp)inp.value='';const alert=document.getElementById('hw-alert-'+key);if(alert)alert.classList.remove('visible');});}
+
+function checkStock(type){const matMap={primary:{qty:'f-primary-fabric-qty',alert:'stock-alert-primary',mat:()=>document.getElementById('f-primary-material').value},secondary:{qty:'f-secondary-fabric-qty',alert:'stock-alert-secondary',mat:()=>document.getElementById('f-secondary-material').value},zippers:{qty:'f-zippers-qty',alert:'stock-alert-zippers',mat:()=>'Zippers',unit:'m'},handles:{qty:'f-handles-qty',alert:'stock-alert-handles',mat:()=>'Handles',unit:'m'},lace:{qty:'f-lace-qty',alert:'stock-alert-lace',mat:()=>'Lace',unit:'m'},runners:{qty:'f-runners-qty',alert:'stock-alert-runners',mat:()=>'Runners',unit:'nos'},};const cfg=matMap[type];if(!cfg)return;const qty=Number(document.getElementById(cfg.qty).value)||0;const matName=cfg.mat();const alertEl=document.getElementById(cfg.alert);if(!qty||!matName){alertEl.classList.remove('visible');return;}const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());if(!mat){alertEl.classList.remove('visible');return;}const stock=Number(mat['Current Stock'])||0;alertEl.classList.add('visible');if(stock===0){alertEl.className='stock-alert visible danger';alertEl.textContent=`⚠ No stock! ${matName} is out of stock`;}else if(stock<qty){alertEl.className='stock-alert visible danger';alertEl.textContent=`⚠ Insufficient! Only ${stock} ${mat['Unit']} available`;}else{alertEl.className='stock-alert visible ok';alertEl.textContent=`✓ Stock OK — ${stock} ${mat['Unit']} available`;}}
+
+async function submitOrder(){const client=document.getElementById('f-client').value.trim();if(!client){showToast('⚠️ Client name required');document.getElementById('f-client').focus();return;}const qty=parseInt(document.getElementById('f-qty').value)||0;if(!qty){showToast('⚠️ Quantity required');document.getElementById('f-qty').focus();return;}const orderValue=Number(document.getElementById('f-order-value').value)||0;if(!orderValue){showToast('⚠️ Order value required');document.getElementById('f-order-value').focus();return;}const primaryMaterial=document.getElementById('f-primary-material').value;if(!primaryMaterial){showToast('⚠️ Primary material required');document.getElementById('f-primary-material').focus();return;}const saleBy=selectedSaleBy==='Other'?(document.getElementById('f-sale-other').value.trim()||'Other'):selectedSaleBy;const manualEntry=document.getElementById('f-entry-date').value;const entryDate=manualEntry?fmtDate(manualEntry)+' (entered manually)':nowLabel();const stage=document.getElementById('f-stage').value;const l=document.getElementById('f-length').value;const w=document.getElementById('f-width').value;const h=document.getElementById('f-height').value;const dimensions=(l&&w)?`${l}×${w}${h?'×'+h:''}cm`:'';const featOther=document.getElementById('f-features-other').value.trim();const allFeatures=[...selectedFeatures,...(featOther?[featOther]:[])];const featuresStr=allFeatures.join(', ');const advance=Number(document.getElementById('f-advance').value)||0;const primaryFabricQty=Number(document.getElementById('f-primary-fabric-qty').value)||0;const secondaryFabricQty=Number(document.getElementById('f-secondary-fabric-qty').value)||0;const zippersQty=Number(document.getElementById('f-zippers-qty').value)||0;const handlesQty=Number(document.getElementById('f-handles-qty').value)||0;const laceQty=Number(document.getElementById('f-lace-qty').value)||0;const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;const webbingQty=Number(document.getElementById('f-webbing-qty')?document.getElementById('f-webbing-qty').value:0)||0;const threadQty=Number(document.getElementById('f-thread-qty')?document.getElementById('f-thread-qty').value:0)||0;const handleType=document.getElementById('f-handle-type')?document.getElementById('f-handle-type').value:'';const handleColor=document.getElementById('f-handle-color')?document.getElementById('f-handle-color').value==='Other'?(document.getElementById('f-handle-color-custom')?document.getElementById('f-handle-color-custom').value:''):document.getElementById('f-handle-color').value:'';const zipperColor=document.getElementById('f-zipper-color')?document.getElementById('f-zipper-color').value==='Other'?(document.getElementById('f-zipper-color-custom')?document.getElementById('f-zipper-color-custom').value:''):document.getElementById('f-zipper-color').value:'';const zipperNumber=document.getElementById('f-zipper-number')?document.getElementById('f-zipper-number').value:'';const laceColor=document.getElementById('f-lace-color')?document.getElementById('f-lace-color').value==='Other'?(document.getElementById('f-lace-color-custom')?document.getElementById('f-lace-color-custom').value:''):document.getElementById('f-lace-color').value:'';const laceSize=document.getElementById('f-lace-size')?document.getElementById('f-lace-size').value:'';const laceType=document.getElementById('f-lace-type')?document.getElementById('f-lace-type').value:'';const webbingColor=document.getElementById('f-webbing-color')?document.getElementById('f-webbing-color').value==='Other'?(document.getElementById('f-webbing-color-custom')?document.getElementById('f-webbing-color-custom').value:''):document.getElementById('f-webbing-color').value:'';const webbingWidth=document.getElementById('f-webbing-width')?document.getElementById('f-webbing-width').value:'';const threadColor=document.getElementById('f-thread-color')?document.getElementById('f-thread-color').value==='Other'?(document.getElementById('f-thread-color-custom')?document.getElementById('f-thread-color-custom').value:''):document.getElementById('f-thread-color').value:'';const runnerNumber=document.getElementById('f-runner-number')?document.getElementById('f-runner-number').value:'';const printCost=Number(document.getElementById('f-print-cost').value)||0;const secondaryMaterial=document.getElementById('f-secondary-material').value||'';const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';const primaryGSM=getGSMValue('primary');const primaryColor=getColorValue('primary');const secondaryColor=getColorValue('secondary');const secondaryVariation=document.getElementById('f-secondary-variation')?document.getElementById('f-secondary-variation').value||'':'';const secondaryGSM=getGSMValue('secondary');const hardwareItems=getHardwareItems();const newOrder={id:nextId,client,product:document.getElementById('f-product').value||'—',qty,date:document.getElementById('f-date').value||'',time:document.getElementById('f-time').value||'—',stage,status:document.getElementById('f-priority').value,print:selectedPrint,saleBy,workers:[...formWorkers],remarks:document.getElementById('f-remarks').value||'',primaryMaterial,secondaryMaterial,dimensions,color:document.getElementById('f-color').value||'',primaryVariation,primaryGSM,primaryColor,secondaryVariation,secondaryGSM,secondaryColor,features:featuresStr,orderValue,advance,balance:orderValue-advance,primaryFabricQty,secondaryFabricQty,zippersQty,handlesQty,laceQty,laceColor,laceSize,laceType,runnersQty,runnerNumber,webbingQty,webbingColor,webbingWidth,threadQty,threadColor,handleType,handleColor,zipperColor,zipperNumber,printCost,paymentStatus:advance>=orderValue?'Paid':advance>0?'Partial':'Pending',entryDate,cuttingDate:'',hardwareItems:hardwareItems,deductStock:document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||webbingQty>0||threadQty>0||hardwareItems.length>0)};const btn=document.getElementById('btn-submit');btn.disabled=true;btn.textContent='Saving…';const result=await sheetPost({action:'addOrder',...newOrder,workers:newOrder.workers});await sheetPost({action:'addTimeline',orderId:newOrder.id,client:newOrder.client,stage,timestamp:entryDate,type:'stage',back:false,note:'Order created via Master Entry',changes:''});const matData=await sheetCall({action:'getMaterials'});if(matData&&matData.materials)materials=matData.materials;orders.unshift(newOrder);nextId++;showSuccess(newOrder);showToast(`✓ "${client}" added — stock deducted — finance updated`);}
+
+function showSuccess(o){document.getElementById('form-body').style.display='none';const ss=document.getElementById('success-screen');ss.classList.add('visible');document.getElementById('success-sub').textContent=`Order #${o.id} · ${o.client} · ${o.qty} pcs · Saved to Google Sheets`;document.getElementById('success-card').innerHTML=`<div class="success-row"><label>Client</label><span>${o.client}</span></div><div class="success-row"><label>Product</label><span>${o.product}</span></div><div class="success-row"><label>Quantity</label><span>${o.qty} pcs</span></div><div class="success-row"><label>Delivery</label><span>${fmtDate(o.date)||'TBD'}</span></div><div class="success-row"><label>Material</label><span>${o.primaryMaterial}${o.primaryVariation?' — '+o.primaryVariation:''}${o.primaryGSM?' ('+o.primaryGSM+' GSM)':''}${o.secondaryMaterial?' + '+o.secondaryMaterial+(o.secondaryVariation?' — '+o.secondaryVariation:'')+(o.secondaryGSM?' ('+o.secondaryGSM+' GSM)':''):''}</span></div>${o.dimensions?`<div class="success-row"><label>Dimensions</label><span>${o.dimensions}</span></div>`:''}${o.features?`<div class="success-row"><label>Features</label><span>${o.features}</span></div>`:''}` +`<div class="success-row"><label>Order Value</label><span>${fmtINR(o.orderValue)}</span></div><div class="success-row"><label>Advance</label><span>${fmtINR(o.advance)}</span></div><div class="success-row"><label>Balance Due</label><span>${fmtINR(o.balance)}</span></div><div class="success-row"><label>Stage</label><span>${o.stage}</span></div><div class="success-row"><label>Sale By</label><span>${o.saleBy||'—'}</span></div>${o.primaryFabricQty>0?`<div class="success-row"><label>Fabric deducted</label><span>${o.primaryFabricQty}m ${o.primaryMaterial}</span></div>`:''}${o.zippersQty>0?`<div class="success-row"><label>Zippers deducted</label><span>${o.zippersQty} pcs</span></div>`:''}${o.handlesQty>0?`<div class="success-row"><label>Handles</label><span>${o.handlesQty}m${o.handleType?' — '+o.handleType:''}${o.handleColor?' '+o.handleColor:''}</span></div>`:''}${o.hardwareItems&&o.hardwareItems.length?o.hardwareItems.map(h=>`<div class="success-row"><label>${h.material}</label><span>${h.qty} nos</span></div>`).join(''):''}`;
 }
 
-function toggleCustomGSM(type){
-  const sel=document.getElementById('f-'+type+'-gsm');
-  const custom=document.getElementById('f-'+type+'-gsm-custom');
-  if(!sel||!custom)return;
-  if(sel.value==='custom')custom.classList.add('visible');
-  else custom.classList.remove('visible');
-}
+function resetForm(){document.getElementById('form-body').style.display='block';document.getElementById('success-screen').classList.remove('visible');document.getElementById('btn-submit').disabled=false;document.getElementById('btn-submit').textContent='＋ Add Order';['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks','f-order-value','f-advance','f-color','f-length','f-width','f-height','f-primary-fabric-qty','f-secondary-fabric-qty','f-zippers-qty','f-handles-qty','f-lace-qty','f-runners-qty','f-webbing-qty','f-thread-qty','f-print-cost','f-features-other','f-sale-other','f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom','f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-primary-material').value='';['f-handle-type','f-handle-color','f-zipper-color','f-zipper-number','f-lace-color','f-lace-size','f-lace-type','f-webbing-color','f-webbing-width','f-thread-color','f-runner-number'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});['f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom','f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});document.getElementById('primary-fabric-detail').classList.remove('visible');document.getElementById('secondary-fabric-detail').classList.remove('visible');if(document.getElementById('f-primary-variation'))document.getElementById('f-primary-variation').value='';if(document.getElementById('f-primary-gsm'))document.getElementById('f-primary-gsm').value='';if(document.getElementById('f-primary-gsm-custom'))document.getElementById('f-primary-gsm-custom').value='';if(document.getElementById('f-secondary-variation'))document.getElementById('f-secondary-variation').value='';if(document.getElementById('f-secondary-gsm'))document.getElementById('f-secondary-gsm').value='';if(document.getElementById('f-secondary-gsm-custom'))document.getElementById('f-secondary-gsm-custom').value='';document.getElementById('f-secondary-material').value='';document.getElementById('f-stage').value='Cutting';document.getElementById('f-priority').value='ok';document.getElementById('secondary-wrap').classList.remove('visible');document.getElementById('balance-display').classList.remove('visible');document.getElementById('print-cost-wrap').style.display='none';document.getElementById('f-sale-other').style.display='none';selectedPrint='none';selectPrint('none');selectedSaleBy='';document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));selectedFeatures=[];document.querySelectorAll('.feature-chip').forEach(c=>c.classList.remove('active'));formWorkers=[];renderFormWorkers();['stock-alert-primary','stock-alert-secondary','stock-alert-zippers','stock-alert-handles','stock-alert-lace','stock-alert-runners'].forEach(id=>{document.getElementById(id).classList.remove('visible');});resetHardware();}
 
-function getGSMValue(type){
-  const sel=document.getElementById('f-'+type+'-gsm');
-  const custom=document.getElementById('f-'+type+'-gsm-custom');
-  if(!sel)return'';
-  return sel.value==='custom'?(custom?custom.value:''):sel.value;
-}
+let activeDateFilter='all';function setDateFilter(f,btn){activeDateFilter=f;document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const cw=document.getElementById('df-custom-wrap');if(f==='custom')cw.classList.add('visible');else cw.classList.remove('visible');renderOverview();}
 
+function getDateFilterRange(){const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());switch(activeDateFilter){case 'thisweek':{const day=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(day===0?6:day-1));return{from:mon,to:new Date(today.getTime()+86400000)};}case 'thismonth':return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(today.getTime()+86400000)};case 'lastmonth':return{from:new Date(now.getFullYear(),now.getMonth()-1,1),to:new Date(now.getFullYear(),now.getMonth(),1)};case 'thisyear':return{from:new Date(now.getFullYear(),0,1),to:new Date(today.getTime()+86400000)};case 'custom':{const from=document.getElementById('df-from').value;const to=document.getElementById('df-to').value;return{from:from?new Date(from):null,to:to?new Date(new Date(to).getTime()+86400000):null};}default:return{from:null,to:null};}}
 
-function onPrimaryMaterialChange(){
-  const v=document.getElementById('f-primary-material').value;
-  document.getElementById('secondary-wrap').classList.toggle('visible', v!=='');
-  const detailWrap=document.getElementById('primary-fabric-detail');
-  if(FABRICS_WITH_DETAIL.includes(v)){
-    detailWrap.classList.add('visible');
-    populateFabricDetail(v,'f-primary-variation','f-primary-gsm');
-  }else{
-    detailWrap.classList.remove('visible');
-  }
-}
+function parseIndianDate(str){if(!str)return null;const m=String(str).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));const iso=String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);if(iso)return new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const dm=String(str).match(/(\d{1,2})-([A-Za-z]{3})/);if(dm){const mi=mon.indexOf(dm[2]);if(mi>=0)return new Date(new Date().getFullYear(),mi,Number(dm[1]));}const d=new Date(str);return isNaN(d.getTime())?null:d;}
 
-function updateBalance(){
-  const ov=Number(document.getElementById('f-order-value').value)||0;
-  const adv=Number(document.getElementById('f-advance').value)||0;
-  const bal=ov-adv;
-  const el=document.getElementById('balance-display');
-  if(!ov){el.classList.remove('visible');return;}
-  el.classList.add('visible');
-  el.className='balance-display visible '+(bal<=0?'zero':'positive');
-  el.textContent=`Balance due: ${fmtINR(bal)} ${bal===0?'· Fully paid':''}`;
-}
+function orderMatchesDateFilter(o){if(activeDateFilter==='all')return true;const range=getDateFilterRange();if(!range.from&&!range.to)return true;const d=parseIndianDate(o.entryDate)||parseIndianDate(o.date);if(!d)return true;if(range.from&&d<range.from)return false;if(range.to&&d>=range.to)return false;return true;}
 
-function toggleHardware(key){
-  const cb=document.getElementById('hw-'+key);
-  const wrap=document.getElementById('hw-qty-'+key);
-  wrap.style.display=cb.checked?'flex':'none';
-  if(!cb.checked){
-    const inp=document.getElementById('hw-qty-input-'+key);
-    if(inp)inp.value='';
-    const alert=document.getElementById('hw-alert-'+key);
-    if(alert)alert.classList.remove('visible');
-  }
-}
+function renderOverviewKPIs(){const td=todayISO();document.getElementById('ov-delayed').textContent=orders.filter(o=>o.status==='delayed').length;document.getElementById('ov-active').textContent=orders.filter(o=>o.stage!=='Done').length;document.getElementById('ov-total').textContent=orders.length;document.getElementById('ov-done').textContent=orders.filter(o=>o.stage==='Done').length;const outstanding=orders.filter(o=>o.paymentStatus!=='Paid').reduce((s,o)=>s+(o.balance||0),0);document.getElementById('ov-outstanding').textContent=fmtINR(outstanding);}
 
-function checkStockHardware(matName,inputId,alertId){
-  const qty=Number(document.getElementById(inputId).value)||0;
-  const alertEl=document.getElementById(alertId);
-  if(!qty){alertEl.classList.remove('visible');return;}
-  const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());
-  if(!mat){alertEl.classList.remove('visible');return;}
-  const stock=Number(mat['Current Stock'])||0;
-  alertEl.classList.add('visible');
-  if(stock===0){alertEl.className='stock-alert visible danger';alertEl.textContent='No stock! '+matName+' is out';}
-  else if(stock<qty){alertEl.className='stock-alert visible danger';alertEl.textContent='Only '+stock+' nos available';}
-  else{alertEl.className='stock-alert visible ok';alertEl.textContent='Stock OK — '+stock+' nos available';}
-}
+function setOvFilter(f,btn){ovFilter=f;document.querySelectorAll('.ov-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderOverview();}
 
-function toggleMECustom(selectId, customId){
-  const sel=document.getElementById(selectId);
-  const custom=document.getElementById(customId);
-  if(!sel||!custom)return;
-  custom.style.display=sel.value==='Other'?'block':'none';
-}
+function renderOverview(){const search=(document.getElementById('ov-search').value||'').toLowerCase();const filtered=orders.filter(o=>{const ms=!search||o.client.toLowerCase().includes(search)||o.product.toLowerCase().includes(search)||o.saleBy.toLowerCase().includes(search);const mf=ovFilter==='all'?true:ovFilter==='active'?o.stage!=='Done':ovFilter==='delayed'?o.status==='delayed':ovFilter==='pending'?o.paymentStatus!=='Paid':ovFilter==='done'?o.stage==='Done':true;const df=orderMatchesDateFilter(o);return ms&&mf&&df;});const sortVal=document.getElementById('ov-sort')?document.getElementById('ov-sort').value:'date-desc';filtered.sort((a,b)=>{if(sortVal==='qty-desc')return(Number(b.qty)||0)-(Number(a.qty)||0);if(sortVal==='qty-asc')return(Number(a.qty)||0)-(Number(b.qty)||0);if(sortVal==='value-desc')return(Number(b.orderValue)||0)-(Number(a.orderValue)||0);if(sortVal==='delivery-asc'){const da=parseIndianDate(a.date)||new Date(9999,0);const db=parseIndianDate(b.date)||new Date(9999,0);return da-db;}if(sortVal==='date-asc'){const da=parseIndianDate(a.entryDate||a.date)||new Date(0);const db=parseIndianDate(b.entryDate||b.date)||new Date(0);return da-db;}const da=parseIndianDate(a.entryDate||a.date)||new Date(0);const db=parseIndianDate(b.entryDate||b.date)||new Date(0);return db-da;});const resEl=document.getElementById('df-results');if(resEl)resEl.textContent=filtered.length+' order'+(filtered.length!==1?'s':'')+(activeDateFilter!=='all'?' in period':'');const tbody=document.getElementById('ov-tbody');tbody.innerHTML='';if(!filtered.length){tbody.innerHTML=`<tr><td colspan="11" style="text-align:center;padding:30px;color:rgba(44,31,20,0.35)">No orders found</td></tr>`;return;}filtered.forEach((o,i)=>{const sc=STAGE_COLORS[o.stage]||{bg:'#F3F4F6',text:'#374151'};const payClass=o.paymentStatus==='Paid'?'pay-paid':o.paymentStatus==='Partial'?'pay-partial':'pay-pending';const tr=document.createElement('tr');tr.innerHTML=`<td style="color:rgba(44,31,20,0.4);font-size:11px">${i+1}</td><td><strong>${o.client}</strong></td><td style="color:rgba(44,31,20,0.6);font-size:12px">${o.product||'—'}</td><td style="font-family:'DM Mono',monospace;font-weight:600">${o.qty}</td><td style="font-family:'DM Mono',monospace;font-size:11px">${fmtDate(o.date)||'TBD'}</td><td><span class="stage-pill" style="background:${sc.bg};color:${sc.text}">${o.stage}</span></td><td style="font-size:11px;color:rgba(44,31,20,0.6)">${o.primaryMaterial||'—'}${o.secondaryMaterial?'+'+o.secondaryMaterial:''}</td><td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?fmtINR(o.orderValue):'—'}</td><td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'var(--red)':'var(--moss)'}">${o.orderValue?fmtINR(o.balance):'—'}</td><td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td><td style="font-size:11px">${o.saleBy||'—'}</td>`;tbody.appendChild(tr);});renderOverviewKPIs();}
 
-function getHardwareItems(){
-  const hwMap=[
-    {key:'doghooks', mat:'Dog Hooks',    hasSize:true, hasFinish:true},
-    {key:'buckles',  mat:'Buckles',      hasSize:true, hasFinish:true},
-    {key:'dring',    mat:'D-Ring',       hasSize:true, hasFinish:true},
-    {key:'snapbtn',  mat:'Snap Magnetic Button', hasSize:false, hasFinish:false},
-    {key:'highlight',mat:'Highlight',    hasSize:false, hasFinish:false},
-    {key:'reveat',   mat:'Reveat',       hasSize:false, hasFinish:false},
-  ];
-  const result=[];
-  hwMap.forEach(h=>{
-    const cb=document.getElementById('hw-'+h.key);
-    if(cb&&cb.checked){
-      const qty=Number(document.getElementById('hw-qty-input-'+h.key).value)||0;
-      if(qty>0){
-        const size=h.hasSize?(document.getElementById('hw-size-'+h.key)?document.getElementById('hw-size-'+h.key).value:''):'';
-        const finish=h.hasFinish?(document.getElementById('hw-finish-'+h.key)?document.getElementById('hw-finish-'+h.key).value:''):'';
-        result.push({material:h.mat,qty,size,finish});
-      }
-    }
-  });
-  return result;
-}
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
 
-function resetHardware(){
-  ['doghooks','buckles','dring','snapbtn','highlight','reveat'].forEach(key=>{
-    const cb=document.getElementById('hw-'+key);
-    if(cb)cb.checked=false;
-    const wrap=document.getElementById('hw-qty-'+key);
-    if(wrap)wrap.style.display='none';
-    const inp=document.getElementById('hw-qty-input-'+key);
-    if(inp)inp.value='';
-    const alert=document.getElementById('hw-alert-'+key);
-    if(alert)alert.classList.remove('visible');
-  });
-}
+document.getElementById('pi-worker').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addWorker();}});
 
-function checkStock(type){
-  const matMap={
-    primary:  {qty:'f-primary-fabric-qty',  alert:'stock-alert-primary',  mat:()=>document.getElementById('f-primary-material').value},
-    secondary:{qty:'f-secondary-fabric-qty', alert:'stock-alert-secondary', mat:()=>document.getElementById('f-secondary-material').value},
-    zippers:  {qty:'f-zippers-qty',          alert:'stock-alert-zippers',   mat:()=>'Zippers', unit:'m'},
-    handles:  {qty:'f-handles-qty',          alert:'stock-alert-handles',   mat:()=>'Handles', unit:'m'},
-    lace:     {qty:'f-lace-qty',             alert:'stock-alert-lace',      mat:()=>'Lace',    unit:'m'},
-    runners:  {qty:'f-runners-qty',          alert:'stock-alert-runners',   mat:()=>'Runners', unit:'nos'},
-  };
-  const cfg=matMap[type];if(!cfg)return;
-  const qty=Number(document.getElementById(cfg.qty).value)||0;
-  const matName=cfg.mat();
-  const alertEl=document.getElementById(cfg.alert);
-  if(!qty||!matName){alertEl.classList.remove('visible');return;}
-  const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());
-  if(!mat){alertEl.classList.remove('visible');return;}
-  const stock=Number(mat['Current Stock'])||0;
-  alertEl.classList.add('visible');
-  if(stock===0){
-    alertEl.className='stock-alert visible danger';
-    alertEl.textContent=`⚠ No stock! ${matName} is out of stock`;
-  }else if(stock<qty){
-    alertEl.className='stock-alert visible danger';
-    alertEl.textContent=`⚠ Insufficient! Only ${stock} ${mat['Unit']} available`;
-  }else{
-    alertEl.className='stock-alert visible ok';
-    alertEl.textContent=`✓ Stock OK — ${stock} ${mat['Unit']} available`;
-  }
-}
-
-// ── SUBMIT ORDER ───────────────────────────────────────────────
-async function submitOrder(){
-  const client=document.getElementById('f-client').value.trim();
-  if(!client){showToast('⚠️ Client name required');document.getElementById('f-client').focus();return;}
-  const qty=parseInt(document.getElementById('f-qty').value)||0;
-  if(!qty){showToast('⚠️ Quantity required');document.getElementById('f-qty').focus();return;}
-  const orderValue=Number(document.getElementById('f-order-value').value)||0;
-  if(!orderValue){showToast('⚠️ Order value required');document.getElementById('f-order-value').focus();return;}
-  const primaryMaterial=document.getElementById('f-primary-material').value;
-  if(!primaryMaterial){showToast('⚠️ Primary material required');document.getElementById('f-primary-material').focus();return;}
-
-  const saleBy=selectedSaleBy==='Other'?(document.getElementById('f-sale-other').value.trim()||'Other'):selectedSaleBy;
-  const manualEntry=document.getElementById('f-entry-date').value;
-  const entryDate=manualEntry?fmtDate(manualEntry)+' (entered manually)':nowLabel();
-  const stage=document.getElementById('f-stage').value;
-
-  // Build dimensions string
-  const l=document.getElementById('f-length').value;
-  const w=document.getElementById('f-width').value;
-  const h=document.getElementById('f-height').value;
-  const dimensions=(l&&w)?`${l}×${w}${h?'×'+h:''}cm`:'';
-
-  // Build features string
-  const featOther=document.getElementById('f-features-other').value.trim();
-  const allFeatures=[...selectedFeatures,...(featOther?[featOther]:[])];
-  const featuresStr=allFeatures.join(', ');
-
-  const advance=Number(document.getElementById('f-advance').value)||0;
-  const primaryFabricQty=Number(document.getElementById('f-primary-fabric-qty').value)||0;
-  const secondaryFabricQty=Number(document.getElementById('f-secondary-fabric-qty').value)||0;
-  const zippersQty=Number(document.getElementById('f-zippers-qty').value)||0;
-  const handlesQty=Number(document.getElementById('f-handles-qty').value)||0;
-  const laceQty=Number(document.getElementById('f-lace-qty').value)||0;
-  const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;
-  const webbingQty=Number(document.getElementById('f-webbing-qty')?document.getElementById('f-webbing-qty').value:0)||0;
-  const threadQty=Number(document.getElementById('f-thread-qty')?document.getElementById('f-thread-qty').value:0)||0;
-  // Sub-selections
-  const handleType=document.getElementById('f-handle-type')?document.getElementById('f-handle-type').value:'';
-  const handleColor=document.getElementById('f-handle-color')?document.getElementById('f-handle-color').value==='Other'?(document.getElementById('f-handle-color-custom')?document.getElementById('f-handle-color-custom').value:''):document.getElementById('f-handle-color').value:'';
-  const zipperColor=document.getElementById('f-zipper-color')?document.getElementById('f-zipper-color').value==='Other'?(document.getElementById('f-zipper-color-custom')?document.getElementById('f-zipper-color-custom').value:''):document.getElementById('f-zipper-color').value:'';
-  const zipperNumber=document.getElementById('f-zipper-number')?document.getElementById('f-zipper-number').value:'';
-  const laceColor=document.getElementById('f-lace-color')?document.getElementById('f-lace-color').value==='Other'?(document.getElementById('f-lace-color-custom')?document.getElementById('f-lace-color-custom').value:''):document.getElementById('f-lace-color').value:'';
-  const laceSize=document.getElementById('f-lace-size')?document.getElementById('f-lace-size').value:'';
-  const laceType=document.getElementById('f-lace-type')?document.getElementById('f-lace-type').value:'';
-  const webbingColor=document.getElementById('f-webbing-color')?document.getElementById('f-webbing-color').value==='Other'?(document.getElementById('f-webbing-color-custom')?document.getElementById('f-webbing-color-custom').value:''):document.getElementById('f-webbing-color').value:'';
-  const webbingWidth=document.getElementById('f-webbing-width')?document.getElementById('f-webbing-width').value:'';
-  const threadColor=document.getElementById('f-thread-color')?document.getElementById('f-thread-color').value==='Other'?(document.getElementById('f-thread-color-custom')?document.getElementById('f-thread-color-custom').value:''):document.getElementById('f-thread-color').value:'';
-  const runnerNumber=document.getElementById('f-runner-number')?document.getElementById('f-runner-number').value:'';
-  const printCost=Number(document.getElementById('f-print-cost').value)||0;
-  const secondaryMaterial=document.getElementById('f-secondary-material').value||'';
-  const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';
-  const primaryGSM=getGSMValue('primary');
-  const primaryColor=getColorValue('primary');
-  const secondaryColor=getColorValue('secondary');
-  const secondaryVariation=document.getElementById('f-secondary-variation')?document.getElementById('f-secondary-variation').value||'':'';
-  const secondaryGSM=getGSMValue('secondary');
-  const hardwareItems=getHardwareItems();
-
-  const newOrder={
-    id:               nextId,
-    client,
-    product:          document.getElementById('f-product').value||'—',
-    qty,
-    date:             document.getElementById('f-date').value||'',
-    time:             document.getElementById('f-time').value||'—',
-    stage,
-    status:           document.getElementById('f-priority').value,
-    print:            selectedPrint,
-    saleBy,
-    workers:          [...formWorkers],
-    remarks:          document.getElementById('f-remarks').value||'',
-    primaryMaterial,
-    secondaryMaterial,
-    dimensions,
-    color:            document.getElementById('f-color').value||'',
-    primaryVariation, primaryGSM, primaryColor,
-    secondaryVariation, secondaryGSM, secondaryColor,
-    features:         featuresStr,
-    orderValue,
-    advance,
-    balance:          orderValue-advance,
-    primaryFabricQty,
-    secondaryFabricQty,
-    zippersQty,
-    handlesQty,
-    laceQty, laceColor, laceSize, laceType,
-    runnersQty, runnerNumber,
-    webbingQty, webbingColor, webbingWidth,
-    threadQty, threadColor,
-    handleType, handleColor,
-    zipperColor, zipperNumber,
-    printCost,
-    paymentStatus:    advance>=orderValue?'Paid':advance>0?'Partial':'Pending',
-    entryDate,
-    cuttingDate:      '',
-    hardwareItems:    hardwareItems,
-    deductStock:      document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||webbingQty>0||threadQty>0||hardwareItems.length>0)
-  };
-
-  // Disable button
-  const btn=document.getElementById('btn-submit');
-  btn.disabled=true;btn.textContent='Saving…';
-
-  // Save to sheet
-  const result=await sheetPost({action:'addOrder',...newOrder,workers:newOrder.workers});
-  await sheetPost({action:'addTimeline',orderId:newOrder.id,client:newOrder.client,stage,timestamp:entryDate,type:'stage',back:false,note:'Order created via Master Entry',changes:''});
-
-  // Reload materials for updated stock
-  const matData=await sheetCall({action:'getMaterials'});
-  if(matData && matData.materials) materials=matData.materials;
-
-  // Add to local orders
-  orders.unshift(newOrder);
-  nextId++;
-
-  // Show success
-  showSuccess(newOrder);
-  showToast(`✓ "${client}" added — stock deducted — finance updated`);
-}
-
-function showSuccess(o){
-  document.getElementById('form-body').style.display='none';
-  const ss=document.getElementById('success-screen');
-  ss.classList.add('visible');
-  document.getElementById('success-sub').textContent=`Order #${o.id} · ${o.client} · ${o.qty} pcs · Saved to Google Sheets`;
-  document.getElementById('success-card').innerHTML=`
-    <div class="success-row"><label>Client</label><span>${o.client}</span></div>
-    <div class="success-row"><label>Product</label><span>${o.product}</span></div>
-    <div class="success-row"><label>Quantity</label><span>${o.qty} pcs</span></div>
-    <div class="success-row"><label>Delivery</label><span>${fmtDate(o.date)||'TBD'}</span></div>
-    <div class="success-row"><label>Material</label><span>${o.primaryMaterial}${o.primaryVariation?' — '+o.primaryVariation:''}${o.primaryGSM?' ('+o.primaryGSM+' GSM)':''}${o.secondaryMaterial?' + '+o.secondaryMaterial+(o.secondaryVariation?' — '+o.secondaryVariation:'')+(o.secondaryGSM?' ('+o.secondaryGSM+' GSM)':''):''}</span></div>
-    ${o.dimensions?`<div class="success-row"><label>Dimensions</label><span>${o.dimensions}</span></div>`:''}
-    ${o.features?`<div class="success-row"><label>Features</label><span>${o.features}</span></div>`:''}
-    <div class="success-row"><label>Order Value</label><span>${fmtINR(o.orderValue)}</span></div>
-    <div class="success-row"><label>Advance</label><span>${fmtINR(o.advance)}</span></div>
-    <div class="success-row"><label>Balance Due</label><span>${fmtINR(o.balance)}</span></div>
-    <div class="success-row"><label>Stage</label><span>${o.stage}</span></div>
-    <div class="success-row"><label>Sale By</label><span>${o.saleBy||'—'}</span></div>
-    ${o.primaryFabricQty>0?`<div class="success-row"><label>Fabric deducted</label><span>${o.primaryFabricQty}m ${o.primaryMaterial}</span></div>`:''}
-    ${o.zippersQty>0?`<div class="success-row"><label>Zippers deducted</label><span>${o.zippersQty} pcs</span></div>`:''}
-    ${o.handlesQty>0?`<div class="success-row"><label>Handles</label><span>${o.handlesQty}m${o.handleType?' — '+o.handleType:''}${o.handleColor?' '+o.handleColor:''}</span></div>`:''}
-    ${o.hardwareItems&&o.hardwareItems.length?o.hardwareItems.map(h=>`<div class="success-row"><label>${h.material}</label><span>${h.qty} nos</span></div>`).join(''):''}
-  `;
-}
-
-function resetForm(){
-  document.getElementById('form-body').style.display='block';
-  document.getElementById('success-screen').classList.remove('visible');
-  document.getElementById('btn-submit').disabled=false;
-  document.getElementById('btn-submit').textContent='＋ Add Order';
-  // Reset all fields
-  ['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks',
-   'f-order-value','f-advance','f-color','f-length','f-width','f-height',
-   'f-primary-fabric-qty','f-secondary-fabric-qty','f-zippers-qty','f-handles-qty',
-   'f-lace-qty','f-runners-qty','f-webbing-qty','f-thread-qty',
-   'f-print-cost','f-features-other','f-sale-other',
-   'f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom',
-   'f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value='';
-  });
-  document.getElementById('f-primary-material').value='';
-  ['f-handle-type','f-handle-color','f-zipper-color','f-zipper-number',
-   'f-lace-color','f-lace-size','f-lace-type','f-webbing-color','f-webbing-width',
-   'f-thread-color','f-runner-number'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.value='';
-  });
-  ['f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom',
-   'f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{
-    const el=document.getElementById(id);if(el)el.style.display='none';
-  });
-  document.getElementById('primary-fabric-detail').classList.remove('visible');
-  document.getElementById('secondary-fabric-detail').classList.remove('visible');
-  if(document.getElementById('f-primary-variation'))document.getElementById('f-primary-variation').value='';
-  if(document.getElementById('f-primary-gsm'))document.getElementById('f-primary-gsm').value='';
-  if(document.getElementById('f-primary-gsm-custom'))document.getElementById('f-primary-gsm-custom').value='';
-  if(document.getElementById('f-secondary-variation'))document.getElementById('f-secondary-variation').value='';
-  if(document.getElementById('f-secondary-gsm'))document.getElementById('f-secondary-gsm').value='';
-  if(document.getElementById('f-secondary-gsm-custom'))document.getElementById('f-secondary-gsm-custom').value='';
-  document.getElementById('f-secondary-material').value='';
-  document.getElementById('f-stage').value='Cutting';
-  document.getElementById('f-priority').value='ok';
-  document.getElementById('secondary-wrap').classList.remove('visible');
-  document.getElementById('balance-display').classList.remove('visible');
-  document.getElementById('print-cost-wrap').style.display='none';
-  document.getElementById('f-sale-other').style.display='none';
-  selectedPrint='none';selectPrint('none');
-  selectedSaleBy='';
-  document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
-  selectedFeatures=[];
-  document.querySelectorAll('.feature-chip').forEach(c=>c.classList.remove('active'));
-  formWorkers=[];renderFormWorkers();
-  ['stock-alert-primary','stock-alert-secondary','stock-alert-zippers','stock-alert-handles','stock-alert-lace','stock-alert-runners'].forEach(id=>{
-    document.getElementById(id).classList.remove('visible');
-  });
-  resetHardware();
-}
-
-// ── OVERVIEW ───────────────────────────────────────────────────
-
-// ── DATE FILTER ───────────────────────────────────────────
-let activeDateFilter='all';
-
-function setDateFilter(f,btn){
-  activeDateFilter=f;
-  document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  const cw=document.getElementById('df-custom-wrap');
-  if(f==='custom')cw.classList.add('visible');
-  else cw.classList.remove('visible');
-  renderOverview();
-}
-
-function getDateFilterRange(){
-  const now=new Date();
-  const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());
-  switch(activeDateFilter){
-    case 'thisweek':{
-      const day=today.getDay();
-      const mon=new Date(today);mon.setDate(today.getDate()-(day===0?6:day-1));
-      return{from:mon,to:new Date(today.getTime()+86400000)};
-    }
-    case 'thismonth':
-      return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(today.getTime()+86400000)};
-    case 'lastmonth':
-      return{from:new Date(now.getFullYear(),now.getMonth()-1,1),to:new Date(now.getFullYear(),now.getMonth(),1)};
-    case 'thisyear':
-      return{from:new Date(now.getFullYear(),0,1),to:new Date(today.getTime()+86400000)};
-    case 'custom':{
-      const from=document.getElementById('df-from').value;
-      const to=document.getElementById('df-to').value;
-      return{from:from?new Date(from):null,to:to?new Date(new Date(to).getTime()+86400000):null};
-    }
-    default:return{from:null,to:null};
-  }
-}
-
-function parseIndianDate(str){
-  if(!str)return null;
-  // Handle "28/4/2026, 10:39:00" or "28/4/2026" format
-  const m=String(str).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);
-  if(m)return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));
-  // Handle ISO format YYYY-MM-DD
-  const iso=String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);
-  if(iso)return new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));
-  // Handle "25-Apr" format
-  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const dm=String(str).match(/(\d{1,2})-([A-Za-z]{3})/);
-  if(dm){const mi=mon.indexOf(dm[2]);if(mi>=0)return new Date(new Date().getFullYear(),mi,Number(dm[1]));}
-  const d=new Date(str);
-  return isNaN(d.getTime())?null:d;
-}
-
-function orderMatchesDateFilter(o){
-  if(activeDateFilter==='all')return true;
-  const range=getDateFilterRange();
-  if(!range.from&&!range.to)return true;
-  // Try entryDate first, then delivery date
-  const d=parseIndianDate(o.entryDate)||parseIndianDate(o.date);
-  if(!d)return true;
-  if(range.from&&d<range.from)return false;
-  if(range.to&&d>=range.to)return false;
-  return true;
-}
-
-let sortByQty = false;
-let sortQtyDir = 'desc'; // desc = highest first
-
-function toggleSortQty(btn){
-  if(!sortByQty){
-    sortByQty=true;sortQtyDir='desc';
-    btn.classList.add('active');btn.textContent='⇅ Qty: High→Low';
-  }else if(sortQtyDir==='desc'){
-    sortQtyDir='asc';
-    btn.textContent='⇅ Qty: Low→High';
-  }else{
-    sortByQty=false;
-    btn.classList.remove('active');btn.textContent='⇅ Sort by Qty';
-  }
-  renderOverview();
-}
-
-function renderOverviewKPIs(){
-  const td=todayISO();
-  document.getElementById('ov-delayed').textContent=orders.filter(o=>o.status==='delayed').length;
-  document.getElementById('ov-active').textContent=orders.filter(o=>o.stage!=='Done').length;
-  document.getElementById('ov-total').textContent=orders.length;
-  document.getElementById('ov-done').textContent=orders.filter(o=>o.stage==='Done').length;
-  const outstanding=orders.filter(o=>o.paymentStatus!=='Paid').reduce((s,o)=>s+(o.balance||0),0);
-  document.getElementById('ov-outstanding').textContent=fmtINR(outstanding);
-}
-
-function setOvFilter(f,btn){
-  ovFilter=f;
-  document.querySelectorAll('.ov-filter').forEach(b=>b.classList.remove('active'));
-  btn.classList.add('active');
-  renderOverview();
-}
-
-function renderOverview(){
-  const search=(document.getElementById('ov-search').value||'').toLowerCase();
-  const filtered=orders.filter(o=>{
-    const ms=!search||o.client.toLowerCase().includes(search)||o.product.toLowerCase().includes(search)||o.saleBy.toLowerCase().includes(search);
-    const mf=ovFilter==='all'?true:
-      ovFilter==='active'?o.stage!=='Done':
-      ovFilter==='delayed'?o.status==='delayed':
-      ovFilter==='pending'?o.paymentStatus!=='Paid':
-      ovFilter==='done'?o.stage==='Done':true;
-    const df=orderMatchesDateFilter(o);
-    return ms&&mf&&df;
-  });
-  // Apply sort
-  const sortVal=document.getElementById('ov-sort')?document.getElementById('ov-sort').value:'date-desc';
-  filtered.sort((a,b)=>{
-    if(sortVal==='qty-desc')return (Number(b.qty)||0)-(Number(a.qty)||0);
-    if(sortVal==='qty-asc')return (Number(a.qty)||0)-(Number(b.qty)||0);
-    if(sortVal==='value-desc')return (Number(b.orderValue)||0)-(Number(a.orderValue)||0);
-    if(sortVal==='delivery-asc'){
-      const da=parseIndianDate(a.date)||new Date(9999,0);
-      const db=parseIndianDate(b.date)||new Date(9999,0);
-      return da-db;
-    }
-    if(sortVal==='date-asc'){
-      const da=parseIndianDate(a.entryDate||a.date)||new Date(0);
-      const db=parseIndianDate(b.entryDate||b.date)||new Date(0);
-      return da-db;
-    }
-    // date-desc (default)
-    const da=parseIndianDate(a.entryDate||a.date)||new Date(0);
-    const db=parseIndianDate(b.entryDate||b.date)||new Date(0);
-    return db-da;
-  });
-  // Update results count
-  const resEl=document.getElementById('df-results');
-  if(resEl)resEl.textContent=filtered.length+' order'+(filtered.length!==1?'s':'')+(activeDateFilter!=='all'?' in period':'');
-
-  const tbody=document.getElementById('ov-tbody');tbody.innerHTML='';
-  if(!filtered.length){
-    tbody.innerHTML=`<tr><td colspan="11" style="text-align:center;padding:30px;color:rgba(44,31,20,0.35)">No orders found</td></tr>`;
-    return;
-  }
-  filtered.forEach((o,i)=>{
-    const sc=STAGE_COLORS[o.stage]||{bg:'#F3F4F6',text:'#374151'};
-    const payClass=o.paymentStatus==='Paid'?'pay-paid':o.paymentStatus==='Partial'?'pay-partial':'pay-pending';
-    const tr=document.createElement('tr');
-    tr.innerHTML=`
-      <td style="color:rgba(44,31,20,0.4);font-size:11px">${i+1}</td>
-      <td><strong>${o.client}</strong></td>
-      <td style="color:rgba(44,31,20,0.6);font-size:12px">${o.product||'—'}</td>
-      <td style="font-family:'DM Mono',monospace;font-weight:600">${o.qty}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:11px">${fmtDate(o.date)||'TBD'}</td>
-      <td><span class="stage-pill" style="background:${sc.bg};color:${sc.text}">${o.stage}</span></td>
-      <td style="font-size:11px;color:rgba(44,31,20,0.6)">${o.primaryMaterial||'—'}${o.secondaryMaterial?'+'+o.secondaryMaterial:''}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?fmtINR(o.orderValue):'—'}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'var(--red)':'var(--moss)'}">${o.orderValue?fmtINR(o.balance):'—'}</td>
-      <td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td>
-      <td style="font-size:11px">${o.saleBy||'—'}</td>
-      <td><button onclick="event.stopPropagation();openEditOrder(${o.id})" style="background:#3B6B45;color:#fff;border:none;border-radius:6px;padding:4px 10px;font-size:11px;font-weight:600;cursor:pointer">&#9998;</button></td>
-    `;
-    tbody.appendChild(tr);
-  });
-  renderOverviewKPIs();
-}
-
-// ── TOAST ──────────────────────────────────────────────────────
-
-// ── EDIT ORDER ──────────────────────────────────────────────
-let editingOrderId = null;
-
-function openEditOrder(id){
-  const o=orders.find(x=>x.id===id);
-  if(!o)return;
-  editingOrderId=id;
-  document.getElementById('edit-order-id').textContent='#'+id;
-  document.getElementById('edit-client').value=o.client||'';
-  document.getElementById('edit-product').value=o.product||'';
-  document.getElementById('edit-qty').value=o.qty||'';
-  document.getElementById('edit-order-value').value=o.orderValue||'';
-  document.getElementById('edit-advance').value=o.advance||'';
-  document.getElementById('edit-remarks').value=o.remarks||'';
-  document.getElementById('edit-stage').value=o.stage||'Cutting';
-  document.getElementById('edit-priority').value=o.priority||'Normal';
-  document.getElementById('edit-payment-status').value=o.paymentStatus||'Pending';
-  document.getElementById('edit-sale-by').value=o.saleBy||'';
-  document.getElementById('edit-print').value=o.print||'none';
-  // Convert delivery date to ISO for date input
-  const dateISO=o.date?convertToISO(o.date):'';
-  document.getElementById('edit-date').value=dateISO;
-  document.getElementById('edit-save-msg').style.display='none';
-  document.getElementById('edit-modal').style.display='flex';
-}
-
-function convertToISO(dateStr){
-  if(!dateStr)return'';
-  // Handle "25-Apr" → assume current year
-  const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-  const m=String(dateStr).match(/(\d{1,2})-([A-Za-z]{3})/);
-  if(m){const mi=mon.indexOf(m[2]);if(mi>=0){const yr=new Date().getFullYear();return yr+'-'+(mi+1).toString().padStart(2,'0')+'-'+m[1].padStart(2,'0');}}
-  // Already ISO
-  if(String(dateStr).match(/^\d{4}-\d{2}-\d{2}/))return dateStr.substring(0,10);
-  return'';
-}
-
-function closeEditModal(){
-  document.getElementById('edit-modal').style.display='none';
-  editingOrderId=null;
-}
-
-async function saveEditOrder(){
-  if(!editingOrderId)return;
-  const client=document.getElementById('edit-client').value.trim();
-  if(!client){showToast('Client name required');return;}
-  const qty=Number(document.getElementById('edit-qty').value)||0;
-  if(!qty){showToast('Quantity required');return;}
-
-  const btn=document.getElementById('edit-save-btn');
-  btn.disabled=true;btn.textContent='Saving...';
-
-  const updates={
-    action:         'updateOrder',
-    id:             editingOrderId,
-    client:         client,
-    product:        document.getElementById('edit-product').value||'',
-    qty:            qty,
-    date:           document.getElementById('edit-date').value||'',
-    orderValue:     Number(document.getElementById('edit-order-value').value)||0,
-    advance:        Number(document.getElementById('edit-advance').value)||0,
-    stage:          document.getElementById('edit-stage').value,
-    priority:       document.getElementById('edit-priority').value,
-    paymentStatus:  document.getElementById('edit-payment-status').value,
-    saleBy:         document.getElementById('edit-sale-by').value,
-    remarks:        document.getElementById('edit-remarks').value||'',
-    print:          document.getElementById('edit-print').value,
-  };
-
-  const result=await sheetPost(updates);
-  if(result&&result.success){
-    // Update local orders array
-    const idx=orders.findIndex(x=>x.id===editingOrderId);
-    if(idx>=0){
-      orders[idx]={...orders[idx],...updates,
-        balance:updates.orderValue-updates.advance,
-        status:orders[idx].status
-      };
-    }
-    renderOverview();renderOverviewKPIs();
-    const msg=document.getElementById('edit-save-msg');
-    msg.style.display='block';msg.textContent='✓ Order #'+editingOrderId+' updated successfully';
-    showToast('Order updated');
-    setTimeout(()=>closeEditModal(),1500);
-  }else{
-    showToast('Save failed. Try again.');
-  }
-  btn.disabled=false;btn.textContent='✓ Save Changes';
-}
-
-function showToast(msg){
-  const t=document.getElementById('toast');
-  t.textContent=msg;t.classList.add('show');
-  setTimeout(()=>t.classList.remove('show'),3200);
-}
-
-document.getElementById('pi-worker').addEventListener('keydown',function(e){
-  if(e.key==='Enter'){e.preventDefault();addWorker();}
-});
 function populateConfigDropdowns(){
   if(!configData) return;
   
-  // Populate Products
+  // Populate Products (APPEND to existing)
   const productSel = document.getElementById('f-product');
   if(productSel && configData.products){
-    productSel.innerHTML = '<option value="">Select product…</option>';
     configData.products.forEach(p => {
-      const opt = document.createElement('option');
-      opt.value = p.name;
-      opt.textContent = p.name;
-      productSel.appendChild(opt);
+      const exists = Array.from(productSel.options).some(opt => opt.value === p.name);
+      if(!exists){
+        const opt = document.createElement('option');
+        opt.value = p.name;
+        opt.textContent = p.name;
+        productSel.appendChild(opt);
+      }
     });
   }
 
-  // Populate Sales Reps (Sale By buttons)
+  // Populate Sales Reps (APPEND buttons to existing)
   if(configData.people){
     const salesReps = configData.people.filter(p => p.type === 'sales').map(p => p.name);
     const gridEl = document.querySelector('.sale-by-grid');
     if(gridEl){
-      gridEl.innerHTML = '';
       salesReps.forEach(name => {
-        const btn = document.createElement('div');
-        btn.className = 'sale-by-btn';
-        btn.textContent = name;
-        btn.onclick = () => selectSaleBy(name);
-        gridEl.appendChild(btn);
+        const exists = Array.from(gridEl.children).some(btn => btn.textContent.trim() === name);
+        if(!exists){
+          const btn = document.createElement('div');
+          btn.className = 'sale-by-btn';
+          btn.textContent = name;
+          btn.onclick = () => selectSaleBy(name);
+          gridEl.appendChild(btn);
+        }
       });
-      const otherBtn = document.createElement('div');
-      otherBtn.className = 'sale-by-btn';
-      otherBtn.textContent = 'Other…';
-      otherBtn.onclick = () => selectSaleBy('Other');
-      gridEl.appendChild(otherBtn);
     }
   }
 
-  // Populate Primary Materials (fabrics)
+  // Populate Primary Materials (APPEND to existing)
   if(configData.fabrics){
     const fabricSel = document.getElementById('f-primary-material');
     if(fabricSel){
-      fabricSel.innerHTML = '<option value="">Select material…</option>';
       configData.fabrics.forEach(f => {
-        const opt = document.createElement('option');
-        opt.value = f.name;
-        opt.textContent = f.name;
-        fabricSel.appendChild(opt);
+        const exists = Array.from(fabricSel.options).some(opt => opt.value === f.name);
+        if(!exists){
+          const opt = document.createElement('option');
+          opt.value = f.name;
+          opt.textContent = f.name;
+          fabricSel.appendChild(opt);
+        }
       });
     }
     
+    // APPEND to Secondary Material
     const secSel = document.getElementById('f-secondary-material');
     if(secSel){
-      secSel.innerHTML = '<option value="">None</option>';
       configData.fabrics.forEach(f => {
-        const opt = document.createElement('option');
-        opt.value = f.name;
-        opt.textContent = f.name;
-        secSel.appendChild(opt);
+        const exists = Array.from(secSel.options).some(opt => opt.value === f.name);
+        if(!exists){
+          const opt = document.createElement('option');
+          opt.value = f.name;
+          opt.textContent = f.name;
+          secSel.appendChild(opt);
+        }
+      });
+    }
+  }
+
+  // Populate Hardware Colors (APPEND to existing selects)
+  if(configData.hardwareColors){
+    const colorMap = {};
+    configData.hardwareColors.forEach(hw => {
+      colorMap[hw.type] = hw.colors;
+    });
+
+    // Zipper colors
+    const zipperColorSelect = document.getElementById('f-zipper-color');
+    if(zipperColorSelect && colorMap['Zippers']){
+      colorMap['Zippers'].forEach(color => {
+        const exists = Array.from(zipperColorSelect.options).some(opt => opt.value === color);
+        if(!exists){
+          const option = document.createElement('option');
+          option.value = color;
+          option.textContent = color;
+          zipperColorSelect.appendChild(option);
+        }
+      });
+    }
+
+    // Handle colors
+    const handleColorSelect = document.getElementById('f-handle-color');
+    if(handleColorSelect && colorMap['Handles']){
+      colorMap['Handles'].forEach(color => {
+        const exists = Array.from(handleColorSelect.options).some(opt => opt.value === color);
+        if(!exists){
+          const option = document.createElement('option');
+          option.value = color;
+          option.textContent = color;
+          handleColorSelect.appendChild(option);
+        }
+      });
+    }
+
+    // Lace colors
+    const laceColorSelect = document.getElementById('f-lace-color');
+    if(laceColorSelect && colorMap['Lace']){
+      colorMap['Lace'].forEach(color => {
+        const exists = Array.from(laceColorSelect.options).some(opt => opt.value === color);
+        if(!exists){
+          const option = document.createElement('option');
+          option.value = color;
+          option.textContent = color;
+          laceColorSelect.appendChild(option);
+        }
+      });
+    }
+  }
+
+  // Populate Hardware Sizes (APPEND to existing selects)
+  if(configData.hardwareSizes){
+    const sizeMap = {};
+    configData.hardwareSizes.forEach(hw => {
+      sizeMap[hw.type] = hw.sizes;
+    });
+
+    // Zipper sizes
+    const zipperSizeSelect = document.getElementById('f-zipper-number');
+    if(zipperSizeSelect && sizeMap['Zippers']){
+      sizeMap['Zippers'].forEach(size => {
+        const exists = Array.from(zipperSizeSelect.options).some(opt => opt.value === size);
+        if(!exists){
+          const option = document.createElement('option');
+          option.value = size;
+          option.textContent = size;
+          zipperSizeSelect.appendChild(option);
+        }
       });
     }
   }
 }
+
 initApp();
 </script>
 </body>
