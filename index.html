@@ -71,7 +71,7 @@
       </div>
     </div>
 
-    <div class="section-label">Bag Specifications</div>
+    <div class="section-label">Primary Fabric</div>
     <div class="form-row">
       <div class="form-group">
         <label>Primary Material <span class="req">*</span></label>
@@ -111,6 +111,37 @@
     <div class="form-group" style="margin-top:10px;display:none" id="pattern-field-wrap">
       <label>✨ Pattern Name</label>
       <input class="form-control" id="f-pattern" placeholder="e.g. Peacock Paradise, Geometric Flow">
+    </div>
+
+    <div class="section-label">Secondary Fabric (Optional)</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Secondary Material</label>
+        <select class="form-control" id="f-secondary-material" onchange="onSecondaryMaterialChange()">
+          <option value="">None</option>
+          <option value="Jute Fabric">Jute Fabric</option>
+          <option value="Cotton Canvas">Cotton Canvas</option>
+          <option value="Juco Fabric">Juco Fabric</option>
+          <option value="Kadhi Fabric">Kadhi Fabric</option>
+          <option value="Designer Fabric">✨ Designer Fabric</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Secondary Variation</label>
+        <select class="form-control" id="f-secondary-variation"></select>
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Secondary GSM</label>
+        <select class="form-control" id="f-secondary-gsm">
+          <option value="">Select GSM…</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Secondary Pattern (if Designer)</label>
+        <input class="form-control" id="f-secondary-pattern" placeholder="e.g. Custom Design">
+      </div>
     </div>
 
     <div class="section-label">Sale By</div>
@@ -248,6 +279,37 @@ function onPrimaryVariationChange(){
   }
 }
 
+function onSecondaryMaterialChange(){
+  const mat=document.getElementById('f-secondary-material').value;
+  const varSel=document.getElementById('f-secondary-variation');
+  const gsmSel=document.getElementById('f-secondary-gsm');
+  
+  varSel.innerHTML='<option value="">Select variation…</option>';
+  gsmSel.innerHTML='<option value="">Select GSM…</option>';
+  
+  if(!mat){return;}
+  
+  if(mat==='Designer Fabric'){
+    const kalamkariOpt=document.createElement('option');
+    kalamkariOpt.value='Kalamkari';
+    kalamkariOpt.textContent='Kalamkari';
+    varSel.appendChild(kalamkariOpt);
+    const ikatOpt=document.createElement('option');
+    ikatOpt.value='Ikat';
+    ikatOpt.textContent='Ikat';
+    varSel.appendChild(ikatOpt);
+    return;
+  }
+  
+  if(FABRIC_CONFIG[mat]){
+    const config=FABRIC_CONFIG[mat];
+    if(config.variations.length){
+      config.variations.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;varSel.appendChild(opt);});
+    }
+    if(config.gsm.length){config.gsm.forEach(g=>{const opt=document.createElement('option');opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);});}
+  }
+}
+
 function selectSaleBy(v){
   selectedSaleBy=v;
   document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
@@ -267,6 +329,10 @@ async function submitOrder(){
   const primaryVariation=document.getElementById('f-primary-variation').value;
   const primaryGSM=document.getElementById('f-primary-gsm').value;
   const pattern=document.getElementById('f-pattern')?document.getElementById('f-pattern').value:'';
+  const secondaryMaterial=document.getElementById('f-secondary-material').value;
+  const secondaryVariation=document.getElementById('f-secondary-variation').value;
+  const secondaryGSM=document.getElementById('f-secondary-gsm').value;
+  const secondaryPattern=document.getElementById('f-secondary-pattern').value;
   
   const order={
     Client:client,
@@ -276,6 +342,9 @@ async function submitOrder(){
     'Primary Material':primaryMaterial,
     'Primary Variation':primaryVariation,
     'Primary GSM':primaryGSM,
+    'Secondary Material':secondaryMaterial,
+    'Secondary Variation':secondaryVariation,
+    'Secondary GSM':secondaryGSM,
     Color:document.getElementById('f-color').value||'',
     Pattern:pattern,
     'Order Value':orderValue,
@@ -297,7 +366,7 @@ async function submitOrder(){
 function resetForm(){
   document.getElementById('form-body').style.display='block';
   document.getElementById('success-screen').classList.remove('visible');
-  ['f-client','f-product','f-qty','f-date','f-order-value','f-color','f-primary-material','f-primary-variation','f-primary-gsm','f-pattern','f-sale-other'].forEach(id=>{document.getElementById(id).value='';});
+  ['f-client','f-product','f-qty','f-date','f-order-value','f-color','f-primary-material','f-primary-variation','f-primary-gsm','f-pattern','f-secondary-material','f-secondary-variation','f-secondary-gsm','f-secondary-pattern','f-sale-other'].forEach(id=>{document.getElementById(id).value='';});
   selectedSaleBy='';
   document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
   onPrimaryMaterialChange();
@@ -434,38 +503,71 @@ function openEditModal(orderId){
         <input class="form-control" id="edit-order-value" type="number" value="${order.orderValue}">
       </div>
     </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Primary Material</label>
-        <select class="form-control" id="edit-primary-material">
-          <option value="">Select…</option>
-          <option value="Jute Fabric" ${order.primaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
-          <option value="Cotton Canvas" ${order.primaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
-          <option value="Juco Fabric" ${order.primaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
-          <option value="Kadhi Fabric" ${order.primaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
-          <option value="Designer Fabric" ${order.primaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
-        </select>
+    <div style="border-top:1px solid var(--border);padding-top:15px;margin-top:15px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Primary Fabric</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Primary Material</label>
+          <select class="form-control" id="edit-primary-material" onchange="updateEditPrimaryOptions()">
+            <option value="">Select…</option>
+            <option value="Jute Fabric" ${order.primaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
+            <option value="Cotton Canvas" ${order.primaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
+            <option value="Juco Fabric" ${order.primaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
+            <option value="Kadhi Fabric" ${order.primaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
+            <option value="Designer Fabric" ${order.primaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Variation</label>
+          <select class="form-control" id="edit-primary-variation">${order.primaryVariation?'<option value="'+order.primaryVariation+'" selected>'+order.primaryVariation+'</option>':''}</select>
+        </div>
       </div>
-      <div class="form-group">
-        <label>Variation</label>
-        <input class="form-control" id="edit-primary-variation" value="${order.primaryVariation}">
+      <div class="form-row">
+        <div class="form-group">
+          <label>GSM</label>
+          <select class="form-control" id="edit-primary-gsm">${order.primaryGSM?'<option value="'+order.primaryGSM+'" selected>'+order.primaryGSM+'</option>':''}</select>
+        </div>
+        <div class="form-group">
+          <label>Color</label>
+          <input class="form-control" id="edit-color" value="${order.color}">
+        </div>
       </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>GSM</label>
-        <input class="form-control" id="edit-primary-gsm" value="${order.primaryGSM}">
-      </div>
-      <div class="form-group">
-        <label>Color</label>
-        <input class="form-control" id="edit-color" value="${order.color}">
-      </div>
-    </div>
-    <div class="form-row">
       <div class="form-group">
         <label>Pattern (Designer only)</label>
         <input class="form-control" id="edit-pattern" value="${order.pattern}">
       </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:15px;margin-top:15px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Secondary Fabric (Add Later)</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Secondary Material</label>
+          <select class="form-control" id="edit-secondary-material" onchange="updateEditSecondaryOptions()">
+            <option value="">None</option>
+            <option value="Jute Fabric" ${order.secondaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
+            <option value="Cotton Canvas" ${order.secondaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
+            <option value="Juco Fabric" ${order.secondaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
+            <option value="Kadhi Fabric" ${order.secondaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
+            <option value="Designer Fabric" ${order.secondaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Secondary Variation</label>
+          <select class="form-control" id="edit-secondary-variation">${order.secondaryVariation?'<option value="'+order.secondaryVariation+'" selected>'+order.secondaryVariation+'</option>':''}</select>
+        </div>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Secondary GSM</label>
+          <select class="form-control" id="edit-secondary-gsm">${order.secondaryGSM?'<option value="'+order.secondaryGSM+'" selected>'+order.secondaryGSM+'</option>':''}</select>
+        </div>
+        <div class="form-group">
+          <label>Secondary Pattern (if Designer)</label>
+          <input class="form-control" id="edit-secondary-pattern" value="">
+        </div>
+      </div>
+    </div>
+    <div class="form-row">
       <div class="form-group">
         <label>Stage</label>
         <select class="form-control" id="edit-stage">
@@ -477,32 +579,6 @@ function openEditModal(orderId){
           <option value="Done" ${order.stage==='Done'?'selected':''}>Done</option>
         </select>
       </div>
-    </div>
-    <div style="border-top:1px solid var(--border);padding-top:15px;margin-top:15px">
-      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Secondary Fabric (Add Later)</div>
-      <div class="form-row">
-        <div class="form-group">
-          <label>Secondary Material</label>
-          <select class="form-control" id="edit-secondary-material">
-            <option value="">None</option>
-            <option value="Jute Fabric" ${order.secondaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
-            <option value="Cotton Canvas" ${order.secondaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
-            <option value="Juco Fabric" ${order.secondaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
-            <option value="Kadhi Fabric" ${order.secondaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
-            <option value="Designer Fabric" ${order.secondaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
-          </select>
-        </div>
-        <div class="form-group">
-          <label>Secondary Variation</label>
-          <input class="form-control" id="edit-secondary-variation" value="${order.secondaryVariation}">
-        </div>
-      </div>
-      <div class="form-group">
-        <label>Secondary GSM</label>
-        <input class="form-control" id="edit-secondary-gsm" value="${order.secondaryGSM}">
-      </div>
-    </div>
-    <div class="form-row">
       <div class="form-group">
         <label>Payment Status</label>
         <select class="form-control" id="edit-payment-status">
@@ -511,15 +587,61 @@ function openEditModal(orderId){
           <option value="Paid" ${order.paymentStatus==='Paid'?'selected':''}>Paid</option>
         </select>
       </div>
-      <div class="form-group">
-        <label>Sale By</label>
-        <input class="form-control" id="edit-sale-by" value="${order.saleBy}">
-      </div>
+    </div>
+    <div class="form-group">
+      <label>Sale By</label>
+      <input class="form-control" id="edit-sale-by" value="${order.saleBy}">
     </div>
   `;
   
   document.getElementById('edit-form-container').innerHTML=html;
+  updateEditPrimaryOptions();
+  updateEditSecondaryOptions();
   document.getElementById('edit-modal').classList.add('visible');
+}
+
+function updateEditPrimaryOptions(){
+  const mat=document.getElementById('edit-primary-material').value;
+  const varSel=document.getElementById('edit-primary-variation');
+  const gsmSel=document.getElementById('edit-primary-gsm');
+  
+  varSel.innerHTML='<option value="">Select variation…</option>';
+  gsmSel.innerHTML='<option value="">Select GSM…</option>';
+  
+  if(!mat)return;
+  
+  if(mat==='Designer Fabric'){
+    varSel.innerHTML+='<option value="Kalamkari">Kalamkari</option><option value="Ikat">Ikat</option>';
+    return;
+  }
+  
+  if(FABRIC_CONFIG[mat]){
+    const config=FABRIC_CONFIG[mat];
+    if(config.variations.length) config.variations.forEach(v=>varSel.innerHTML+=`<option value="${v}">${v}</option>`);
+    if(config.gsm.length) config.gsm.forEach(g=>gsmSel.innerHTML+=`<option value="${g}">${g} GSM</option>`);
+  }
+}
+
+function updateEditSecondaryOptions(){
+  const mat=document.getElementById('edit-secondary-material').value;
+  const varSel=document.getElementById('edit-secondary-variation');
+  const gsmSel=document.getElementById('edit-secondary-gsm');
+  
+  varSel.innerHTML='<option value="">Select variation…</option>';
+  gsmSel.innerHTML='<option value="">Select GSM…</option>';
+  
+  if(!mat)return;
+  
+  if(mat==='Designer Fabric'){
+    varSel.innerHTML+='<option value="Kalamkari">Kalamkari</option><option value="Ikat">Ikat</option>';
+    return;
+  }
+  
+  if(FABRIC_CONFIG[mat]){
+    const config=FABRIC_CONFIG[mat];
+    if(config.variations.length) config.variations.forEach(v=>varSel.innerHTML+=`<option value="${v}">${v}</option>`);
+    if(config.gsm.length) config.gsm.forEach(g=>gsmSel.innerHTML+=`<option value="${g}">${g} GSM</option>`);
+  }
 }
 
 function closeEditModal(){
@@ -542,10 +664,10 @@ async function saveEditedOrder(){
     'Primary GSM':document.getElementById('edit-primary-gsm').value,
     Color:document.getElementById('edit-color').value,
     Pattern:document.getElementById('edit-pattern').value,
-    Stage:document.getElementById('edit-stage').value,
     'Secondary Material':document.getElementById('edit-secondary-material').value,
     'Secondary Variation':document.getElementById('edit-secondary-variation').value,
     'Secondary GSM':document.getElementById('edit-secondary-gsm').value,
+    Stage:document.getElementById('edit-stage').value,
     'Payment Status':document.getElementById('edit-payment-status').value,
     'Sale By':document.getElementById('edit-sale-by').value
   };
