@@ -6,218 +6,11 @@
 <title>KarmaTotes — New Order</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
-:root{
-  --bg:#F2EDE6;--surface:#FDFAF6;--bark:#2C1F14;--moss:#3B6B45;
-  --moss-light:#5A9467;--clay:#C05A2A;--sand:#D4A96A;
-  --cream:#EDE5D8;--red:#C0392B;--red-soft:#FAE9E7;
-  --green-soft:#EAF4EC;--border:rgba(44,31,20,0.12);
-  --shadow:0 2px 12px rgba(44,31,20,0.10);--shadow-lg:0 8px 32px rgba(44,31,20,0.15);
-  --blue-soft:#EFF6FF;--blue:#1D4ED8;--purple-soft:#FDF4FF;--purple:#7E22CE;
-}
-*{box-sizing:border-box;margin:0;padding:0}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--bark);min-height:100vh}
-
-/* ── SYNC BAR ── */
-.sync-bar{background:var(--bark);color:rgba(255,255,255,0.7);padding:3px 24px;font-size:11px;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:8px;height:24px;position:sticky;top:0;z-index:101}
-.sync-dot{width:7px;height:7px;border-radius:50%;background:#9CA3AF;flex-shrink:0;transition:background .3s}
-.sync-dot.syncing{background:#F59E0B;animation:pulse .8s infinite}
-.sync-dot.ok{background:#22C55E}
-.sync-dot.err{background:#EF4444}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
-.sync-text{flex:1}.sync-time{opacity:.5;font-size:10px}
-
-/* ── HEADER ── */
-header{background:var(--bark);color:#fff;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:24px;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.25)}
-.logo{display:flex;align-items:center;gap:10px}
-.logo-mark{width:34px;height:34px;background:var(--moss);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}
-.logo h1{font-size:17px;font-weight:700;letter-spacing:-.3px}
-.logo span{font-size:12px;color:rgba(255,255,255,0.5);font-weight:400}
-.header-right{display:flex;align-items:center;gap:10px}
-.date-badge{background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.75)}
-.btn-tracker{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .15s}
-.btn-tracker:hover{background:rgba(255,255,255,0.22)}
-
-/* ── NAV TABS ── */
-.nav-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}
-.nav-tab{padding:12px 18px;font-size:13px;font-weight:500;color:rgba(44,31,20,0.5);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}
-.nav-tab.active{color:var(--moss);border-bottom-color:var(--moss);font-weight:600}
-.nav-tab:hover:not(.active){color:var(--bark)}
-
-/* ── LAYOUT ── */
-.page{display:none;padding:24px}
-.page.active{display:block}
-
-/* ── FORM CARD ── */
-.form-card{background:var(--surface);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);max-width:720px;margin:0 auto;overflow:hidden}
-.form-card-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}
-.form-card-icon{width:38px;height:38px;border-radius:9px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}
-.form-card-title{font-size:16px;font-weight:700;color:var(--bark)}
-.form-card-sub{font-size:12px;color:rgba(44,31,20,0.5);margin-top:2px}
-.form-card-body{padding:24px}
-
-/* ── SECTION LABEL ── */
-.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(44,31,20,0.4);margin-bottom:12px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--border)}
-.section-label:first-child{margin-top:0}
-
-/* ── FORM ELEMENTS ── */
-.form-group{margin-bottom:14px}
-.form-group label{display:block;font-size:12px;font-weight:600;color:rgba(44,31,20,0.6);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}
-.form-group label .req{color:var(--red);margin-left:2px}
-.form-control{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}
-.form-control:focus{border-color:var(--moss);background:var(--surface)}
-.form-control::placeholder{color:rgba(44,31,20,0.3)}
-.form-hint{font-size:11px;color:rgba(44,31,20,0.4);margin-top:4px}
-.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
-.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}
-select.form-control{cursor:pointer}
-textarea.form-control{resize:none}
-
-/* ── PRINT TYPE BUTTONS ── */
-.print-type-wrap{display:flex;gap:8px;flex-wrap:wrap}
-.print-type-btn{flex:1;min-width:80px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}
-.print-type-btn.active-none{border-color:var(--bark);background:var(--bark);color:#fff}
-.print-type-btn.active-screen{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}
-.print-type-btn.active-dtf{border-color:var(--purple);background:var(--purple-soft);color:var(--purple)}
-
-/* ── SALE BY BUTTONS ── */
-.sale-by-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}
-.sale-by-btn{padding:9px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}
-.sale-by-btn.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}
-
-/* ── FEATURE CHIPS ── */
-.feature-grid{display:flex;flex-wrap:wrap;gap:7px}
-.feature-chip{padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6);user-select:none}
-.feature-chip.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}
-
-/* ── WORKERS ── */
-.person-input-row{display:flex;gap:8px;align-items:center}
-.person-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}
-.person-input:focus{border-color:var(--moss)}
-.btn-add-person{background:var(--moss);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}
-.person-tags-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
-.ptag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}
-.ptag.worker{background:#EEF2FF;color:#3730A3}
-.ptag-x{cursor:pointer;opacity:.6;font-size:11px}
-.ptag-x:hover{opacity:1}
-
-/* ── MATERIAL SECONDARY ── */
-.secondary-material-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border)}
-.secondary-material-wrap.visible{display:block}
-
-/* ── SUBMIT BUTTON ── */
-.btn-submit{width:100%;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:20px;letter-spacing:.2px}
-.btn-submit:hover{background:var(--moss-light)}
-.btn-submit:disabled{opacity:.5;cursor:not-allowed}
-
-/* ── SUCCESS SCREEN ── */
-.success-screen{display:none;text-align:center;padding:40px 24px}
-.success-screen.visible{display:block}
-.success-icon{font-size:48px;margin-bottom:16px}
-.success-title{font-size:20px;font-weight:700;color:var(--moss);margin-bottom:8px}
-.success-sub{font-size:13px;color:rgba(44,31,20,0.6);margin-bottom:24px;line-height:1.6}
-.success-order-card{background:var(--cream);border-radius:10px;padding:16px;text-align:left;margin-bottom:20px;border:1px solid var(--border)}
-.success-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}
-.success-row:last-child{border-bottom:none}
-.success-row label{color:rgba(44,31,20,0.5);font-weight:500}
-.success-row span{font-weight:600;color:var(--bark);text-align:right;max-width:60%}
-.btn-new-order{background:var(--moss);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:10px}
-.btn-view-tracker{background:var(--surface);color:var(--bark);border:1.5px solid var(--border);border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}
-
-/* ── OVERVIEW TABLE ── */
-.overview-filters{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap;align-items:center}
-.ov-filter{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--bark);transition:all .15s;font-family:'DM Sans',sans-serif}
-.ov-filter.active,.ov-filter:hover{background:var(--moss);color:#fff;border-color:var(--moss)}
-.ov-search{background:var(--surface);border:1px solid var(--border);border-radius:8px;padding:7px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);width:200px;outline:none}
-.ov-search:focus{border-color:var(--moss)}
-.overview-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}
-.overview-table{width:100%;border-collapse:collapse;font-size:12px}
-.overview-table th{background:var(--bark);color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}
-.overview-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}
-.overview-table tr:last-child td{border-bottom:none}
-.overview-table tr:hover td{background:var(--cream)}
-.stage-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
-.pay-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}
-.pay-paid{background:#E8F5E9;color:#166534}
-.pay-partial{background:#FFF8E1;color:#92400E}
-.pay-pending{background:#FAE9E7;color:#C0392B}
-.kpi-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}
-.kpi{background:var(--surface);border-radius:10px;padding:12px 16px;min-width:110px;flex:1;border:1px solid var(--border)}
-.kpi-val{font-size:22px;font-weight:700;color:var(--bark)}
-.kpi-label{font-size:11px;color:rgba(44,31,20,0.55);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.4px}
-.kpi.red .kpi-val{color:var(--red)}
-.kpi.green .kpi-val{color:var(--moss)}
-
-/* ── LOADING ── */
-#loading-overlay{position:fixed;inset:0;background:rgba(44,31,20,0.75);z-index:500;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:16px}
-#loading-overlay.hidden{display:none}
-.loading-spinner{width:44px;height:44px;border:4px solid rgba(255,255,255,0.2);border-top-color:#fff;border-radius:50%;animation:spin .8s linear infinite}
-@keyframes spin{to{transform:rotate(360deg)}}
-.loading-text{color:#fff;font-size:15px;font-weight:600}
-
-/* ── TOAST ── */
-.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s;white-space:nowrap}
-.toast.show{transform:translateX(-50%) translateY(0)}
-
-/* ── BALANCE DISPLAY ── */
-.balance-display{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:600;display:none}
-.balance-display.visible{display:block}
-.balance-display.positive{background:var(--green-soft);color:var(--moss)}
-.balance-display.zero{background:var(--green-soft);color:var(--moss)}
-.balance-display.negative{background:var(--red-soft);color:var(--red)}
-.btn-refresh{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;display:flex;align-items:center;gap:5px;transition:all .2s}
-.btn-refresh:hover{background:rgba(255,255,255,0.25)}
-.btn-refresh.spinning span{display:inline-block;animation:spin .6s linear infinite}
-
-/* ── STOCK ALERT ── */
-.stock-alert{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;display:none}
-.stock-alert.visible{display:block}
-.stock-alert.warn{background:#FFF8E1;color:#92400E}
-.stock-alert.danger{background:var(--red-soft);color:var(--red)}
-.stock-alert.ok{background:var(--green-soft);color:var(--moss)}
-
-/* ── GSM & VARIATION ── */
-.gsm-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}
-.gsm-select{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}
-.gsm-select:focus{border-color:var(--moss);background:var(--surface)}
-.gsm-custom-input{width:90px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;display:none}
-.gsm-custom-input.visible{display:block}
-.gsm-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.4);font-family:'DM Mono',monospace}
-.fabric-detail-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border);flex-direction:column;gap:8px}
-.fabric-detail-wrap.visible{display:flex}
-
-/* ── HARDWARE CHECKBOXES ── */
-.hardware-row{display:flex;align-items:flex-start;gap:12px;padding:8px 12px;background:var(--surface);border:1px solid var(--border);border-radius:8px;flex-wrap:wrap}
-.hw-check-label{display:flex;align-items:center;gap:8px;cursor:pointer;min-width:180px}
-.hw-check-label input[type=checkbox]{width:16px;height:16px;accent-color:var(--moss);cursor:pointer;flex-shrink:0}
-.hw-name{font-size:13px;font-weight:500;color:var(--bark)}
-.hw-qty-wrap{display:flex;align-items:center;gap:6px;flex:1;flex-wrap:wrap}
-.hw-qty-input{width:90px!important;padding:6px 10px!important;font-size:12px!important}
-.hw-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.5);font-family:'DM Mono',monospace;white-space:nowrap}
-
-/* ── EMPTY STATE ── */
-.empty-state{text-align:center;padding:40px 20px;color:rgba(44,31,20,0.35)}
-.empty-state div:first-child{font-size:32px;margin-bottom:10px}
-.empty-state div:last-child{font-size:13px}
-
-/* ── DATE FILTER ── */
-.date-filter-bar{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:14px}
-.df-btn{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:6px 12px;font-size:12px;font-weight:500;cursor:pointer;color:var(--bark);transition:all .15s;font-family:'DM Sans',sans-serif;white-space:nowrap}
-.df-btn.active{background:var(--moss);color:#fff;border-color:var(--moss)}
-.df-btn:hover:not(.active){background:var(--cream)}
-.df-custom{display:none;gap:6px;align-items:center;flex-wrap:wrap}
-.df-custom.visible{display:flex}
-.df-input{background:var(--surface);border:1px solid var(--border);border-radius:7px;padding:5px 10px;font-family:'DM Sans',sans-serif;font-size:12px;color:var(--bark);outline:none}
-.df-input:focus{border-color:var(--moss)}
-.df-label{font-size:11px;color:rgba(44,31,20,0.5);font-weight:500}
-.df-results{font-size:11px;color:rgba(44,31,20,0.4);margin-left:auto;white-space:nowrap}
+:root{--bg:#F2EDE6;--surface:#FDFAF6;--bark:#2C1F14;--moss:#3B6B45;--moss-light:#5A9467;--clay:#C05A2A;--sand:#D4A96A;--cream:#EDE5D8;--red:#C0392B;--red-soft:#FAE9E7;--green-soft:#EAF4EC;--border:rgba(44,31,20,0.12);--shadow:0 2px 12px rgba(44,31,20,0.10);--shadow-lg:0 8px 32px rgba(44,31,20,0.15);--blue-soft:#EFF6FF;--blue:#1D4ED8;--purple-soft:#FDF4FF;--purple:#7E22CE;}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--bark);min-height:100vh}.sync-bar{background:var(--bark);color:rgba(255,255,255,0.7);padding:3px 24px;font-size:11px;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:8px;height:24px;position:sticky;top:0;z-index:101}.sync-dot{width:7px;height:7px;border-radius:50%;background:#9CA3AF;flex-shrink:0;transition:background .3s}.sync-dot.syncing{background:#F59E0B;animation:pulse .8s infinite}.sync-dot.ok{background:#22C55E}.sync-dot.err{background:#EF4444}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}.sync-text{flex:1}.sync-time{opacity:.5;font-size:10px}header{background:var(--bark);color:#fff;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:24px;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.25)}.logo{display:flex;align-items:center;gap:10px}.logo-mark{width:34px;height:34px;background:var(--moss);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}.logo h1{font-size:17px;font-weight:700;letter-spacing:-.3px}.logo span{font-size:12px;color:rgba(255,255,255,0.5);font-weight:400}.header-right{display:flex;align-items:center;gap:10px}.date-badge{background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.75)}.btn-tracker{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .15s}.btn-tracker:hover{background:rgba(255,255,255,0.22)}.nav-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}.nav-tab{padding:12px 18px;font-size:13px;font-weight:500;color:rgba(44,31,20,0.5);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}.nav-tab.active{color:var(--moss);border-bottom-color:var(--moss);font-weight:600}.nav-tab:hover:not(.active){color:var(--bark)}.page{display:none;padding:24px}.page.active{display:block}.form-card{background:var(--surface);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);max-width:720px;margin:0 auto;overflow:hidden}.form-card-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}.form-card-icon{width:38px;height:38px;border-radius:9px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.form-card-title{font-size:16px;font-weight:700;color:var(--bark)}.form-card-sub{font-size:12px;color:rgba(44,31,20,0.5);margin-top:2px}.form-card-body{padding:24px}.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(44,31,20,0.4);margin-bottom:12px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--border)}.section-label:first-child{margin-top:0}.form-group{margin-bottom:14px}.form-group label{display:block;font-size:12px;font-weight:600;color:rgba(44,31,20,0.6);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}.form-group label .req{color:var(--red);margin-left:2px}.form-control{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.form-control:focus{border-color:var(--moss);background:var(--surface)}.form-control::placeholder{color:rgba(44,31,20,0.3)}.form-hint{font-size:11px;color:rgba(44,31,20,0.4);margin-top:4px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}select.form-control{cursor:pointer}textarea.form-control{resize:none}.print-type-wrap{display:flex;gap:8px;flex-wrap:wrap}.print-type-btn{flex:1;min-width:80px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}.print-type-btn.active-none{border-color:var(--bark);background:var(--bark);color:#fff}.print-type-btn.active-screen{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}.print-type-btn.active-dtf{border-color:var(--purple);background:var(--purple-soft);color:var(--purple)}.sale-by-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}.sale-by-btn{padding:9px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}.sale-by-btn.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}.feature-grid{display:flex;flex-wrap:wrap;gap:7px}.feature-chip{padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6);user-select:none}.feature-chip.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}.person-input-row{display:flex;gap:8px;align-items:center}.person-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.person-input:focus{border-color:var(--moss)}.btn-add-person{background:var(--moss);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}.person-tags-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ptag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}.ptag.worker{background:#EEF2FF;color:#3730A3}.ptag-x{cursor:pointer;opacity:.6;font-size:11px}.ptag-x:hover{opacity:1}.secondary-material-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border)}.secondary-material-wrap.visible{display:block}.btn-submit{width:100%;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:20px;letter-spacing:.2px}.btn-submit:hover{background:var(--moss-light)}.btn-submit:disabled{opacity:.5;cursor:not-allowed}.success-screen{display:none;text-align:center;padding:40px 24px}.success-screen.visible{display:block}.success-icon{font-size:48px;margin-bottom:16px}.success-title{font-size:20px;font-weight:700;color:var(--moss);margin-bottom:8px}.success-sub{font-size:13px;color:rgba(44,31,20,0.6);margin-bottom:24px;line-height:1.6}.success-order-card{background:var(--cream);border-radius:10px;padding:16px;text-align:left;margin-bottom:20px;border:1px solid var(--border)}.success-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}.success-row:last-child{border-bottom:none}.success-row label{color:rgba(44,31,20,0.5);font-weight:500}.success-row span{font-weight:600;color:var(--bark);text-align:right;max-width:60%}.btn-new-order{background:var(--moss);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:10px}.btn-view-tracker{background:var(--surface);color:var(--bark);border:1.5px solid var(--border);border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}.gsm-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.gsm-select{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.gsm-select:focus{border-color:var(--moss);background:var(--surface)}.gsm-custom-input{width:90px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;display:none}.gsm-custom-input.visible{display:block}.gsm-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.4);font-family:'DM Mono',monospace}.fabric-detail-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border);flex-direction:column;gap:8px}.fabric-detail-wrap.visible{display:flex}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s;white-space:nowrap}.toast.show{transform:translateX(-50%) translateY(0)}.balance-display{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:600;display:none}.balance-display.visible{display:block}.balance-display.positive{background:var(--green-soft);color:var(--moss)}.stock-alert{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;display:none}.stock-alert.visible{display:block}.stock-alert.ok{background:var(--green-soft);color:var(--moss)}.stock-alert.danger{background:var(--red-soft);color:var(--red)}
 </style>
 </head>
 <body>
-
-<div id="loading-overlay">
-  <div class="loading-spinner"></div>
-  <div class="loading-text">Loading KarmaTotes…</div>
-</div>
 
 <div class="sync-bar">
   <div class="sync-dot" id="sync-dot"></div>
@@ -232,39 +25,35 @@ textarea.form-control{resize:none}
   </div>
   <div class="header-right">
     <div class="date-badge" id="live-date"></div>
-    <button class="btn-refresh" id="btn-refresh" onclick="refreshData()"><span>↻</span> Refresh</button>
     <a href="https://karmatotes.github.io/tracker/" target="_blank" class="btn-tracker">⊞ Production</a>
   </div>
 </header>
 
 <div class="nav-tabs">
-  <div class="nav-tab active" id="tab-entry" onclick="switchTab('entry')">＋ New Order</div>
-  <div class="nav-tab" id="tab-overview" onclick="switchTab('overview')">📋 Overview</div>
+  <div class="nav-tab active" onclick="switchTab('entry')">＋ New Order</div>
+  <div class="nav-tab" onclick="switchTab('overview')">📋 Overview</div>
 </div>
 
-<!-- ═══════════════════════════════════════════════ NEW ORDER PAGE -->
 <div class="page active" id="page-entry">
 <div class="form-card" style="margin-top:24px">
   <div class="form-card-header">
     <div class="form-card-icon">📦</div>
     <div>
       <div class="form-card-title">New Order Entry</div>
-      <div class="form-card-sub">Saved to Google Sheets · Stock deducted automatically · Finance updated</div>
+      <div class="form-card-sub">Saved to Google Sheets · Stock deducted automatically</div>
     </div>
   </div>
 
   <div class="form-card-body" id="form-body">
-
-    <!-- ORDER INFO -->
     <div class="section-label">Order Info</div>
     <div class="form-group">
-      <label>Client / Order Name <span class="req">*</span></label>
+      <label>Client <span class="req">*</span></label>
       <input class="form-control" id="f-client" placeholder="e.g. Unity College">
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Product / Description</label>
-        <select class="form-control" id="f-product" placeholder="e.g. Jute tote bags"></select>
+        <label>Product</label>
+        <select class="form-control" id="f-product"></select>
       </div>
       <div class="form-group">
         <label>Quantity <span class="req">*</span></label>
@@ -277,55 +66,11 @@ textarea.form-control{resize:none}
         <input class="form-control" id="f-date" type="date">
       </div>
       <div class="form-group">
-        <label>Delivery Time / Note</label>
-        <input class="form-control" id="f-time" placeholder="By 5 PM">
-      </div>
-    </div>
-    <div class="form-row">
-      <div class="form-group">
-        <label>Order Entry Date</label>
-        <input class="form-control" id="f-entry-date" type="date">
-        <div class="form-hint">Leave blank to use today</div>
-      </div>
-      <div class="form-group">
-        <label>Starting Stage</label>
-        <select class="form-control" id="f-stage">
-          <option value="Cutting">Cutting</option>
-          <option value="Printing">Printing</option>
-          <option value="Stitching">Stitching</option>
-          <option value="Finishing">Finishing</option>
-          <option value="Packing & Del">Packing & Del</option>
-        </select>
-      </div>
-    </div>
-    <div class="form-group">
-      <label>Priority</label>
-      <select class="form-control" id="f-priority">
-        <option value="ok">Normal</option>
-        <option value="urgent">Urgent</option>
-        <option value="delayed">Delayed</option>
-      </select>
-    </div>
-    <div class="form-group">
-      <label>Remarks / Special Instructions</label>
-      <textarea class="form-control" id="f-remarks" rows="2" placeholder="Any special notes for production…"></textarea>
-    </div>
-
-    <!-- ORDER VALUE -->
-    <div class="section-label">Order Value & Payment</div>
-    <div class="form-row">
-      <div class="form-group">
         <label>Order Value ₹ <span class="req">*</span></label>
-        <input class="form-control" id="f-order-value" type="number" placeholder="15000" min="0" oninput="updateBalance()">
-      </div>
-      <div class="form-group">
-        <label>Advance Received ₹</label>
-        <input class="form-control" id="f-advance" type="number" placeholder="5000" min="0" oninput="updateBalance()">
+        <input class="form-control" id="f-order-value" type="number" placeholder="15000" min="0">
       </div>
     </div>
-    <div class="balance-display" id="balance-display"></div>
 
-    <!-- BAG SPECS -->
     <div class="section-label">Bag Specifications</div>
     <div class="form-row">
       <div class="form-group">
@@ -337,569 +82,56 @@ textarea.form-control{resize:none}
           <option value="Juco Fabric">Juco Fabric</option>
           <option value="Kadhi Fabric">Kadhi Fabric</option>
           <option value="Non-woven">Non-woven</option>
-          <option value="POV Sheet">POV Sheet</option>
-          <option value="Parachute">Parachute</option>
-          <option value="Matt Fabric">Matt Fabric</option>
+          <option value="Designer Fabric">✨ Designer Fabric</option>
         </select>
       </div>
       <div class="form-group">
         <label>Fabric Color</label>
-        <input class="form-control" id="f-color" placeholder="e.g. Natural, Off-white, Black">
+        <input class="form-control" id="f-color" placeholder="e.g. Natural, Black">
       </div>
     </div>
 
-    <div class="secondary-material-wrap" id="secondary-wrap">
-      <div class="form-group" style="margin-bottom:0">
-        <label>Secondary Material (patch / lining)</label>
-        <select class="form-control" id="f-secondary-material" onchange="onSecondaryMaterialChange()">
-          <option value="">None</option>
-          <option value="Cotton Canvas">Cotton Canvas</option>
-          <option value="Kadhi Fabric">Kadhi Fabric</option>
-          <option value="Juco Fabric">Juco Fabric</option>
-          <option value="Jute Fabric">Jute Fabric</option>
-          <option value="Non-woven">Non-woven</option>
-          <option value="POV Sheet">POV Sheet</option>
-          <option value="Parachute">Parachute</option>
-          <option value="Matt Fabric">Matt Fabric</option>
-        </select>
-      </div>
-      <!-- Secondary fabric variation + GSM + Color -->
-      <div class="fabric-detail-wrap" id="secondary-fabric-detail">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Secondary Variation</label>
-          <select class="gsm-select" id="f-secondary-variation" onchange="onSecondaryVariationChange()"></select>
-        </div>
-        <div class="form-group" style="margin-bottom:0;display:none" id="secondary-color-wrap">
-          <label id="secondary-color-label">Color</label>
-          <select class="gsm-select" id="f-secondary-color" onchange="toggleCustomColor('secondary')">
-            <option value="">Select color…</option>
-          </select>
-          <input class="gsm-custom-input" id="f-secondary-color-custom" type="text" placeholder="Enter color / pattern name" style="display:none;margin-top:6px">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Secondary GSM</label>
-          <div class="gsm-wrap">
-            <select class="gsm-select" id="f-secondary-gsm" onchange="toggleCustomGSM('secondary')">
-              <option value="">Select GSM…</option>
-            </select>
-            <input class="gsm-custom-input" id="f-secondary-gsm-custom" type="text" placeholder="Custom">
-            <span class="gsm-unit">GSM</span>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Primary fabric variation + GSM + Color -->
     <div class="fabric-detail-wrap" id="primary-fabric-detail" style="margin-top:10px">
       <div class="form-group" style="margin-bottom:0">
         <label>Variation</label>
         <select class="gsm-select" id="f-primary-variation" onchange="onPrimaryVariationChange()"></select>
       </div>
-      <!-- Color / Pattern field — shown when Colored or Printed selected -->
-      <div class="form-group" style="margin-bottom:0;display:none" id="primary-color-wrap">
-        <label id="primary-color-label">Color</label>
-        <select class="gsm-select" id="f-primary-color" onchange="toggleCustomColor('primary')">
-          <option value="">Select color…</option>
-        </select>
-        <input class="gsm-custom-input" id="f-primary-color-custom" type="text" placeholder="Enter color / pattern name" style="display:none;margin-top:6px">
-      </div>
       <div class="form-group" style="margin-bottom:0">
         <label>GSM</label>
         <div class="gsm-wrap">
-          <select class="gsm-select" id="f-primary-gsm" onchange="toggleCustomGSM('primary')">
+          <select class="gsm-select" id="f-primary-gsm">
             <option value="">Select GSM…</option>
           </select>
-          <input class="gsm-custom-input" id="f-primary-gsm-custom" type="text" placeholder="Custom">
           <span class="gsm-unit">GSM</span>
         </div>
       </div>
     </div>
 
-    <div class="form-row-3" style="margin-top:12px">
-      <div class="form-group">
-        <label>Length (cm)</label>
-        <input class="form-control" id="f-length" type="number" placeholder="35" min="0">
-      </div>
-      <div class="form-group">
-        <label>Width (cm)</label>
-        <input class="form-control" id="f-width" type="number" placeholder="40" min="0">
-      </div>
-      <div class="form-group">
-        <label>Height (cm)</label>
-        <input class="form-control" id="f-height" type="number" placeholder="10" min="0">
-      </div>
+    <!-- ✨ PATTERN FIELD (Designer Fabric only) -->
+    <div class="form-group" style="margin-top:10px;display:none" id="pattern-field-wrap">
+      <label>✨ Pattern Name</label>
+      <input class="form-control" id="f-pattern" placeholder="e.g. Peacock Paradise, Geometric Flow">
     </div>
 
-    <div class="form-group">
-      <label>Bag Features</label>
-      <div class="feature-grid" id="feature-grid">
-        <div class="feature-chip" onclick="toggleFeature(this,'Zip Closure')">🤐 Zip Closure</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Handles')">👜 Handles</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Lining')">🪡 Lining</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Gusset')">📐 Gusset</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Inner Pocket')">🗂 Inner Pocket</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Outer Pocket')">📌 Outer Pocket</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Rope Handle')">🪢 Rope Handle</div>
-        <div class="feature-chip" onclick="toggleFeature(this,'Canvas Patch')">🖼 Canvas Patch</div>
-      </div>
-      <input class="form-control" id="f-features-other" placeholder="Other features…" style="margin-top:8px">
-    </div>
-
-    <!-- PRINT TYPE -->
-    <div class="section-label">Print Type</div>
-    <div class="form-group">
-      <div class="print-type-wrap">
-        <div class="print-type-btn active-none" id="pt-none" onclick="selectPrint('none')">🚫 None</div>
-        <div class="print-type-btn" id="pt-screen" onclick="selectPrint('screen')">🖨 Screen Print</div>
-        <div class="print-type-btn" id="pt-dtf" onclick="selectPrint('dtf')">🎨 DTF Print</div>
-      </div>
-    </div>
-    <div class="form-group" id="print-cost-wrap" style="display:none">
-      <label>Print Cost ₹ (what we pay printer)</label>
-      <input class="form-control" id="f-print-cost" type="number" placeholder="2000" min="0">
-      <div class="form-hint">This is our internal printing cost — used for Finance P&L</div>
-    </div>
-
-    <!-- SALE BY -->
     <div class="section-label">Sale By</div>
     <div class="sale-by-grid">
-      <div class="sale-by-btn" id="sb-sridevi"   onclick="selectSaleBy('Sridevi')">Sridevi</div>
-      <div class="sale-by-btn" id="sb-anuprasad" onclick="selectSaleBy('Anu Prasad')">Anu Prasad</div>
-      <div class="sale-by-btn" id="sb-esha"      onclick="selectSaleBy('Esha')">Esha</div>
-      <div class="sale-by-btn" id="sb-other"     onclick="selectSaleBy('Other')">Other…</div>
+      <div class="sale-by-btn" onclick="selectSaleBy('Sridevi')">Sridevi</div>
+      <div class="sale-by-btn" onclick="selectSaleBy('Anu Prasad')">Anu Prasad</div>
+      <div class="sale-by-btn" onclick="selectSaleBy('Esha')">Esha</div>
+      <div class="sale-by-btn" onclick="selectSaleBy('Other')">Other…</div>
     </div>
     <input class="form-control" id="f-sale-other" placeholder="Enter name…" style="display:none;margin-bottom:14px">
 
-    <!-- WORKERS -->
-    <div class="section-label">Workers</div>
-    <div class="form-group">
-      <div class="person-input-row">
-        <input class="person-input" id="pi-worker" placeholder="Worker name…" onkeydown="if(event.key==='Enter'){event.preventDefault();addWorker()}">
-        <button class="btn-add-person" onclick="addWorker()">＋</button>
-      </div>
-      <div class="person-tags-wrap" id="pt-workers"></div>
-    </div>
-
-    <!-- MATERIAL REQUIREMENTS -->
-    <div class="section-label">Material Requirements</div>
-    <div class="form-hint" style="margin-bottom:12px">Stock deducted automatically on submit &middot; Uncheck "Deduct stock" below if inventory not set up yet</div>
-
-    <!-- PRIMARY & SECONDARY FABRIC -->
-    <div class="form-row">
-      <div class="form-group">
-        <label>Primary Fabric (metres)</label>
-        <input class="form-control" id="f-primary-fabric-qty" type="number" placeholder="e.g. 0.6" min="0" step="0.1">
-        <div class="stock-alert" id="stock-alert-primary"></div>
-      </div>
-      <div class="form-group">
-        <label>Secondary Fabric (metres)</label>
-        <input class="form-control" id="f-secondary-fabric-qty" type="number" placeholder="0" min="0" step="0.1">
-        <div class="stock-alert" id="stock-alert-secondary"></div>
-      </div>
-    </div>
-
-    <!-- HANDLES -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Handles</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Type</label>
-          <select class="form-control" id="f-handle-type">
-            <option value="">Select type...</option>
-            <option value="Cotton">Cotton</option>
-            <option value="Jute">Jute</option>
-            <option value="Rope">Rope</option>
-            <option value="Leather">Leather</option>
-            <option value="Nylon">Nylon</option>
-            <option value="Chain">Chain</option>
-            <option value="Other">Other</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Color</label>
-          <select class="form-control" id="f-handle-color">
-            <option value="">Select color...</option>
-            <option value="Natural">Natural</option>
-            <option value="Black">Black</option>
-            <option value="Brown">Brown</option>
-            <option value="Cream">Cream</option>
-            <option value="Navy Blue">Navy Blue</option>
-            <option value="Tan">Tan</option>
-            <option value="Beige">Beige</option>
-            <option value="White">White</option>
-            <option value="Other">Other (type below)</option>
-          </select>
-          <input class="form-control" id="f-handle-color-custom" placeholder="Enter color" style="display:none;margin-top:4px" oninput="">
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:0;margin-top:8px">
-        <label>Quantity (metres)</label>
-        <input class="form-control" id="f-handles-qty" type="number" placeholder="0" min="0" step="0.1">
-        <div class="stock-alert" id="stock-alert-handles"></div>
-      </div>
-    </div>
-
-    <!-- ZIPPERS -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Zippers</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Color</label>
-          <select class="form-control" id="f-zipper-color" onchange="toggleMECustom('f-zipper-color','f-zipper-color-custom')">
-            <option value="">Select color...</option>
-            <option value="Black">Black</option><option value="White">White</option>
-            <option value="Cream">Cream</option><option value="Juco">Juco</option>
-            <option value="Dark Juco">Dark Juco</option><option value="Light Green">Light Green</option>
-            <option value="Green">Green</option><option value="Orange">Orange</option>
-            <option value="Navy Blue">Navy Blue</option><option value="Light Cream">Light Cream</option>
-            <option value="Red">Red</option><option value="Purple">Purple</option>
-            <option value="Blue">Blue</option><option value="Olive">Olive</option>
-            <option value="Bottle Green">Bottle Green</option><option value="Maroon">Maroon</option>
-            <option value="Other">Other (type below)</option>
-          </select>
-          <input class="form-control" id="f-zipper-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Number</label>
-          <select class="form-control" id="f-zipper-number">
-            <option value="">Select...</option>
-            <option value="No.3">No.3</option>
-            <option value="No.5">No.5</option>
-            <option value="No.8">No.8</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:0;margin-top:8px">
-        <label>Quantity (metres)</label>
-        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="0.1">
-        <div class="stock-alert" id="stock-alert-zippers"></div>
-      </div>
-    </div>
-
-    <!-- LACE -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Lace</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Color</label>
-          <select class="form-control" id="f-lace-color" onchange="toggleMECustom('f-lace-color','f-lace-color-custom')">
-            <option value="">Select color...</option>
-            <option value="Cream">Cream</option><option value="White">White</option>
-            <option value="Baby Pink">Baby Pink</option><option value="Light Blue">Light Blue</option>
-            <option value="Dark Blue">Dark Blue</option><option value="Blue Zari">Blue Zari</option>
-            <option value="Black with Juco">Black with Juco</option><option value="Pink with Juco">Pink with Juco</option>
-            <option value="Light Green with Juco">Light Green with Juco</option>
-            <option value="Black Zari">Black Zari</option><option value="Green Zari">Green Zari</option>
-            <option value="Maroon Zari">Maroon Zari</option><option value="Gold Zari">Gold Zari</option>
-            <option value="Other">Other (type below)</option>
-          </select>
-          <input class="form-control" id="f-lace-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Size</label>
-          <select class="form-control" id="f-lace-size">
-            <option value="">Select size...</option>
-            <option value="1 inch">1 inch</option>
-            <option value="1.5 inch">1.5 inch</option>
-            <option value="2 inch">2 inch</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:0;margin-top:8px">
-        <label>Type</label>
-        <select class="form-control" id="f-lace-type">
-          <option value="">Select type...</option>
-          <option value="Plain">Plain</option>
-          <option value="Zari">Zari</option>
-          <option value="With Juco">With Juco</option>
-          <option value="Cotton">Cotton</option>
-        </select>
-      </div>
-      <div class="form-group" style="margin-bottom:0;margin-top:8px">
-        <label>Quantity (metres)</label>
-        <input class="form-control" id="f-lace-qty" type="number" placeholder="0" min="0" step="0.1">
-        <div class="stock-alert" id="stock-alert-lace"></div>
-      </div>
-    </div>
-
-    <!-- WEBBING -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Webbing</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Color</label>
-          <select class="form-control" id="f-webbing-color" onchange="toggleMECustom('f-webbing-color','f-webbing-color-custom')">
-            <option value="">Select color...</option>
-            <option value="Juco">Juco</option><option value="Cream">Cream</option>
-            <option value="Orange">Orange</option><option value="Green">Green</option>
-            <option value="Yellow">Yellow</option><option value="Mustard">Mustard</option>
-            <option value="Bottle Green">Bottle Green</option><option value="Parrot Green">Parrot Green</option>
-            <option value="Purple">Purple</option><option value="Black">Black</option>
-            <option value="Light Blue">Light Blue</option><option value="Brick">Brick</option>
-            <option value="Coffee">Coffee</option><option value="Pink">Pink</option>
-            <option value="Red">Red</option><option value="Maroon">Maroon</option>
-            <option value="Grey">Grey</option><option value="White">White</option>
-            <option value="Dark Blue">Dark Blue</option><option value="Navy Blue">Navy Blue</option>
-            <option value="Grape">Grape</option><option value="Teal">Teal</option>
-            <option value="Zig-Zag">Zig-Zag</option><option value="Multicolor">Multicolor</option>
-            <option value="Other">Other (type below)</option>
-          </select>
-          <input class="form-control" id="f-webbing-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Width</label>
-          <select class="form-control" id="f-webbing-width">
-            <option value="">Select width...</option>
-            <option value="1 inch">1 inch</option>
-            <option value="1.5 inch">1.5 inch</option>
-            <option value="2 inch">2 inch</option>
-          </select>
-        </div>
-      </div>
-      <div class="form-group" style="margin-bottom:0;margin-top:8px">
-        <label>Quantity (metres)</label>
-        <input class="form-control" id="f-webbing-qty" type="number" placeholder="0" min="0" step="0.1">
-      </div>
-    </div>
-
-    <!-- THREADS -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Threads</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Color</label>
-          <select class="form-control" id="f-thread-color" onchange="toggleMECustom('f-thread-color','f-thread-color-custom')">
-            <option value="">Select color...</option>
-            <option value="Cream">Cream</option><option value="Black">Black</option>
-            <option value="Light Blue">Light Blue</option><option value="Red">Red</option>
-            <option value="Purple">Purple</option><option value="Light Green">Light Green</option>
-            <option value="Bottle Green">Bottle Green</option><option value="Maroon">Maroon</option>
-            <option value="Blue Dark">Blue Dark</option><option value="Navy Blue">Navy Blue</option>
-            <option value="Brown">Brown</option><option value="White">White</option>
-            <option value="Yellow">Yellow</option><option value="Parrot Green">Parrot Green</option>
-            <option value="Juco Colour">Juco Colour</option><option value="Dark Pink">Dark Pink</option>
-            <option value="Orange">Orange</option><option value="Baby Pink">Baby Pink</option>
-            <option value="Grey">Grey</option><option value="Teal">Teal</option>
-            <option value="Mustard">Mustard</option><option value="Honey">Honey</option>
-            <option value="Thin Cream">Thin Cream</option>
-            <option value="Other">Other (type below)</option>
-          </select>
-          <input class="form-control" id="f-thread-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Quantity (nos/boxes)</label>
-          <input class="form-control" id="f-thread-qty" type="number" placeholder="0" min="0" step="1">
-        </div>
-      </div>
-    </div>
-
-    <!-- RUNNERS -->
-    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
-      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Runners</div>
-      <div class="form-row">
-        <div class="form-group" style="margin-bottom:0">
-          <label>Number</label>
-          <select class="form-control" id="f-runner-number">
-            <option value="">Select...</option>
-            <option value="No.3">No.3</option>
-            <option value="No.5">No.5</option>
-            <option value="No.8">No.8</option>
-          </select>
-        </div>
-        <div class="form-group" style="margin-bottom:0">
-          <label>Quantity (nos)</label>
-          <input class="form-control" id="f-runners-qty" type="number" placeholder="0" min="0" step="1">
-          <div class="stock-alert" id="stock-alert-runners"></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- HARDWARE CHECKBOXES -->
-    <div style="margin-top:14px">
-      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(44,31,20,0.4);margin-bottom:10px">Hardware &amp; Accessories (check if used)</div>
-      <div id="hardware-list" style="display:flex;flex-direction:column;gap:8px">
-        <!-- Dog Hooks -->
-        <div class="hardware-row" id="hw-row-doghooks">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-doghooks" onchange="toggleHardware('doghooks')">
-            <span class="hw-name">Dog Hooks</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-doghooks" style="display:none">
-            <select class="form-control hw-qty-input" id="hw-size-doghooks" style="width:130px">
-              <option value="">Size...</option>
-              <option value="Big (1.5 inch)">Big 1.5"</option>
-              <option value="Medium (1 inch)">Medium 1"</option>
-              <option value="Small (0.5 inch)">Small 0.5"</option>
-            </select>
-            <select class="form-control hw-qty-input" id="hw-finish-doghooks" style="width:100px">
-              <option value="Steel">Steel</option>
-              <option value="Antique">Antique</option>
-            </select>
-            <input class="form-control hw-qty-input" id="hw-qty-input-doghooks" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('Dog Hooks','hw-qty-input-doghooks','hw-alert-doghooks')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-doghooks"></div>
-          </div>
-        </div>
-        <!-- Buckles -->
-        <div class="hardware-row" id="hw-row-buckles">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-buckles" onchange="toggleHardware('buckles')">
-            <span class="hw-name">Buckles</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-buckles" style="display:none">
-            <select class="form-control hw-qty-input" id="hw-size-buckles" style="width:130px">
-              <option value="">Size...</option>
-              <option value="Big (1.5 inch)">Big 1.5"</option>
-              <option value="Medium (1 inch)">Medium 1"</option>
-              <option value="Small (0.5 inch)">Small 0.5"</option>
-            </select>
-            <select class="form-control hw-qty-input" id="hw-finish-buckles" style="width:100px">
-              <option value="Steel">Steel</option>
-              <option value="Antique">Antique</option>
-              <option value="Plastic">Plastic</option>
-            </select>
-            <input class="form-control hw-qty-input" id="hw-qty-input-buckles" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('Buckles','hw-qty-input-buckles','hw-alert-buckles')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-buckles"></div>
-          </div>
-        </div>
-        <!-- D-Ring -->
-        <div class="hardware-row" id="hw-row-dring">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-dring" onchange="toggleHardware('dring')">
-            <span class="hw-name">D-Ring</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-dring" style="display:none">
-            <select class="form-control hw-qty-input" id="hw-size-dring" style="width:130px">
-              <option value="">Size...</option>
-              <option value="Big (1.5 inch)">Big 1.5"</option>
-              <option value="Medium (1 inch)">Medium 1"</option>
-              <option value="Small (0.5 inch)">Small 0.5"</option>
-              <option value="Tiny (1 cm)">Tiny 1cm</option>
-            </select>
-            <select class="form-control hw-qty-input" id="hw-finish-dring" style="width:100px">
-              <option value="Steel">Steel</option>
-              <option value="Antique">Antique</option>
-            </select>
-            <input class="form-control hw-qty-input" id="hw-qty-input-dring" type="number" placeholder="Qty" min="1" step="1" oninput="checkStockHardware('D-Ring','hw-qty-input-dring','hw-alert-dring')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-dring"></div>
-          </div>
-        </div>
-        <!-- Snap Magnetic Button -->
-        <div class="hardware-row" id="hw-row-snapbtn">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-snapbtn" onchange="toggleHardware('snapbtn')">
-            <span class="hw-name">Snap Magnetic Button</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-snapbtn" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-snapbtn" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('Snap Magnetic Button','hw-qty-input-snapbtn','hw-alert-snapbtn')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-snapbtn"></div>
-          </div>
-        </div>
-        <!-- Highlight -->
-        <div class="hardware-row" id="hw-row-highlight">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-highlight" onchange="toggleHardware('highlight')">
-            <span class="hw-name">Highlight</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-highlight" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-highlight" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('Highlight','hw-qty-input-highlight','hw-alert-highlight')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-highlight"></div>
-          </div>
-        </div>
-        <!-- Reveat -->
-        <div class="hardware-row" id="hw-row-reveat">
-          <label class="hw-check-label">
-            <input type="checkbox" class="hw-checkbox" id="hw-reveat" onchange="toggleHardware('reveat')">
-            <span class="hw-name">Reveat</span>
-          </label>
-          <div class="hw-qty-wrap" id="hw-qty-reveat" style="display:none">
-            <input class="form-control hw-qty-input" id="hw-qty-input-reveat" type="number" placeholder="0" min="1" step="1" oninput="checkStockHardware('Reveat','hw-qty-input-reveat','hw-alert-reveat')">
-            <span class="hw-unit">nos</span>
-            <div class="stock-alert" id="hw-alert-reveat"></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Stock Deduction Option -->
-    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cream);border-radius:8px;border:1px solid var(--border);margin-top:16px">
-      <input type="checkbox" id="cb-deduct-stock" checked style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;flex-shrink:0">
-      <div>
-        <div style="font-size:13px;font-weight:600;color:var(--bark)">Deduct stock automatically</div>
-        <div style="font-size:11px;color:rgba(44,31,20,0.5);margin-top:2px">Uncheck if inventory hasn't been set up yet — order will save without affecting stock levels</div>
-      </div>
-    </div>
-    <button class="btn-submit" id="btn-submit" onclick="submitOrder()">＋ Add Order</button>
+    <button class="btn-submit" onclick="submitOrder()">＋ Add Order</button>
   </div>
 
-  <!-- SUCCESS SCREEN -->
   <div class="success-screen" id="success-screen">
     <div class="success-icon">✅</div>
-    <div class="success-title">Order Added Successfully</div>
-    <div class="success-sub" id="success-sub">Saved to Google Sheets · Stock deducted · Finance updated</div>
-    <div class="success-order-card" id="success-card"></div>
+    <div class="success-title">Order Added</div>
+    <div class="success-sub">Saved to Google Sheets</div>
     <button class="btn-new-order" onclick="resetForm()">＋ New Order</button>
-    <a href="https://karmatotes.github.io/tracker/" target="_blank" class="btn-view-tracker">⊞ View in Tracker</a>
   </div>
 </div>
-</div>
-
-<!-- ═══════════════════════════════════════════════ OVERVIEW PAGE -->
-<div class="page" id="page-overview">
-  <div class="kpi-row" id="ov-kpis">
-    <div class="kpi red"><div class="kpi-val" id="ov-delayed">—</div><div class="kpi-label">Delayed</div></div>
-    <div class="kpi"><div class="kpi-val" id="ov-active">—</div><div class="kpi-label">Active</div></div>
-    <div class="kpi"><div class="kpi-val" id="ov-total">—</div><div class="kpi-label">Total Orders</div></div>
-    <div class="kpi green"><div class="kpi-val" id="ov-done">—</div><div class="kpi-label">Done</div></div>
-    <div class="kpi"><div class="kpi-val" id="ov-outstanding">—</div><div class="kpi-label">Outstanding ₹</div></div>
-  </div>
-  <div class="date-filter-bar">
-    <button class="df-btn active" id="df-all"       onclick="setDateFilter('all',this)">All Time</button>
-    <button class="df-btn"        id="df-thisweek"  onclick="setDateFilter('thisweek',this)">This Week</button>
-    <button class="df-btn"        id="df-thismonth" onclick="setDateFilter('thismonth',this)">This Month</button>
-    <button class="df-btn"        id="df-lastmonth" onclick="setDateFilter('lastmonth',this)">Last Month</button>
-    <button class="df-btn"        id="df-thisyear"  onclick="setDateFilter('thisyear',this)">This Year</button>
-    <button class="df-btn"        id="df-custom"    onclick="setDateFilter('custom',this)">Custom…</button>
-    <div class="df-custom" id="df-custom-wrap">
-      <span class="df-label">From</span>
-      <input class="df-input" type="date" id="df-from" onchange="renderOverview()">
-      <span class="df-label">To</span>
-      <input class="df-input" type="date" id="df-to" onchange="renderOverview()">
-    </div>
-    <span class="df-results" id="df-results"></span>
-  </div>
-  <div class="overview-filters">
-    <input class="ov-search" id="ov-search" placeholder="🔍 Search orders…" oninput="renderOverview()">
-    <select class="ov-filter" id="ov-sort" onchange="renderOverview()" style="border-radius:8px;padding:6px 10px;font-size:12px;font-family:'DM Sans',sans-serif;background:var(--surface);border:1px solid var(--border);color:var(--bark);cursor:pointer">
-      <option value="date-desc">Newest First</option>
-      <option value="date-asc">Oldest First</option>
-      <option value="qty-desc">Qty: High to Low</option>
-      <option value="qty-asc">Qty: Low to High</option>
-      <option value="delivery-asc">Delivery: Soonest</option>
-      <option value="value-desc">Order Value: High to Low</option>
-    </select>
-    <button class="ov-filter active" id="ovf-all"      onclick="setOvFilter('all',this)">All</button>
-    <button class="ov-filter"        id="ovf-active"   onclick="setOvFilter('active',this)">Active</button>
-    <button class="ov-filter"        id="ovf-delayed"  onclick="setOvFilter('delayed',this)">Delayed</button>
-    <button class="ov-filter"        id="ovf-pending"  onclick="setOvFilter('pending',this)">Payment Pending</button>
-    <button class="ov-filter"        id="ovf-done"     onclick="setOvFilter('done',this)">Done</button>
-  </div>
-  <div class="overview-table-wrap">
-    <table class="overview-table">
-      <thead>
-        <tr>
-          <th>#</th><th>Client</th><th>Product</th><th>Qty</th>
-          <th>Delivery</th><th>Stage</th><th>Material</th>
-          <th>Order ₹</th><th>Balance ₹</th><th>Payment</th><th>Sale By</th>
-        </tr>
-      </thead>
-      <tbody id="ov-tbody"></tbody>
-    </table>
-  </div>
 </div>
 
 <div class="toast" id="toast"></div>
@@ -907,282 +139,134 @@ textarea.form-control{resize:none}
 <script>
 const SHEET_URL="https://script.google.com/macros/s/AKfycbxpcfocezAqlwg37_SujPuDilIyXEeve5A8Niir1vohU3pz2sytBrSIjQyX6vLmoIPN/exec";
 const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH0-Hrp13qP_PcA7h-1KddIPx6TzfMzY6KoYnTMxaa8mnSa/exec";
-let configData=null;
-const STAGES=["Cutting","Printing","Stitching","Finishing","Packing & Del","Done"];
-const STAGE_COLORS={"Cutting":{bg:"#FEF3C7",text:"#92400E"},"Printing":{bg:"#DBEAFE",text:"#1E40AF"},"Stitching":{bg:"#FDE8D8",text:"#9A3412"},"Finishing":{bg:"#FAE8FF",text:"#6B21A8"},"Packing & Del":{bg:"#DCFCE7",text:"#166534"},"Done":{bg:"#F3F4F6",text:"#374151"}};
 
-let orders=[], materials=[], nextId=1;
-let selectedPrint='none', selectedSaleBy='', formWorkers=[], selectedFeatures=[];
-let ovFilter='all';
+const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},'Designer Fabric':{variations:['Kalamkari','Ikat'],gsm:[]}};
 
-function nowLabel(){const n=new Date();return n.toLocaleDateString('en-IN',{day:'numeric',month:'short',year:'numeric'})+', '+n.toLocaleTimeString('en-IN',{hour:'2-digit',minute:'2-digit',hour12:true});}
-function todayISO(){return new Date().toISOString().split('T')[0]}
-function fmtDate(iso){if(!iso||!iso.match(/^\d{4}-\d{2}-\d{2}$/))return iso||'TBD';const[,m,d]=iso.split('-');const mo=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];return`${parseInt(d)}-${mo[parseInt(m)-1]}`;}
-function fmtINR(n){return'₹'+(Number(n)||0).toLocaleString('en-IN');}
-
-function setSyncStatus(state,msg){
-  const dot=document.getElementById('sync-dot');
-  const txt=document.getElementById('sync-text');
-  const time=document.getElementById('sync-time');
-  dot.className='sync-dot '+state;txt.textContent=msg;
-  if(state==='ok')time.textContent='Last sync: '+nowLabel();else time.textContent='';
-}
-
-async function sheetCall(params){
-  setSyncStatus('syncing','Syncing…');
-  try{
-    const res=await fetch(`${SHEET_URL}?${new URLSearchParams(params).toString()}`);
-    const data=await res.json();
-    if(data.error)throw new Error(data.error);
-    setSyncStatus('ok','Synced · karmatotes@gmail.com');return data;
-  }catch(err){setSyncStatus('err','Sync failed.');console.error(err);return null;}
-}
-
-async function sheetPost(body){
-  setSyncStatus('syncing','Saving…');
-  try{
-    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify(body)});
-    const data=await res.json();
-    if(data.error)throw new Error(data.error);
-    setSyncStatus('ok','Saved · karmatotes@gmail.com');return data;
-  }catch(err){setSyncStatus('err','Save failed.');console.error(err);return null;}
-}
+let selectedSaleBy='', configData=null;
 
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  const cfgData=await fetch(`${CONFIG_URL}?action=getConfig`).then(r=>r.json()).catch(err=>{console.error('Config load failed',err);return null;});
-  if(cfgData){configData=cfgData;populateConfigDropdowns();}
-  const[ordersData,materialsData]=await Promise.all([sheetCall({action:'getAll'}),sheetCall({action:'getMaterials'})]);
-  document.getElementById('loading-overlay').classList.add('hidden');
-  if(ordersData&&ordersData.orders){
-    orders=ordersData.orders.map(row=>({id:Number(row['ID']),client:String(row['Client']||''),product:String(row['Product']||''),qty:Number(row['Qty'])||0,date:String(row['Delivery Date']||''),time:String(row['Time']||''),stage:String(row['Stage']||'Cutting'),status:String(row['Status']||'ok'),print:String(row['Print']||'none'),saleBy:String(row['Sale By']||''),primaryMaterial:String(row['Primary Material']||''),secondaryMaterial:String(row['Secondary Material']||''),dimensions:String(row['Dimensions']||''),color:String(row['Color']||''),features:String(row['Features']||''),orderValue:Number(row['Order Value'])||0,advance:Number(row['Advance'])||0,balance:Number(row['Balance'])||0,paymentStatus:String(row['Payment Status']||'Pending'),entryDate:String(row['Created At']||''),})).filter(o=>o.client&&o.client.trim()!=='');
-    nextId=Math.max(...orders.map(o=>o.id),0)+1;
-  }
-  if(materialsData&&materialsData.materials)materials=materialsData.materials;
-  renderOverviewKPIs();renderOverview();
+  try{const data=await fetch(`${CONFIG_URL}?action=getConfig`).then(r=>r.json());if(data)configData=data;populateConfigDropdowns();}catch(err){console.error(err);}
 }
-
-function switchTab(tab){document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('tab-'+tab).classList.add('active');document.getElementById('page-'+tab).classList.add('active');if(tab==='overview'){renderOverviewKPIs();renderOverview();}}
-
-function selectPrint(v){selectedPrint=v;document.querySelectorAll('.print-type-btn').forEach(b=>b.classList.remove('active-none','active-screen','active-dtf'));document.getElementById(v==='screen'?'pt-screen':v==='dtf'?'pt-dtf':'pt-none').classList.add(v==='screen'?'active-screen':v==='dtf'?'active-dtf':'active-none');document.getElementById('print-cost-wrap').style.display=v==='none'?'none':'block';}
-
-function selectSaleBy(v){selectedSaleBy=v;document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));const m={"Sridevi":"sb-sridevi","Anu Prasad":"sb-anuprasad","Esha":"sb-esha","Other":"sb-other"};if(m[v])document.getElementById(m[v]).classList.add('active');document.getElementById('f-sale-other').style.display=v==='Other'?'block':'none';}
-
-function addWorker(){const inp=document.getElementById('pi-worker');const v=inp.value.trim();if(!v||formWorkers.includes(v))return;formWorkers.push(v);inp.value='';renderFormWorkers();}
-function removeWorker(n){formWorkers=formWorkers.filter(x=>x!==n);renderFormWorkers();}
-function renderFormWorkers(){document.getElementById('pt-workers').innerHTML=formWorkers.map(n=>`<span class="ptag worker">${n}<span class="ptag-x" onclick="removeWorker('${n}')">✕</span></span>`).join('');}
-
-function toggleFeature(el,name){el.classList.toggle('active');if(el.classList.contains('active'))selectedFeatures.push(name);else selectedFeatures=selectedFeatures.filter(f=>f!==name);}
-
-const JUTE_COLORS=['Navy Blue','Black Laminated','Brown','Mustard','Maroon','Pink','Red','Parrot Green','Green','Teal Blue','Orange','Purple','Yellow','Royal Blue','Light Green'];
-const JUTE_PATTERNS=['Viala Jute Maroon','Viala Jute Pink','Butterfly Jute','Flower Print Jute','Gold & Black Jute','Red Flower Natural','Natural & Black Blocks','Half White & Pink Flowers','Half White & Elephant','Ajrak Hearts','Ajrak Waves','Orange Wareli','Brown Checks Jute'];
-const CANVAS_COLORS=['Purple','Dark Grey','Royal Blue','Black','Navy Blue','Yellow','Red','Pink','Orange','Dark Green','Sky Blue','Marine Blue','Mustard','Honey','Pista Green','Blue','Cream','White','Rani Pink','Mehendi','Light Blue','Light Grey','Maroon','Dark Brown','Chocolate Brown','Teal Blue','Bottle Green'];
-const LINING_COLORS=['Red','Navy Blue','Light Green','Dark Green','Mustard','Pink','White','Royal Blue','Black','Cream','Yellow','Grey','Khaki','Sky Blue','Teal Blue','Dark Pink','Natural','Pista'];
-const KALAMKARI_PATTERNS=['Pochampally','Ajrak Hearts','Ajrak Waves','Cows Kalamkari Blue','Cows Kalamkari Black','Orange Flower Kalamkari','Kantha Work Pink','Blue with Flowers','Hand Print','Purple White Flowers','Grey Maroon Flowers','Black & White Curtains','Mustard with Mandala','Blue Flamingo','Orange Wareli'];
-
-function getColorsForFabricVariation(fabric,variation){if(fabric==='Jute Fabric'){if(variation==='Colored')return{label:'Color',list:JUTE_COLORS};if(variation==='Printed')return{label:'Pattern Name',list:JUTE_PATTERNS};}if(fabric==='Cotton Canvas'&&variation==='Colored')return{label:'Color',list:CANVAS_COLORS};if(fabric==='Lining')return{label:'Color',list:LINING_COLORS};if(fabric==='Kalamkari / Designer'||fabric==='Kalamkari')return{label:'Pattern Name',list:KALAMKARI_PATTERNS};return null;}
-
-function populateColorField(wrapId,labelId,selectId,customId,colors,label){const wrap=document.getElementById(wrapId);const lbl=document.getElementById(labelId);const sel=document.getElementById(selectId);if(!wrap||!sel)return;if(!colors){wrap.style.display='none';return;}wrap.style.display='block';if(lbl)lbl.textContent=label;sel.innerHTML='<option value="">Select '+label.toLowerCase()+'...</option>';colors.forEach(c=>{const o=document.createElement('option');o.value=c;o.textContent=c;sel.appendChild(o);});const other=document.createElement('option');other.value='Other';other.textContent='Other (type below)';sel.appendChild(other);}
-
-function toggleCustomColor(type){const sel=document.getElementById('f-'+type+'-color');const custom=document.getElementById('f-'+type+'-color-custom');if(!sel||!custom)return;custom.style.display=sel.value==='Other'?'block':'none';custom.classList.toggle('visible',sel.value==='Other');}
-
-function getColorValue(type){const sel=document.getElementById('f-'+type+'-color');const custom=document.getElementById('f-'+type+'-color-custom');if(!sel)return'';return sel.value==='Other'?(custom?custom.value:''):sel.value;}
-
-function onPrimaryVariationChange(){const fabric=document.getElementById('f-primary-material').value;const variation=document.getElementById('f-primary-variation').value;const gsmWrap=document.getElementById('primary-fabric-detail');const gsmSel=document.getElementById('f-primary-gsm');if(variation==='Oxford Jute'){populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',null,'Color');if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}return;}const colorData=getColorsForFabricVariation(fabric,variation);populateColorField('primary-color-wrap','primary-color-label','f-primary-color','f-primary-color-custom',colorData?colorData.list:null,colorData?colorData.label:'Color');}
-
-function onSecondaryVariationChange(){const fabric=document.getElementById('f-secondary-material').value;const variation=document.getElementById('f-secondary-variation').value;if(variation==='Oxford Jute'){populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',null,'Color');const gsmSel=document.getElementById('f-secondary-gsm');if(gsmSel){gsmSel.innerHTML='<option value="">N/A</option>';}return;}const colorData=getColorsForFabricVariation(fabric,variation);populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',colorData?colorData.list:null,colorData?colorData.label:'Color');}
-
-function onSecondaryMaterialChange(){const mat=document.getElementById('f-secondary-material').value;const detailWrap=document.getElementById('secondary-fabric-detail');if(FABRICS_WITH_DETAIL.includes(mat)||mat==='Lining'){detailWrap.classList.add('visible');if(mat==='Lining'){populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',LINING_COLORS,'Color');}else if(mat==='Kalamkari / Designer'||mat==='Kalamkari'){populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');populateColorField('secondary-color-wrap','secondary-color-label','f-secondary-color','f-secondary-color-custom',KALAMKARI_PATTERNS,'Pattern Name');}else{populateFabricDetail(mat,'f-secondary-variation','f-secondary-gsm');const cw=document.getElementById('secondary-color-wrap');if(cw)cw.style.display='none';}}else{detailWrap.classList.remove('visible');const cw=document.getElementById('secondary-color-wrap');if(cw)cw.style.display='none';}}
-
-const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},};
-const FABRICS_WITH_DETAIL=['Jute Fabric','Cotton Canvas','Juco Fabric','Kadhi Fabric'];
-
-function populateFabricDetail(fabricName,varSelectId,gsmSelectId){const varSel=document.getElementById(varSelectId);const gsmSel=document.getElementById(gsmSelectId);if(!varSel||!gsmSel)return;const cfg=FABRIC_CONFIG[fabricName];varSel.innerHTML='<option value="">Select variation…</option>';if(cfg&&cfg.variations.length){cfg.variations.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;varSel.appendChild(opt);});}gsmSel.innerHTML='<option value="">Select GSM…</option>';if(cfg&&cfg.gsm.length){cfg.gsm.forEach(g=>{const opt=document.createElement('option');opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);});const custom=document.createElement('option');custom.value='custom';custom.textContent='Custom…';gsmSel.appendChild(custom);}}
-
-function toggleCustomGSM(type){const sel=document.getElementById('f-'+type+'-gsm');const custom=document.getElementById('f-'+type+'-gsm-custom');if(!sel||!custom)return;if(sel.value==='custom')custom.classList.add('visible');else custom.classList.remove('visible');}
-
-function getGSMValue(type){const sel=document.getElementById('f-'+type+'-gsm');const custom=document.getElementById('f-'+type+'-gsm-custom');if(!sel)return'';return sel.value==='custom'?(custom?custom.value:''):sel.value;}
-
-function onPrimaryMaterialChange(){const v=document.getElementById('f-primary-material').value;document.getElementById('secondary-wrap').classList.toggle('visible',v!=='');const detailWrap=document.getElementById('primary-fabric-detail');if(FABRICS_WITH_DETAIL.includes(v)){detailWrap.classList.add('visible');populateFabricDetail(v,'f-primary-variation','f-primary-gsm');}else{detailWrap.classList.remove('visible');}}
-
-function updateBalance(){const ov=Number(document.getElementById('f-order-value').value)||0;const adv=Number(document.getElementById('f-advance').value)||0;const bal=ov-adv;const el=document.getElementById('balance-display');if(!ov){el.classList.remove('visible');return;}el.classList.add('visible');el.className='balance-display visible '+(bal<=0?'zero':'positive');el.textContent=`Balance due: ${fmtINR(bal)} ${bal===0?'· Fully paid':''}`;}
-
-function toggleHardware(key){const cb=document.getElementById('hw-'+key);const wrap=document.getElementById('hw-qty-'+key);wrap.style.display=cb.checked?'flex':'none';if(!cb.checked){const inp=document.getElementById('hw-qty-input-'+key);if(inp)inp.value='';const alert=document.getElementById('hw-alert-'+key);if(alert)alert.classList.remove('visible');}}
-
-function checkStockHardware(matName,inputId,alertId){const qty=Number(document.getElementById(inputId).value)||0;const alertEl=document.getElementById(alertId);if(!qty){alertEl.classList.remove('visible');return;}const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());if(!mat){alertEl.classList.remove('visible');return;}const stock=Number(mat['Current Stock'])||0;alertEl.classList.add('visible');if(stock===0){alertEl.className='stock-alert visible danger';alertEl.textContent='No stock! '+matName+' is out';}else if(stock<qty){alertEl.className='stock-alert visible danger';alertEl.textContent='Only '+stock+' nos available';}else{alertEl.className='stock-alert visible ok';alertEl.textContent='Stock OK — '+stock+' nos available';}}
-
-function toggleMECustom(selectId,customId){const sel=document.getElementById(selectId);const custom=document.getElementById(customId);if(!sel||!custom)return;custom.style.display=sel.value==='Other'?'block':'none';}
-
-function getHardwareItems(){const hwMap=[{key:'doghooks',mat:'Dog Hooks',hasSize:true,hasFinish:true},{key:'buckles',mat:'Buckles',hasSize:true,hasFinish:true},{key:'dring',mat:'D-Ring',hasSize:true,hasFinish:true},{key:'snapbtn',mat:'Snap Magnetic Button',hasSize:false,hasFinish:false},{key:'highlight',mat:'Highlight',hasSize:false,hasFinish:false},{key:'reveat',mat:'Reveat',hasSize:false,hasFinish:false},];const result=[];hwMap.forEach(h=>{const cb=document.getElementById('hw-'+h.key);if(cb&&cb.checked){const qty=Number(document.getElementById('hw-qty-input-'+h.key).value)||0;if(qty>0){const size=h.hasSize?(document.getElementById('hw-size-'+h.key)?document.getElementById('hw-size-'+h.key).value:''):'';const finish=h.hasFinish?(document.getElementById('hw-finish-'+h.key)?document.getElementById('hw-finish-'+h.key).value:''):'';result.push({material:h.mat,qty,size,finish});}}});return result;}
-
-function resetHardware(){['doghooks','buckles','dring','snapbtn','highlight','reveat'].forEach(key=>{const cb=document.getElementById('hw-'+key);if(cb)cb.checked=false;const wrap=document.getElementById('hw-qty-'+key);if(wrap)wrap.style.display='none';const inp=document.getElementById('hw-qty-input-'+key);if(inp)inp.value='';const alert=document.getElementById('hw-alert-'+key);if(alert)alert.classList.remove('visible');});}
-
-function checkStock(type){const matMap={primary:{qty:'f-primary-fabric-qty',alert:'stock-alert-primary',mat:()=>document.getElementById('f-primary-material').value},secondary:{qty:'f-secondary-fabric-qty',alert:'stock-alert-secondary',mat:()=>document.getElementById('f-secondary-material').value},zippers:{qty:'f-zippers-qty',alert:'stock-alert-zippers',mat:()=>'Zippers',unit:'m'},handles:{qty:'f-handles-qty',alert:'stock-alert-handles',mat:()=>'Handles',unit:'m'},lace:{qty:'f-lace-qty',alert:'stock-alert-lace',mat:()=>'Lace',unit:'m'},runners:{qty:'f-runners-qty',alert:'stock-alert-runners',mat:()=>'Runners',unit:'nos'},};const cfg=matMap[type];if(!cfg)return;const qty=Number(document.getElementById(cfg.qty).value)||0;const matName=cfg.mat();const alertEl=document.getElementById(cfg.alert);if(!qty||!matName){alertEl.classList.remove('visible');return;}const mat=materials.find(m=>String(m['Material']).toLowerCase()===matName.toLowerCase());if(!mat){alertEl.classList.remove('visible');return;}const stock=Number(mat['Current Stock'])||0;alertEl.classList.add('visible');if(stock===0){alertEl.className='stock-alert visible danger';alertEl.textContent=`⚠ No stock! ${matName} is out of stock`;}else if(stock<qty){alertEl.className='stock-alert visible danger';alertEl.textContent=`⚠ Insufficient! Only ${stock} ${mat['Unit']} available`;}else{alertEl.className='stock-alert visible ok';alertEl.textContent=`✓ Stock OK — ${stock} ${mat['Unit']} available`;}}
-
-async function submitOrder(){const client=document.getElementById('f-client').value.trim();if(!client){showToast('⚠️ Client name required');document.getElementById('f-client').focus();return;}const qty=parseInt(document.getElementById('f-qty').value)||0;if(!qty){showToast('⚠️ Quantity required');document.getElementById('f-qty').focus();return;}const orderValue=Number(document.getElementById('f-order-value').value)||0;if(!orderValue){showToast('⚠️ Order value required');document.getElementById('f-order-value').focus();return;}const primaryMaterial=document.getElementById('f-primary-material').value;if(!primaryMaterial){showToast('⚠️ Primary material required');document.getElementById('f-primary-material').focus();return;}const saleBy=selectedSaleBy==='Other'?(document.getElementById('f-sale-other').value.trim()||'Other'):selectedSaleBy;const manualEntry=document.getElementById('f-entry-date').value;const entryDate=manualEntry?fmtDate(manualEntry)+' (entered manually)':nowLabel();const stage=document.getElementById('f-stage').value;const l=document.getElementById('f-length').value;const w=document.getElementById('f-width').value;const h=document.getElementById('f-height').value;const dimensions=(l&&w)?`${l}×${w}${h?'×'+h:''}cm`:'';const featOther=document.getElementById('f-features-other').value.trim();const allFeatures=[...selectedFeatures,...(featOther?[featOther]:[])];const featuresStr=allFeatures.join(', ');const advance=Number(document.getElementById('f-advance').value)||0;const primaryFabricQty=Number(document.getElementById('f-primary-fabric-qty').value)||0;const secondaryFabricQty=Number(document.getElementById('f-secondary-fabric-qty').value)||0;const zippersQty=Number(document.getElementById('f-zippers-qty').value)||0;const handlesQty=Number(document.getElementById('f-handles-qty').value)||0;const laceQty=Number(document.getElementById('f-lace-qty').value)||0;const runnersQty=Number(document.getElementById('f-runners-qty').value)||0;const webbingQty=Number(document.getElementById('f-webbing-qty')?document.getElementById('f-webbing-qty').value:0)||0;const threadQty=Number(document.getElementById('f-thread-qty')?document.getElementById('f-thread-qty').value:0)||0;const handleType=document.getElementById('f-handle-type')?document.getElementById('f-handle-type').value:'';const handleColor=document.getElementById('f-handle-color')?document.getElementById('f-handle-color').value==='Other'?(document.getElementById('f-handle-color-custom')?document.getElementById('f-handle-color-custom').value:''):document.getElementById('f-handle-color').value:'';const zipperColor=document.getElementById('f-zipper-color')?document.getElementById('f-zipper-color').value==='Other'?(document.getElementById('f-zipper-color-custom')?document.getElementById('f-zipper-color-custom').value:''):document.getElementById('f-zipper-color').value:'';const zipperNumber=document.getElementById('f-zipper-number')?document.getElementById('f-zipper-number').value:'';const laceColor=document.getElementById('f-lace-color')?document.getElementById('f-lace-color').value==='Other'?(document.getElementById('f-lace-color-custom')?document.getElementById('f-lace-color-custom').value:''):document.getElementById('f-lace-color').value:'';const laceSize=document.getElementById('f-lace-size')?document.getElementById('f-lace-size').value:'';const laceType=document.getElementById('f-lace-type')?document.getElementById('f-lace-type').value:'';const webbingColor=document.getElementById('f-webbing-color')?document.getElementById('f-webbing-color').value==='Other'?(document.getElementById('f-webbing-color-custom')?document.getElementById('f-webbing-color-custom').value:''):document.getElementById('f-webbing-color').value:'';const webbingWidth=document.getElementById('f-webbing-width')?document.getElementById('f-webbing-width').value:'';const threadColor=document.getElementById('f-thread-color')?document.getElementById('f-thread-color').value==='Other'?(document.getElementById('f-thread-color-custom')?document.getElementById('f-thread-color-custom').value:''):document.getElementById('f-thread-color').value:'';const runnerNumber=document.getElementById('f-runner-number')?document.getElementById('f-runner-number').value:'';const printCost=Number(document.getElementById('f-print-cost').value)||0;const secondaryMaterial=document.getElementById('f-secondary-material').value||'';const primaryVariation=document.getElementById('f-primary-variation')?document.getElementById('f-primary-variation').value||'':'';const primaryGSM=getGSMValue('primary');const primaryColor=getColorValue('primary');const secondaryColor=getColorValue('secondary');const secondaryVariation=document.getElementById('f-secondary-variation')?document.getElementById('f-secondary-variation').value||'':'';const secondaryGSM=getGSMValue('secondary');const hardwareItems=getHardwareItems();const newOrder={id:nextId,client,product:document.getElementById('f-product').value||'—',qty,date:document.getElementById('f-date').value||'',time:document.getElementById('f-time').value||'—',stage,status:document.getElementById('f-priority').value,print:selectedPrint,saleBy,workers:[...formWorkers],remarks:document.getElementById('f-remarks').value||'',primaryMaterial,secondaryMaterial,dimensions,color:document.getElementById('f-color').value||'',primaryVariation,primaryGSM,primaryColor,secondaryVariation,secondaryGSM,secondaryColor,features:featuresStr,orderValue,advance,balance:orderValue-advance,primaryFabricQty,secondaryFabricQty,zippersQty,handlesQty,laceQty,laceColor,laceSize,laceType,runnersQty,runnerNumber,webbingQty,webbingColor,webbingWidth,threadQty,threadColor,handleType,handleColor,zipperColor,zipperNumber,printCost,paymentStatus:advance>=orderValue?'Paid':advance>0?'Partial':'Pending',entryDate,cuttingDate:'',hardwareItems:hardwareItems,deductStock:document.getElementById('cb-deduct-stock').checked&&(primaryFabricQty>0||zippersQty>0||handlesQty>0||secondaryFabricQty>0||laceQty>0||runnersQty>0||webbingQty>0||threadQty>0||hardwareItems.length>0)};const btn=document.getElementById('btn-submit');btn.disabled=true;btn.textContent='Saving…';const result=await sheetPost({action:'addOrder',...newOrder,workers:newOrder.workers});await sheetPost({action:'addTimeline',orderId:newOrder.id,client:newOrder.client,stage,timestamp:entryDate,type:'stage',back:false,note:'Order created via Master Entry',changes:''});const matData=await sheetCall({action:'getMaterials'});if(matData&&matData.materials)materials=matData.materials;orders.unshift(newOrder);nextId++;showSuccess(newOrder);showToast(`✓ "${client}" added — stock deducted — finance updated`);}
-
-function showSuccess(o){document.getElementById('form-body').style.display='none';const ss=document.getElementById('success-screen');ss.classList.add('visible');document.getElementById('success-sub').textContent=`Order #${o.id} · ${o.client} · ${o.qty} pcs · Saved to Google Sheets`;document.getElementById('success-card').innerHTML=`<div class="success-row"><label>Client</label><span>${o.client}</span></div><div class="success-row"><label>Product</label><span>${o.product}</span></div><div class="success-row"><label>Quantity</label><span>${o.qty} pcs</span></div><div class="success-row"><label>Delivery</label><span>${fmtDate(o.date)||'TBD'}</span></div><div class="success-row"><label>Material</label><span>${o.primaryMaterial}${o.primaryVariation?' — '+o.primaryVariation:''}${o.primaryGSM?' ('+o.primaryGSM+' GSM)':''}${o.secondaryMaterial?' + '+o.secondaryMaterial+(o.secondaryVariation?' — '+o.secondaryVariation:'')+(o.secondaryGSM?' ('+o.secondaryGSM+' GSM)':''):''}</span></div>${o.dimensions?`<div class="success-row"><label>Dimensions</label><span>${o.dimensions}</span></div>`:''}${o.features?`<div class="success-row"><label>Features</label><span>${o.features}</span></div>`:''}` +`<div class="success-row"><label>Order Value</label><span>${fmtINR(o.orderValue)}</span></div><div class="success-row"><label>Advance</label><span>${fmtINR(o.advance)}</span></div><div class="success-row"><label>Balance Due</label><span>${fmtINR(o.balance)}</span></div><div class="success-row"><label>Stage</label><span>${o.stage}</span></div><div class="success-row"><label>Sale By</label><span>${o.saleBy||'—'}</span></div>${o.primaryFabricQty>0?`<div class="success-row"><label>Fabric deducted</label><span>${o.primaryFabricQty}m ${o.primaryMaterial}</span></div>`:''}${o.zippersQty>0?`<div class="success-row"><label>Zippers deducted</label><span>${o.zippersQty} pcs</span></div>`:''}${o.handlesQty>0?`<div class="success-row"><label>Handles</label><span>${o.handlesQty}m${o.handleType?' — '+o.handleType:''}${o.handleColor?' '+o.handleColor:''}</span></div>`:''}${o.hardwareItems&&o.hardwareItems.length?o.hardwareItems.map(h=>`<div class="success-row"><label>${h.material}</label><span>${h.qty} nos</span></div>`).join(''):''}`;
-}
-
-function resetForm(){document.getElementById('form-body').style.display='block';document.getElementById('success-screen').classList.remove('visible');document.getElementById('btn-submit').disabled=false;document.getElementById('btn-submit').textContent='＋ Add Order';['f-client','f-product','f-qty','f-date','f-time','f-entry-date','f-remarks','f-order-value','f-advance','f-color','f-length','f-width','f-height','f-primary-fabric-qty','f-secondary-fabric-qty','f-zippers-qty','f-handles-qty','f-lace-qty','f-runners-qty','f-webbing-qty','f-thread-qty','f-print-cost','f-features-other','f-sale-other','f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom','f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});document.getElementById('f-primary-material').value='';['f-handle-type','f-handle-color','f-zipper-color','f-zipper-number','f-lace-color','f-lace-size','f-lace-type','f-webbing-color','f-webbing-width','f-thread-color','f-runner-number'].forEach(id=>{const el=document.getElementById(id);if(el)el.value='';});['f-handle-color-custom','f-zipper-color-custom','f-lace-color-custom','f-webbing-color-custom','f-thread-color-custom'].forEach(id=>{const el=document.getElementById(id);if(el)el.style.display='none';});document.getElementById('primary-fabric-detail').classList.remove('visible');document.getElementById('secondary-fabric-detail').classList.remove('visible');if(document.getElementById('f-primary-variation'))document.getElementById('f-primary-variation').value='';if(document.getElementById('f-primary-gsm'))document.getElementById('f-primary-gsm').value='';if(document.getElementById('f-primary-gsm-custom'))document.getElementById('f-primary-gsm-custom').value='';if(document.getElementById('f-secondary-variation'))document.getElementById('f-secondary-variation').value='';if(document.getElementById('f-secondary-gsm'))document.getElementById('f-secondary-gsm').value='';if(document.getElementById('f-secondary-gsm-custom'))document.getElementById('f-secondary-gsm-custom').value='';document.getElementById('f-secondary-material').value='';document.getElementById('f-stage').value='Cutting';document.getElementById('f-priority').value='ok';document.getElementById('secondary-wrap').classList.remove('visible');document.getElementById('balance-display').classList.remove('visible');document.getElementById('print-cost-wrap').style.display='none';document.getElementById('f-sale-other').style.display='none';selectedPrint='none';selectPrint('none');selectedSaleBy='';document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));selectedFeatures=[];document.querySelectorAll('.feature-chip').forEach(c=>c.classList.remove('active'));formWorkers=[];renderFormWorkers();['stock-alert-primary','stock-alert-secondary','stock-alert-zippers','stock-alert-handles','stock-alert-lace','stock-alert-runners'].forEach(id=>{document.getElementById(id).classList.remove('visible');});resetHardware();}
-
-let activeDateFilter='all';function setDateFilter(f,btn){activeDateFilter=f;document.querySelectorAll('.df-btn').forEach(b=>b.classList.remove('active'));btn.classList.add('active');const cw=document.getElementById('df-custom-wrap');if(f==='custom')cw.classList.add('visible');else cw.classList.remove('visible');renderOverview();}
-
-function getDateFilterRange(){const now=new Date();const today=new Date(now.getFullYear(),now.getMonth(),now.getDate());switch(activeDateFilter){case 'thisweek':{const day=today.getDay();const mon=new Date(today);mon.setDate(today.getDate()-(day===0?6:day-1));return{from:mon,to:new Date(today.getTime()+86400000)};}case 'thismonth':return{from:new Date(now.getFullYear(),now.getMonth(),1),to:new Date(today.getTime()+86400000)};case 'lastmonth':return{from:new Date(now.getFullYear(),now.getMonth()-1,1),to:new Date(now.getFullYear(),now.getMonth(),1)};case 'thisyear':return{from:new Date(now.getFullYear(),0,1),to:new Date(today.getTime()+86400000)};case 'custom':{const from=document.getElementById('df-from').value;const to=document.getElementById('df-to').value;return{from:from?new Date(from):null,to:to?new Date(new Date(to).getTime()+86400000):null};}default:return{from:null,to:null};}}
-
-function parseIndianDate(str){if(!str)return null;const m=String(str).match(/^(\d{1,2})\/(\d{1,2})\/(\d{4})/);if(m)return new Date(Number(m[3]),Number(m[2])-1,Number(m[1]));const iso=String(str).match(/^(\d{4})-(\d{2})-(\d{2})/);if(iso)return new Date(Number(iso[1]),Number(iso[2])-1,Number(iso[3]));const mon=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];const dm=String(str).match(/(\d{1,2})-([A-Za-z]{3})/);if(dm){const mi=mon.indexOf(dm[2]);if(mi>=0)return new Date(new Date().getFullYear(),mi,Number(dm[1]));}const d=new Date(str);return isNaN(d.getTime())?null:d;}
-
-function orderMatchesDateFilter(o){if(activeDateFilter==='all')return true;const range=getDateFilterRange();if(!range.from&&!range.to)return true;const d=parseIndianDate(o.entryDate)||parseIndianDate(o.date);if(!d)return true;if(range.from&&d<range.from)return false;if(range.to&&d>=range.to)return false;return true;}
-
-function renderOverviewKPIs(){const td=todayISO();document.getElementById('ov-delayed').textContent=orders.filter(o=>o.status==='delayed').length;document.getElementById('ov-active').textContent=orders.filter(o=>o.stage!=='Done').length;document.getElementById('ov-total').textContent=orders.length;document.getElementById('ov-done').textContent=orders.filter(o=>o.stage==='Done').length;const outstanding=orders.filter(o=>o.paymentStatus!=='Paid').reduce((s,o)=>s+(o.balance||0),0);document.getElementById('ov-outstanding').textContent=fmtINR(outstanding);}
-
-function setOvFilter(f,btn){ovFilter=f;document.querySelectorAll('.ov-filter').forEach(b=>b.classList.remove('active'));btn.classList.add('active');renderOverview();}
-
-function renderOverview(){const search=(document.getElementById('ov-search').value||'').toLowerCase();const filtered=orders.filter(o=>{const ms=!search||o.client.toLowerCase().includes(search)||o.product.toLowerCase().includes(search)||o.saleBy.toLowerCase().includes(search);const mf=ovFilter==='all'?true:ovFilter==='active'?o.stage!=='Done':ovFilter==='delayed'?o.status==='delayed':ovFilter==='pending'?o.paymentStatus!=='Paid':ovFilter==='done'?o.stage==='Done':true;const df=orderMatchesDateFilter(o);return ms&&mf&&df;});const sortVal=document.getElementById('ov-sort')?document.getElementById('ov-sort').value:'date-desc';filtered.sort((a,b)=>{if(sortVal==='qty-desc')return(Number(b.qty)||0)-(Number(a.qty)||0);if(sortVal==='qty-asc')return(Number(a.qty)||0)-(Number(b.qty)||0);if(sortVal==='value-desc')return(Number(b.orderValue)||0)-(Number(a.orderValue)||0);if(sortVal==='delivery-asc'){const da=parseIndianDate(a.date)||new Date(9999,0);const db=parseIndianDate(b.date)||new Date(9999,0);return da-db;}if(sortVal==='date-asc'){const da=parseIndianDate(a.entryDate||a.date)||new Date(0);const db=parseIndianDate(b.entryDate||b.date)||new Date(0);return da-db;}const da=parseIndianDate(a.entryDate||a.date)||new Date(0);const db=parseIndianDate(b.entryDate||b.date)||new Date(0);return db-da;});const resEl=document.getElementById('df-results');if(resEl)resEl.textContent=filtered.length+' order'+(filtered.length!==1?'s':'')+(activeDateFilter!=='all'?' in period':'');const tbody=document.getElementById('ov-tbody');tbody.innerHTML='';if(!filtered.length){tbody.innerHTML=`<tr><td colspan="11" style="text-align:center;padding:30px;color:rgba(44,31,20,0.35)">No orders found</td></tr>`;return;}filtered.forEach((o,i)=>{const sc=STAGE_COLORS[o.stage]||{bg:'#F3F4F6',text:'#374151'};const payClass=o.paymentStatus==='Paid'?'pay-paid':o.paymentStatus==='Partial'?'pay-partial':'pay-pending';const tr=document.createElement('tr');tr.innerHTML=`<td style="color:rgba(44,31,20,0.4);font-size:11px">${i+1}</td><td><strong>${o.client}</strong></td><td style="color:rgba(44,31,20,0.6);font-size:12px">${o.product||'—'}</td><td style="font-family:'DM Mono',monospace;font-weight:600">${o.qty}</td><td style="font-family:'DM Mono',monospace;font-size:11px">${fmtDate(o.date)||'TBD'}</td><td><span class="stage-pill" style="background:${sc.bg};color:${sc.text}">${o.stage}</span></td><td style="font-size:11px;color:rgba(44,31,20,0.6)">${o.primaryMaterial||'—'}${o.secondaryMaterial?'+'+o.secondaryMaterial:''}</td><td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?fmtINR(o.orderValue):'—'}</td><td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'var(--red)':'var(--moss)'}">${o.orderValue?fmtINR(o.balance):'—'}</td><td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td><td style="font-size:11px">${o.saleBy||'—'}</td>`;tbody.appendChild(tr);});renderOverviewKPIs();}
-
-function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3200);}
-
-document.getElementById('pi-worker').addEventListener('keydown',function(e){if(e.key==='Enter'){e.preventDefault();addWorker();}});
 
 function populateConfigDropdowns(){
-  if(!configData) return;
+  if(!configData)return;
+  const prodSel=document.getElementById('f-product');
+  if(configData.products){configData.products.forEach(p=>{const opt=document.createElement('option');opt.value=p.name;opt.textContent=p.name;prodSel.appendChild(opt);});}
+}
+
+function onPrimaryMaterialChange(){
+  const mat=document.getElementById('f-primary-material').value;
+  const detailWrap=document.getElementById('primary-fabric-detail');
+  const patternWrap=document.getElementById('pattern-field-wrap');
+  const varSel=document.getElementById('f-primary-variation');
+  const gsmSel=document.getElementById('f-primary-gsm');
   
-  // Populate Products (APPEND to existing)
-  const productSel = document.getElementById('f-product');
-  if(productSel && configData.products){
-    configData.products.forEach(p => {
-      const exists = Array.from(productSel.options).some(opt => opt.value === p.name);
-      if(!exists){
-        const opt = document.createElement('option');
-        opt.value = p.name;
-        opt.textContent = p.name;
-        productSel.appendChild(opt);
-      }
-    });
+  varSel.innerHTML='<option value="">Select variation…</option>';
+  gsmSel.innerHTML='<option value="">Select GSM…</option>';
+  
+  // ✨ DESIGNER FABRIC LOGIC
+  if(mat==='Designer Fabric'){
+    detailWrap.classList.add('visible');
+    const kalamkariOpt=document.createElement('option');
+    kalamkariOpt.value='Kalamkari';
+    kalamkariOpt.textContent='Kalamkari';
+    varSel.appendChild(kalamkariOpt);
+    const ikatOpt=document.createElement('option');
+    ikatOpt.value='Ikat';
+    ikatOpt.textContent='Ikat';
+    varSel.appendChild(ikatOpt);
+    patternWrap.style.display='none';
+    return;
+  }else{
+    patternWrap.style.display='none';
+    document.getElementById('f-pattern').value='';
   }
+  
+  // NORMAL FABRIC LOGIC
+  if(FABRIC_CONFIG[mat]){
+    const config=FABRIC_CONFIG[mat];
+    if(config.variations.length){
+      detailWrap.classList.add('visible');
+      config.variations.forEach(v=>{const opt=document.createElement('option');opt.value=v;opt.textContent=v;varSel.appendChild(opt);});
+    }else{detailWrap.classList.remove('visible');}
+    if(config.gsm.length){config.gsm.forEach(g=>{const opt=document.createElement('option');opt.value=g;opt.textContent=g+' GSM';gsmSel.appendChild(opt);});}
+  }else{detailWrap.classList.remove('visible');}
+}
 
-  // Populate Sales Reps (APPEND buttons to existing)
-  if(configData.people){
-    const salesReps = configData.people.filter(p => p.type === 'sales').map(p => p.name);
-    const gridEl = document.querySelector('.sale-by-grid');
-    if(gridEl){
-      salesReps.forEach(name => {
-        const exists = Array.from(gridEl.children).some(btn => btn.textContent.trim() === name);
-        if(!exists){
-          const btn = document.createElement('div');
-          btn.className = 'sale-by-btn';
-          btn.textContent = name;
-          btn.onclick = () => selectSaleBy(name);
-          gridEl.appendChild(btn);
-        }
-      });
-    }
-  }
-
-  // Populate Primary Materials (APPEND to existing)
-  if(configData.fabrics){
-    const fabricSel = document.getElementById('f-primary-material');
-    if(fabricSel){
-      configData.fabrics.forEach(f => {
-        const exists = Array.from(fabricSel.options).some(opt => opt.value === f.name);
-        if(!exists){
-          const opt = document.createElement('option');
-          opt.value = f.name;
-          opt.textContent = f.name;
-          fabricSel.appendChild(opt);
-        }
-      });
-    }
-    
-    // APPEND to Secondary Material
-    const secSel = document.getElementById('f-secondary-material');
-    if(secSel){
-      configData.fabrics.forEach(f => {
-        const exists = Array.from(secSel.options).some(opt => opt.value === f.name);
-        if(!exists){
-          const opt = document.createElement('option');
-          opt.value = f.name;
-          opt.textContent = f.name;
-          secSel.appendChild(opt);
-        }
-      });
-    }
-  }
-
-  // Populate Hardware Colors (APPEND to existing selects)
-  if(configData.hardwareColors){
-    const colorMap = {};
-    configData.hardwareColors.forEach(hw => {
-      colorMap[hw.type] = hw.colors;
-    });
-
-    // Zipper colors
-    const zipperColorSelect = document.getElementById('f-zipper-color');
-    if(zipperColorSelect && colorMap['Zippers']){
-      colorMap['Zippers'].forEach(color => {
-        const exists = Array.from(zipperColorSelect.options).some(opt => opt.value === color);
-        if(!exists){
-          const option = document.createElement('option');
-          option.value = color;
-          option.textContent = color;
-          zipperColorSelect.appendChild(option);
-        }
-      });
-    }
-
-    // Handle colors
-    const handleColorSelect = document.getElementById('f-handle-color');
-    if(handleColorSelect && colorMap['Handles']){
-      colorMap['Handles'].forEach(color => {
-        const exists = Array.from(handleColorSelect.options).some(opt => opt.value === color);
-        if(!exists){
-          const option = document.createElement('option');
-          option.value = color;
-          option.textContent = color;
-          handleColorSelect.appendChild(option);
-        }
-      });
-    }
-
-    // Lace colors
-    const laceColorSelect = document.getElementById('f-lace-color');
-    if(laceColorSelect && colorMap['Lace']){
-      colorMap['Lace'].forEach(color => {
-        const exists = Array.from(laceColorSelect.options).some(opt => opt.value === color);
-        if(!exists){
-          const option = document.createElement('option');
-          option.value = color;
-          option.textContent = color;
-          laceColorSelect.appendChild(option);
-        }
-      });
-    }
-  }
-
-  // Populate Hardware Sizes (APPEND to existing selects)
-  if(configData.hardwareSizes){
-    const sizeMap = {};
-    configData.hardwareSizes.forEach(hw => {
-      sizeMap[hw.type] = hw.sizes;
-    });
-
-    // Zipper sizes
-    const zipperSizeSelect = document.getElementById('f-zipper-number');
-    if(zipperSizeSelect && sizeMap['Zippers']){
-      sizeMap['Zippers'].forEach(size => {
-        const exists = Array.from(zipperSizeSelect.options).some(opt => opt.value === size);
-        if(!exists){
-          const option = document.createElement('option');
-          option.value = size;
-          option.textContent = size;
-          zipperSizeSelect.appendChild(option);
-        }
-      });
-    }
+function onPrimaryVariationChange(){
+  const mat=document.getElementById('f-primary-material').value;
+  const variation=document.getElementById('f-primary-variation').value;
+  const patternWrap=document.getElementById('pattern-field-wrap');
+  
+  if(mat==='Designer Fabric'&&(variation==='Kalamkari'||variation==='Ikat')){
+    patternWrap.style.display='block';
+  }else{
+    patternWrap.style.display='none';
   }
 }
+
+function selectSaleBy(v){
+  selectedSaleBy=v;
+  document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
+  event.target.classList.add('active');
+  document.getElementById('f-sale-other').style.display=v==='Other'?'block':'none';
+}
+
+async function submitOrder(){
+  const client=document.getElementById('f-client').value.trim();
+  const qty=parseInt(document.getElementById('f-qty').value)||0;
+  const orderValue=Number(document.getElementById('f-order-value').value)||0;
+  const primaryMaterial=document.getElementById('f-primary-material').value;
+  const saleBy=selectedSaleBy==='Other'?document.getElementById('f-sale-other').value.trim():selectedSaleBy;
+  
+  if(!client||!qty||!orderValue||!primaryMaterial||!saleBy){alert('Fill in all required fields');return;}
+  
+  const primaryVariation=document.getElementById('f-primary-variation').value;
+  const primaryGSM=document.getElementById('f-primary-gsm').value;
+  const pattern=document.getElementById('f-pattern')?document.getElementById('f-pattern').value:'';
+  
+  const order={
+    Client:client,
+    Product:document.getElementById('f-product').value||'—',
+    Qty:qty,
+    'Delivery Date':document.getElementById('f-date').value||'',
+    'Primary Material':primaryMaterial,
+    'Primary Variation':primaryVariation,
+    'Primary GSM':primaryGSM,
+    Color:document.getElementById('f-color').value||'',
+    Pattern:pattern,
+    'Order Value':orderValue,
+    'Sale By':saleBy,
+    'Created At':new Date().toLocaleString()
+  };
+  
+  try{
+    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'addOrder',...order})});
+    const data=await res.json();
+    if(data.success){
+      document.getElementById('form-body').style.display='none';
+      document.getElementById('success-screen').classList.add('visible');
+      showToast('✓ Order saved!');
+    }else{showToast('Error: '+data.error);}
+  }catch(err){showToast('Error saving order');}
+}
+
+function resetForm(){
+  document.getElementById('form-body').style.display='block';
+  document.getElementById('success-screen').classList.remove('visible');
+  ['f-client','f-product','f-qty','f-date','f-order-value','f-color','f-primary-material','f-primary-variation','f-primary-gsm','f-pattern','f-sale-other'].forEach(id=>{document.getElementById(id).value='';});
+  selectedSaleBy='';
+  document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
+  onPrimaryMaterialChange();
+}
+
+function switchTab(tab){document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));document.getElementById('page-'+tab).classList.add('active');}
+
+function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
 
 initApp();
 </script>
+
 </body>
 </html>
