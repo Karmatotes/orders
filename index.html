@@ -485,10 +485,11 @@ function openEditModal(orderId){
           <label>Secondary Material</label>
           <select class="form-control" id="edit-secondary-material">
             <option value="">None</option>
+            <option value="Jute Fabric" ${order.secondaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
             <option value="Cotton Canvas" ${order.secondaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
             <option value="Juco Fabric" ${order.secondaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
-            <option value="Jute Fabric" ${order.secondaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
             <option value="Kadhi Fabric" ${order.secondaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
+            <option value="Designer Fabric" ${order.secondaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
           </select>
         </div>
         <div class="form-group">
