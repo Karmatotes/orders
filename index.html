@@ -172,8 +172,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEET_URL="https://script.google.com/macros/s/AKfycbxpcfocezAqlwg37_SujPuDilIyXEeve5A8Niir1vohU3pz2sytBrSIjQyX6vLmoIPN/exec";
-const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH0-Hrp13qP_PcA7h-1KddIPx6TzfMzY6KoYnTMxaa8mnSa/exec";
+const SHEET_URL="https://script.google.com/macros/s/AKfycbx2nMzO-uy4ycFkFIccnoh7BFVxst0WeDzZOAKcjEzNSWSmg-6B6mRHbJtv6BRKzn33/exec";
 
 const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},'Designer Fabric':{variations:['Kalamkari','Ikat'],gsm:[]}};
 
@@ -190,7 +189,7 @@ function setSyncStatus(state,msg){
 
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  try{const data=await fetch(`${CONFIG_URL}?action=getConfig`).then(r=>r.json());if(data)configData=data;populateConfigDropdowns();}catch(err){console.error(err);}
+  try{const data=await fetch(`${SHEET_URL}?action=getConfig`).then(r=>r.json());if(data)configData=data;populateConfigDropdowns();}catch(err){console.error(err);}
   setSyncStatus('ok','Ready');
 }
 
@@ -564,8 +563,10 @@ async function saveEditedOrder(){
 async function deleteOrder(orderId){
   if(!confirm('Delete this order? This cannot be undone.')) return;
   
+  const order=orders.find(o=>o.id===orderId);
+  
   try{
-    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'deleteOrder',ID:orderId})});
+    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'deleteOrder',ID:orderId,Client:order.client})});
     const data=await res.json();
     if(data.success){
       showToast('✓ Order deleted');
