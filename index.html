@@ -7,7 +7,7 @@
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600;700&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
 <style>
 :root{--bg:#F2EDE6;--surface:#FDFAF6;--bark:#2C1F14;--moss:#3B6B45;--moss-light:#5A9467;--clay:#C05A2A;--sand:#D4A96A;--cream:#EDE5D8;--red:#C0392B;--red-soft:#FAE9E7;--green-soft:#EAF4EC;--border:rgba(44,31,20,0.12);--shadow:0 2px 12px rgba(44,31,20,0.10);--shadow-lg:0 8px 32px rgba(44,31,20,0.15);--blue-soft:#EFF6FF;--blue:#1D4ED8;--purple-soft:#FDF4FF;--purple:#7E22CE;}
-*{box-sizing:border-box;margin:0;padding:0}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--bark);min-height:100vh}.sync-bar{background:var(--bark);color:rgba(255,255,255,0.7);padding:3px 24px;font-size:11px;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:8px;height:24px;position:sticky;top:0;z-index:101}.sync-dot{width:7px;height:7px;border-radius:50%;background:#9CA3AF;flex-shrink:0;transition:background .3s}.sync-dot.syncing{background:#F59E0B;animation:pulse .8s infinite}.sync-dot.ok{background:#22C55E}.sync-dot.err{background:#EF4444}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}.sync-text{flex:1}.sync-time{opacity:.5;font-size:10px}header{background:var(--bark);color:#fff;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:24px;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.25)}.logo{display:flex;align-items:center;gap:10px}.logo-mark{width:34px;height:34px;background:var(--moss);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}.logo h1{font-size:17px;font-weight:700;letter-spacing:-.3px}.logo span{font-size:12px;color:rgba(255,255,255,0.5);font-weight:400}.header-right{display:flex;align-items:center;gap:10px}.date-badge{background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.75)}.btn-tracker{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .15s}.btn-tracker:hover{background:rgba(255,255,255,0.22)}.nav-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}.nav-tab{padding:12px 18px;font-size:13px;font-weight:500;color:rgba(44,31,20,0.5);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}.nav-tab.active{color:var(--moss);border-bottom-color:var(--moss);font-weight:600}.nav-tab:hover:not(.active){color:var(--bark)}.page{display:none;padding:24px}.page.active{display:block}.form-card{background:var(--surface);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);max-width:720px;margin:0 auto;overflow:hidden}.form-card-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}.form-card-icon{width:38px;height:38px;border-radius:9px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.form-card-title{font-size:16px;font-weight:700;color:var(--bark)}.form-card-sub{font-size:12px;color:rgba(44,31,20,0.5);margin-top:2px}.form-card-body{padding:24px}.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(44,31,20,0.4);margin-bottom:12px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--border)}.section-label:first-child{margin-top:0}.form-group{margin-bottom:14px}.form-group label{display:block;font-size:12px;font-weight:600;color:rgba(44,31,20,0.6);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}.form-group label .req{color:var(--red);margin-left:2px}.form-control{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.form-control:focus{border-color:var(--moss);background:var(--surface)}.form-control::placeholder{color:rgba(44,31,20,0.3)}.form-hint{font-size:11px;color:rgba(44,31,20,0.4);margin-top:4px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}select.form-control{cursor:pointer}textarea.form-control{resize:none}.print-type-wrap{display:flex;gap:8px;flex-wrap:wrap}.print-type-btn{flex:1;min-width:80px;padding:9px 12px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}.print-type-btn.active-none{border-color:var(--bark);background:var(--bark);color:#fff}.print-type-btn.active-screen{border-color:var(--blue);background:var(--blue-soft);color:var(--blue)}.print-type-btn.active-dtf{border-color:var(--purple);background:var(--purple-soft);color:var(--purple)}.sale-by-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}.sale-by-btn{padding:9px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}.sale-by-btn.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}.feature-grid{display:flex;flex-wrap:wrap;gap:7px}.feature-chip{padding:7px 12px;border:1.5px solid var(--border);border-radius:20px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:500;cursor:pointer;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6);user-select:none}.feature-chip.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}.person-input-row{display:flex;gap:8px;align-items:center}.person-input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.person-input:focus{border-color:var(--moss)}.btn-add-person{background:var(--moss);color:#fff;border:none;border-radius:8px;padding:9px 14px;font-family:'DM Sans',sans-serif;font-size:13px;font-weight:600;cursor:pointer}.person-tags-wrap{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}.ptag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;border-radius:20px;font-size:12px;font-weight:500}.ptag.worker{background:#EEF2FF;color:#3730A3}.ptag-x{cursor:pointer;opacity:.6;font-size:11px}.ptag-x:hover{opacity:1}.secondary-material-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border)}.secondary-material-wrap.visible{display:block}.btn-submit{width:100%;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:20px;letter-spacing:.2px}.btn-submit:hover{background:var(--moss-light)}.btn-submit:disabled{opacity:.5;cursor:not-allowed}.success-screen{display:none;text-align:center;padding:40px 24px}.success-screen.visible{display:block}.success-icon{font-size:48px;margin-bottom:16px}.success-title{font-size:20px;font-weight:700;color:var(--moss);margin-bottom:8px}.success-sub{font-size:13px;color:rgba(44,31,20,0.6);margin-bottom:24px;line-height:1.6}.success-order-card{background:var(--cream);border-radius:10px;padding:16px;text-align:left;margin-bottom:20px;border:1px solid var(--border)}.success-row{display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid var(--border);font-size:13px}.success-row:last-child{border-bottom:none}.success-row label{color:rgba(44,31,20,0.5);font-weight:500}.success-row span{font-weight:600;color:var(--bark);text-align:right;max-width:60%}.btn-new-order{background:var(--moss);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:10px}.btn-view-tracker{background:var(--surface);color:var(--bark);border:1.5px solid var(--border);border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;text-decoration:none;display:inline-block}.gsm-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.gsm-select{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.gsm-select:focus{border-color:var(--moss);background:var(--surface)}.gsm-custom-input{width:90px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;display:none}.gsm-custom-input.visible{display:block}.gsm-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.4);font-family:'DM Mono',monospace}.fabric-detail-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border);flex-direction:column;gap:8px}.fabric-detail-wrap.visible{display:flex}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s;white-space:nowrap}.toast.show{transform:translateX(-50%) translateY(0)}.balance-display{margin-top:8px;padding:8px 12px;border-radius:7px;font-size:12px;font-weight:600;display:none}.balance-display.visible{display:block}.balance-display.positive{background:var(--green-soft);color:var(--moss)}.stock-alert{margin-top:6px;padding:6px 10px;border-radius:6px;font-size:11px;font-weight:600;display:none}.stock-alert.visible{display:block}.stock-alert.ok{background:var(--green-soft);color:var(--moss)}.stock-alert.danger{background:var(--red-soft);color:var(--red)}
+*{box-sizing:border-box;margin:0;padding:0}body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--bark);min-height:100vh}.sync-bar{background:var(--bark);color:rgba(255,255,255,0.7);padding:3px 24px;font-size:11px;font-family:'DM Mono',monospace;display:flex;align-items:center;gap:8px;height:24px;position:sticky;top:0;z-index:101}.sync-dot{width:7px;height:7px;border-radius:50%;background:#9CA3AF;flex-shrink:0;transition:background .3s}.sync-dot.syncing{background:#F59E0B;animation:pulse .8s infinite}.sync-dot.ok{background:#22C55E}.sync-dot.err{background:#EF4444}@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}.sync-text{flex:1}.sync-time{opacity:.5;font-size:10px}header{background:var(--bark);color:#fff;padding:0 24px;height:60px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:24px;z-index:100;box-shadow:0 2px 16px rgba(0,0,0,0.25)}.logo{display:flex;align-items:center;gap:10px}.logo-mark{width:34px;height:34px;background:var(--moss);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:18px}.logo h1{font-size:17px;font-weight:700;letter-spacing:-.3px}.logo span{font-size:12px;color:rgba(255,255,255,0.5);font-weight:400}.header-right{display:flex;align-items:center;gap:10px}.date-badge{background:rgba(255,255,255,0.1);border-radius:6px;padding:4px 10px;font-size:12px;font-family:'DM Mono',monospace;color:rgba(255,255,255,0.75)}.btn-tracker{background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:7px;padding:5px 12px;font-size:12px;font-weight:600;cursor:pointer;font-family:'DM Sans',sans-serif;text-decoration:none;display:flex;align-items:center;gap:5px;transition:all .15s}.btn-tracker:hover{background:rgba(255,255,255,0.22)}.nav-tabs{background:var(--surface);border-bottom:1px solid var(--border);padding:0 24px;display:flex;gap:0}.nav-tab{padding:12px 18px;font-size:13px;font-weight:500;color:rgba(44,31,20,0.5);cursor:pointer;border-bottom:2px solid transparent;transition:all .15s;white-space:nowrap}.nav-tab.active{color:var(--moss);border-bottom-color:var(--moss);font-weight:600}.nav-tab:hover:not(.active){color:var(--bark)}.page{display:none;padding:24px}.page.active{display:block}.form-card{background:var(--surface);border-radius:14px;border:1px solid var(--border);box-shadow:var(--shadow);max-width:720px;margin:0 auto;overflow:hidden}.form-card-header{padding:18px 24px;border-bottom:1px solid var(--border);display:flex;align-items:center;gap:12px}.form-card-icon{width:38px;height:38px;border-radius:9px;background:var(--moss);display:flex;align-items:center;justify-content:center;font-size:18px;flex-shrink:0}.form-card-title{font-size:16px;font-weight:700;color:var(--bark)}.form-card-sub{font-size:12px;color:rgba(44,31,20,0.5);margin-top:2px}.form-card-body{padding:24px}.section-label{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.7px;color:rgba(44,31,20,0.4);margin-bottom:12px;margin-top:20px;padding-bottom:6px;border-bottom:1px solid var(--border)}.section-label:first-child{margin-top:0}.form-group{margin-bottom:14px}.form-group label{display:block;font-size:12px;font-weight:600;color:rgba(44,31,20,0.6);margin-bottom:5px;text-transform:uppercase;letter-spacing:.3px}.form-group label .req{color:var(--red);margin-left:2px}.form-control{width:100%;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:9px 12px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.form-control:focus{border-color:var(--moss);background:var(--surface)}.form-control::placeholder{color:rgba(44,31,20,0.3)}.form-hint{font-size:11px;color:rgba(44,31,20,0.4);margin-top:4px}.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}.form-row-3{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px}select.form-control{cursor:pointer}textarea.form-control{resize:none}.sale-by-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:8px}.sale-by-btn{padding:9px 8px;border:1.5px solid var(--border);border-radius:8px;font-family:'DM Sans',sans-serif;font-size:12px;font-weight:600;cursor:pointer;text-align:center;transition:all .15s;background:var(--surface);color:rgba(44,31,20,0.6)}.sale-by-btn.active{border-color:var(--moss);background:var(--green-soft);color:var(--moss)}.btn-submit{width:100%;background:var(--moss);color:#fff;border:none;border-radius:10px;padding:14px;font-family:'DM Sans',sans-serif;font-size:15px;font-weight:700;cursor:pointer;transition:background .2s;margin-top:20px;letter-spacing:.2px}.btn-submit:hover{background:var(--moss-light)}.btn-submit:disabled{opacity:.5;cursor:not-allowed}.success-screen{display:none;text-align:center;padding:40px 24px}.success-screen.visible{display:block}.success-icon{font-size:48px;margin-bottom:16px}.success-title{font-size:20px;font-weight:700;color:var(--moss);margin-bottom:8px}.success-sub{font-size:13px;color:rgba(44,31,20,0.6);margin-bottom:24px;line-height:1.6}.btn-new-order{background:var(--moss);color:#fff;border:none;border-radius:10px;padding:12px 24px;font-family:'DM Sans',sans-serif;font-size:14px;font-weight:600;cursor:pointer;margin-right:10px}.gsm-wrap{display:flex;gap:6px;align-items:center;flex-wrap:wrap}.gsm-select{flex:1;min-width:100px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:8px 10px;font-family:'DM Sans',sans-serif;font-size:13px;color:var(--bark);outline:none;transition:border-color .15s}.gsm-select:focus{border-color:var(--moss);background:var(--surface)}.gsm-unit{font-size:11px;font-weight:600;color:rgba(44,31,20,0.4);font-family:'DM Mono',monospace}.fabric-detail-wrap{display:none;margin-top:10px;padding:10px 12px;background:var(--cream);border-radius:8px;border:1px solid var(--border);flex-direction:column;gap:8px}.fabric-detail-wrap.visible{display:flex}.toast{position:fixed;bottom:24px;left:50%;transform:translateX(-50%) translateY(80px);background:var(--bark);color:#fff;padding:10px 20px;border-radius:10px;font-size:13px;font-weight:500;z-index:999;transition:transform .3s;white-space:nowrap}.toast.show{transform:translateX(-50%) translateY(0)}.stage-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}.pay-pill{display:inline-block;padding:2px 8px;border-radius:20px;font-size:10px;font-weight:700;white-space:nowrap}.pay-paid{background:#E8F5E9;color:#166534}.pay-partial{background:#FFF8E1;color:#92400E}.pay-pending{background:#FAE9E7;color:#C0392B}.kpi-row{display:flex;gap:12px;margin-bottom:20px;flex-wrap:wrap}.kpi{background:var(--surface);border-radius:10px;padding:12px 16px;min-width:110px;flex:1;border:1px solid var(--border)}.kpi-val{font-size:22px;font-weight:700;color:var(--bark)}.kpi-label{font-size:11px;color:rgba(44,31,20,0.55);margin-top:2px;font-weight:500;text-transform:uppercase;letter-spacing:.4px}.kpi.red .kpi-val{color:var(--red)}.kpi.green .kpi-val{color:var(--moss)}.overview-table-wrap{overflow-x:auto;border-radius:10px;border:1px solid var(--border)}.overview-table{width:100%;border-collapse:collapse;font-size:12px}.overview-table th{background:var(--bark);color:#fff;padding:10px 12px;text-align:left;font-weight:600;font-size:11px;text-transform:uppercase;letter-spacing:.4px;white-space:nowrap}.overview-table td{padding:10px 12px;border-bottom:1px solid var(--border);vertical-align:middle}.overview-table tr:last-child td{border-bottom:none}.overview-table tr:hover td{background:var(--cream)}.action-buttons{display:flex;gap:6px}.btn-edit{background:#3B9DD5;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer}.btn-edit:hover{background:#2a7ba8}.btn-delete{background:#C0392B;color:#fff;border:none;border-radius:6px;padding:6px 12px;font-size:11px;font-weight:600;cursor:pointer}.btn-delete:hover{background:#a03225}.modal{display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:1000;align-items:center;justify-content:center}.modal.visible{display:flex}.modal-content{background:var(--surface);border-radius:14px;padding:30px;max-width:700px;max-height:90vh;overflow-y:auto;box-shadow:var(--shadow-lg)}.modal-header{font-size:18px;font-weight:700;margin-bottom:20px;color:var(--bark)}.modal-buttons{display:flex;gap:10px;margin-top:20px;justify-content:flex-end}.btn-save{background:var(--moss);color:#fff;border:none;border-radius:8px;padding:10px 20px;font-weight:600;cursor:pointer}.btn-save:hover{background:var(--moss-light)}.btn-cancel{background:var(--border);color:var(--bark);border:none;border-radius:8px;padding:10px 20px;font-weight:600;cursor:pointer}
 </style>
 </head>
 <body>
@@ -30,8 +30,8 @@
 </header>
 
 <div class="nav-tabs">
-  <div class="nav-tab active" onclick="switchTab('entry')">＋ New Order</div>
-  <div class="nav-tab" onclick="switchTab('overview')">📋 Overview</div>
+  <div class="nav-tab active" id="tab-entry" onclick="switchTab('entry')">＋ New Order</div>
+  <div class="nav-tab" id="tab-overview" onclick="switchTab('overview')">📋 Overview</div>
 </div>
 
 <div class="page active" id="page-entry">
@@ -134,6 +134,41 @@
 </div>
 </div>
 
+<!-- OVERVIEW PAGE -->
+<div class="page" id="page-overview">
+  <div class="kpi-row">
+    <div class="kpi red"><div class="kpi-val" id="ov-delayed">—</div><div class="kpi-label">Delayed</div></div>
+    <div class="kpi"><div class="kpi-val" id="ov-active">—</div><div class="kpi-label">Active</div></div>
+    <div class="kpi"><div class="kpi-val" id="ov-total">—</div><div class="kpi-label">Total Orders</div></div>
+    <div class="kpi green"><div class="kpi-val" id="ov-done">—</div><div class="kpi-label">Done</div></div>
+    <div class="kpi"><div class="kpi-val" id="ov-outstanding">—</div><div class="kpi-label">Outstanding ₹</div></div>
+  </div>
+  <div class="overview-table-wrap">
+    <table class="overview-table">
+      <thead>
+        <tr>
+          <th>#</th><th>Client</th><th>Product</th><th>Qty</th>
+          <th>Delivery</th><th>Stage</th><th>Material</th>
+          <th>Order ₹</th><th>Actions</th>
+        </tr>
+      </thead>
+      <tbody id="ov-tbody"><tr><td colspan="9" style="text-align:center;padding:30px">No orders yet</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<!-- EDIT MODAL -->
+<div class="modal" id="edit-modal">
+  <div class="modal-content">
+    <div class="modal-header">✏️ Edit Order</div>
+    <div id="edit-form-container"></div>
+    <div class="modal-buttons">
+      <button class="btn-cancel" onclick="closeEditModal()">Cancel</button>
+      <button class="btn-save" onclick="saveEditedOrder()">Save Changes</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
@@ -142,11 +177,21 @@ const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH
 
 const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},'Designer Fabric':{variations:['Kalamkari','Ikat'],gsm:[]}};
 
-let selectedSaleBy='', configData=null;
+let selectedSaleBy='', configData=null, orders=[], editingOrderId=null;
+
+function setSyncStatus(state,msg){
+  const dot=document.getElementById('sync-dot');
+  const txt=document.getElementById('sync-text');
+  const time=document.getElementById('sync-time');
+  dot.className='sync-dot '+state;
+  txt.textContent=msg;
+  if(state==='ok')time.textContent='Last sync: '+new Date().toLocaleString('en-IN');
+}
 
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
   try{const data=await fetch(`${CONFIG_URL}?action=getConfig`).then(r=>r.json());if(data)configData=data;populateConfigDropdowns();}catch(err){console.error(err);}
+  setSyncStatus('ok','Ready');
 }
 
 function populateConfigDropdowns(){
@@ -165,7 +210,6 @@ function onPrimaryMaterialChange(){
   varSel.innerHTML='<option value="">Select variation…</option>';
   gsmSel.innerHTML='<option value="">Select GSM…</option>';
   
-  // ✨ DESIGNER FABRIC LOGIC
   if(mat==='Designer Fabric'){
     detailWrap.classList.add('visible');
     const kalamkariOpt=document.createElement('option');
@@ -183,7 +227,6 @@ function onPrimaryMaterialChange(){
     document.getElementById('f-pattern').value='';
   }
   
-  // NORMAL FABRIC LOGIC
   if(FABRIC_CONFIG[mat]){
     const config=FABRIC_CONFIG[mat];
     if(config.variations.length){
@@ -265,11 +308,8 @@ function switchTab(tab){
   document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
   document.querySelectorAll('.page').forEach(p=>p.classList.remove('active'));
   
-  const tabEl = document.querySelector('[onclick*="switchTab(\''+tab+'\')"]');
-  if(tabEl) tabEl.classList.add('active');
-  
-  const pageEl = document.getElementById('page-'+tab);
-  if(pageEl) pageEl.classList.add('active');
+  document.getElementById('tab-'+tab).classList.add('active');
+  document.getElementById('page-'+tab).classList.add('active');
   
   if(tab==='overview'){
     loadOverviewData();
@@ -291,7 +331,13 @@ async function loadOverviewData(){
         stage:String(row['Stage']||'Cutting'),
         status:String(row['Status']||'ok'),
         primaryMaterial:String(row['Primary Material']||''),
+        primaryVariation:String(row['Primary Variation']||''),
+        primaryGSM:String(row['Primary GSM']||''),
         secondaryMaterial:String(row['Secondary Material']||''),
+        secondaryVariation:String(row['Secondary Variation']||''),
+        secondaryGSM:String(row['Secondary GSM']||''),
+        color:String(row['Color']||''),
+        pattern:String(row['Pattern']||''),
         orderValue:Number(row['Order Value'])||0,
         advance:Number(row['Advance'])||0,
         balance:Number(row['Balance'])||0,
@@ -300,11 +346,11 @@ async function loadOverviewData(){
         entryDate:String(row['Created At']||'')
       })).filter(o=>o.client&&o.client.trim()!=='');
     }
-    setSyncStatus('ok','Synced · karmatotes@gmail.com');
+    setSyncStatus('ok','Synced');
     renderOverview();
     renderOverviewKPIs();
   }catch(err){
-    setSyncStatus('err','Sync failed.');
+    setSyncStatus('err','Sync failed');
     console.error(err);
   }
 }
@@ -325,7 +371,7 @@ function renderOverviewKPIs(){
   document.getElementById('ov-done').textContent=orders.filter(o=>o.stage==='Done').length;
   
   const outstanding=orders.filter(o=>o.paymentStatus!=='Paid').reduce((s,o)=>s+(o.balance||0),0);
-  document.getElementById('ov-outstanding').textContent=fmtINR(outstanding);
+  document.getElementById('ov-outstanding').textContent='₹'+(Number(outstanding)||0).toLocaleString('en-IN');
 }
 
 function renderOverview(){
@@ -333,13 +379,12 @@ function renderOverview(){
   if(!tbody) return;
   
   if(!orders || orders.length === 0){
-    tbody.innerHTML='<tr><td colspan="11" style="text-align:center;padding:30px;color:rgba(44,31,20,0.35)">No orders yet</td></tr>';
+    tbody.innerHTML='<tr><td colspan="9" style="text-align:center;padding:30px;color:rgba(44,31,20,0.35)">No orders yet</td></tr>';
     return;
   }
   
   tbody.innerHTML = orders.map((o,i)=>{
     const sc={'Cutting':{bg:'#FEF3C7',text:'#92400E'},'Printing':{bg:'#DBEAFE',text:'#1E40AF'},'Stitching':{bg:'#FDE8D8',text:'#9A3412'},'Finishing':{bg:'#FAE8FF',text:'#6B21A8'},'Packing & Del':{bg:'#DCFCE7',text:'#166534'},'Done':{bg:'#F3F4F6',text:'#374151'}}[o.stage]||{bg:'#F3F4F6',text:'#374151'};
-    const payClass=o.paymentStatus==='Paid'?'pay-paid':o.paymentStatus==='Partial'?'pay-partial':'pay-pending';
     
     return `<tr>
       <td style="color:rgba(44,31,20,0.4);font-size:11px">${i+1}</td>
@@ -348,17 +393,185 @@ function renderOverview(){
       <td style="font-family:'DM Mono',monospace;font-weight:600">${o.qty}</td>
       <td style="font-family:'DM Mono',monospace;font-size:11px">${o.date?new Date(o.date).toLocaleDateString('en-IN',{day:'numeric',month:'short'}):'TBD'}</td>
       <td><span class="stage-pill" style="background:${sc.bg};color:${sc.text}">${o.stage}</span></td>
-      <td style="font-size:11px;color:rgba(44,31,20,0.6)">${o.primaryMaterial||'—'}${o.secondaryMaterial?'+'+o.secondaryMaterial:''}</td>
+      <td style="font-size:11px;color:rgba(44,31,20,0.6)">${o.primaryMaterial||'—'}</td>
       <td style="font-family:'DM Mono',monospace;font-size:12px;font-weight:600">${o.orderValue?'₹'+(Number(o.orderValue)||0).toLocaleString('en-IN'):'—'}</td>
-      <td style="font-family:'DM Mono',monospace;font-size:12px;color:${o.balance>0?'#C0392B':'#3B6B45'}">${o.orderValue?'₹'+(Number(o.balance)||0).toLocaleString('en-IN'):'—'}</td>
-      <td><span class="pay-pill ${payClass}">${o.paymentStatus||'Pending'}</span></td>
-      <td style="font-size:11px">${o.saleBy||'—'}</td>
+      <td>
+        <div class="action-buttons">
+          <button class="btn-edit" onclick="openEditModal(${o.id})">✏️ Edit</button>
+          <button class="btn-delete" onclick="deleteOrder(${o.id})">🗑 Delete</button>
+        </div>
+      </td>
     </tr>`;
   }).join('');
 }
 
-function fmtINR(n){
-  return '₹'+(Number(n)||0).toLocaleString('en-IN');
+function openEditModal(orderId){
+  editingOrderId=orderId;
+  const order=orders.find(o=>o.id===orderId);
+  if(!order) return;
+  
+  const html=`
+    <div class="form-group">
+      <label>Client *</label>
+      <input class="form-control" id="edit-client" value="${order.client}">
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Product</label>
+        <input class="form-control" id="edit-product" value="${order.product}">
+      </div>
+      <div class="form-group">
+        <label>Quantity</label>
+        <input class="form-control" id="edit-qty" type="number" value="${order.qty}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Delivery Date</label>
+        <input class="form-control" id="edit-date" type="date" value="${order.date}">
+      </div>
+      <div class="form-group">
+        <label>Order Value ₹</label>
+        <input class="form-control" id="edit-order-value" type="number" value="${order.orderValue}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Primary Material</label>
+        <select class="form-control" id="edit-primary-material">
+          <option value="">Select…</option>
+          <option value="Jute Fabric" ${order.primaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
+          <option value="Cotton Canvas" ${order.primaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
+          <option value="Juco Fabric" ${order.primaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
+          <option value="Kadhi Fabric" ${order.primaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
+          <option value="Designer Fabric" ${order.primaryMaterial==='Designer Fabric'?'selected':''}>✨ Designer Fabric</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Variation</label>
+        <input class="form-control" id="edit-primary-variation" value="${order.primaryVariation}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>GSM</label>
+        <input class="form-control" id="edit-primary-gsm" value="${order.primaryGSM}">
+      </div>
+      <div class="form-group">
+        <label>Color</label>
+        <input class="form-control" id="edit-color" value="${order.color}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Pattern (Designer only)</label>
+        <input class="form-control" id="edit-pattern" value="${order.pattern}">
+      </div>
+      <div class="form-group">
+        <label>Stage</label>
+        <select class="form-control" id="edit-stage">
+          <option value="Cutting" ${order.stage==='Cutting'?'selected':''}>Cutting</option>
+          <option value="Printing" ${order.stage==='Printing'?'selected':''}>Printing</option>
+          <option value="Stitching" ${order.stage==='Stitching'?'selected':''}>Stitching</option>
+          <option value="Finishing" ${order.stage==='Finishing'?'selected':''}>Finishing</option>
+          <option value="Packing & Del" ${order.stage==='Packing & Del'?'selected':''}>Packing & Del</option>
+          <option value="Done" ${order.stage==='Done'?'selected':''}>Done</option>
+        </select>
+      </div>
+    </div>
+    <div style="border-top:1px solid var(--border);padding-top:15px;margin-top:15px">
+      <div style="font-size:13px;font-weight:600;margin-bottom:10px">Secondary Fabric (Add Later)</div>
+      <div class="form-row">
+        <div class="form-group">
+          <label>Secondary Material</label>
+          <select class="form-control" id="edit-secondary-material">
+            <option value="">None</option>
+            <option value="Cotton Canvas" ${order.secondaryMaterial==='Cotton Canvas'?'selected':''}>Cotton Canvas</option>
+            <option value="Juco Fabric" ${order.secondaryMaterial==='Juco Fabric'?'selected':''}>Juco Fabric</option>
+            <option value="Jute Fabric" ${order.secondaryMaterial==='Jute Fabric'?'selected':''}>Jute Fabric</option>
+            <option value="Kadhi Fabric" ${order.secondaryMaterial==='Kadhi Fabric'?'selected':''}>Kadhi Fabric</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label>Secondary Variation</label>
+          <input class="form-control" id="edit-secondary-variation" value="${order.secondaryVariation}">
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Secondary GSM</label>
+        <input class="form-control" id="edit-secondary-gsm" value="${order.secondaryGSM}">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Payment Status</label>
+        <select class="form-control" id="edit-payment-status">
+          <option value="Pending" ${order.paymentStatus==='Pending'?'selected':''}>Pending</option>
+          <option value="Partial" ${order.paymentStatus==='Partial'?'selected':''}>Partial</option>
+          <option value="Paid" ${order.paymentStatus==='Paid'?'selected':''}>Paid</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Sale By</label>
+        <input class="form-control" id="edit-sale-by" value="${order.saleBy}">
+      </div>
+    </div>
+  `;
+  
+  document.getElementById('edit-form-container').innerHTML=html;
+  document.getElementById('edit-modal').classList.add('visible');
+}
+
+function closeEditModal(){
+  document.getElementById('edit-modal').classList.remove('visible');
+  editingOrderId=null;
+}
+
+async function saveEditedOrder(){
+  if(!editingOrderId) return;
+  
+  const order={
+    ID:editingOrderId,
+    Client:document.getElementById('edit-client').value,
+    Product:document.getElementById('edit-product').value,
+    Qty:document.getElementById('edit-qty').value,
+    'Delivery Date':document.getElementById('edit-date').value,
+    'Order Value':document.getElementById('edit-order-value').value,
+    'Primary Material':document.getElementById('edit-primary-material').value,
+    'Primary Variation':document.getElementById('edit-primary-variation').value,
+    'Primary GSM':document.getElementById('edit-primary-gsm').value,
+    Color:document.getElementById('edit-color').value,
+    Pattern:document.getElementById('edit-pattern').value,
+    Stage:document.getElementById('edit-stage').value,
+    'Secondary Material':document.getElementById('edit-secondary-material').value,
+    'Secondary Variation':document.getElementById('edit-secondary-variation').value,
+    'Secondary GSM':document.getElementById('edit-secondary-gsm').value,
+    'Payment Status':document.getElementById('edit-payment-status').value,
+    'Sale By':document.getElementById('edit-sale-by').value
+  };
+  
+  try{
+    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'updateOrder',...order})});
+    const data=await res.json();
+    if(data.success){
+      closeEditModal();
+      showToast('✓ Order updated!');
+      loadOverviewData();
+    }else{showToast('Error: '+data.error);}
+  }catch(err){showToast('Error updating order');}
+}
+
+async function deleteOrder(orderId){
+  if(!confirm('Delete this order? This cannot be undone.')) return;
+  
+  try{
+    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'deleteOrder',ID:orderId})});
+    const data=await res.json();
+    if(data.success){
+      showToast('✓ Order deleted');
+      loadOverviewData();
+    }else{showToast('Error: '+data.error);}
+  }catch(err){showToast('Error deleting order');}
 }
 
 function showToast(msg){const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000);}
