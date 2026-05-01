@@ -52,8 +52,8 @@
     </div>
     <div class="form-row">
       <div class="form-group">
-        <label>Product</label>
-        <select class="form-control" id="f-product"></select>
+        <label>Product / Description</label>
+        <input class="form-control" id="f-product" placeholder="e.g. Jute tote bags, Canvas pouch">
       </div>
       <div class="form-group">
         <label>Quantity <span class="req">*</span></label>
@@ -66,9 +66,42 @@
         <input class="form-control" id="f-date" type="date">
       </div>
       <div class="form-group">
+        <label>Delivery Time</label>
+        <input class="form-control" id="f-time" placeholder="e.g. 10:00 AM or Evening">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
         <label>Order Value ₹ <span class="req">*</span></label>
         <input class="form-control" id="f-order-value" type="number" placeholder="15000" min="0">
       </div>
+      <div class="form-group">
+        <label>Advance Received ₹</label>
+        <input class="form-control" id="f-advance" type="number" placeholder="5000" min="0">
+      </div>
+    </div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Priority</label>
+        <select class="form-control" id="f-priority">
+          <option value="Normal">Normal</option>
+          <option value="High">High</option>
+          <option value="Urgent">Urgent</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Starting Stage</label>
+        <select class="form-control" id="f-stage">
+          <option value="Cutting">Cutting</option>
+          <option value="Printing">Printing</option>
+          <option value="Stitching">Stitching</option>
+          <option value="Finishing">Finishing</option>
+        </select>
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Remarks / Notes</label>
+      <input class="form-control" id="f-remarks" placeholder="Any special instructions...">
     </div>
 
     <div class="section-label">Primary Fabric</div>
@@ -144,6 +177,314 @@
       </div>
     </div>
 
+    <div class="section-label">Bag Specifications</div>
+    <div class="form-row">
+      <div class="form-group">
+        <label>Bag Dimensions (inches)</label>
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;align-items:end">
+          <div>
+            <div style="font-size:10px;color:rgba(44,31,20,0.5);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">Height"</div>
+            <input class="form-control" id="f-dim-height" type="number" placeholder='e.g. 14' min="0" step="0.5" oninput="buildDimensions()">
+          </div>
+          <div>
+            <div style="font-size:10px;color:rgba(44,31,20,0.5);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">Length"</div>
+            <input class="form-control" id="f-dim-length" type="number" placeholder='e.g. 16' min="0" step="0.5" oninput="buildDimensions()">
+          </div>
+          <div>
+            <div style="font-size:10px;color:rgba(44,31,20,0.5);font-weight:600;text-transform:uppercase;letter-spacing:.3px;margin-bottom:4px">Base/Gusset" <span style="font-weight:400;opacity:.6">(optional)</span></div>
+            <input class="form-control" id="f-dim-base" type="number" placeholder='e.g. 5' min="0" step="0.5" oninput="buildDimensions()">
+          </div>
+        </div>
+        <div id="f-dim-preview" style="display:none;margin-top:6px;font-size:12px;color:rgba(44,31,20,0.5);font-family:'DM Mono',monospace"></div>
+        <input type="hidden" id="f-dimensions">
+      </div>
+      <div class="form-group">
+        <label>Print Type</label>
+        <select class="form-control" id="f-print">
+          <option value="none">None</option>
+          <option value="screen">Screen Print</option>
+          <option value="dtf">DTF</option>
+          <option value="embroidery">Embroidery</option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label>Print Cost ₹ <span style="font-weight:400;color:rgba(44,31,20,0.4)">(total for order)</span></label>
+        <input class="form-control" id="f-print-cost" type="number" placeholder="e.g. 2000" min="0">
+      </div>
+    </div>
+    <div class="form-group">
+      <label>Bag Features</label>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px" id="features-wrap">
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Zip Closure"> Zip Closure</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Handles"> Handles</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Lining"> Lining</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Gusset"> Gusset</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Inner Pocket"> Inner Pocket</label>
+        <label style="display:flex;align-items:center;gap:5px;font-size:12px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0"><input type="checkbox" value="Outer Pocket"> Outer Pocket</label>
+      </div>
+    </div>
+
+    <!-- MATERIAL REQUIREMENTS -->
+    <div class="section-label">Material Requirements</div>
+    <div style="font-size:11px;color:rgba(44,31,20,0.5);margin-bottom:12px">Stock deducted automatically on submit &middot; Leave blank if not applicable</div>
+
+    <!-- PRIMARY & SECONDARY FABRIC QTY -->
+    <div class="form-row">
+      <div class="form-group">
+        <label>Primary Fabric (metres)</label>
+        <input class="form-control" id="f-primary-fabric-qty" type="number" placeholder="e.g. 0.6" min="0" step="0.1">
+      </div>
+      <div class="form-group">
+        <label>Secondary Fabric (metres)</label>
+        <input class="form-control" id="f-secondary-fabric-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- HANDLES -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Handles</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Type</label>
+          <select class="form-control" id="f-handle-type">
+            <option value="">Select type...</option>
+            <option>Cotton</option><option>Jute</option><option>Rope</option>
+            <option>Leather</option><option>Nylon</option><option>Chain</option><option>Other</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-handle-color" onchange="toggleMECustom('f-handle-color','f-handle-color-custom')">
+            <option value="">Select color...</option>
+            <option>Natural</option><option>Black</option><option>Brown</option><option>Cream</option>
+            <option>Navy Blue</option><option>Tan</option><option>Beige</option><option>White</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-handle-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-handles-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- ZIPPERS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Zippers</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-zipper-color" onchange="toggleMECustom('f-zipper-color','f-zipper-color-custom')">
+            <option value="">Select color...</option>
+            <option>Black</option><option>White</option><option>Cream</option><option>Juco</option>
+            <option>Dark Juco</option><option>Light Green</option><option>Green</option><option>Orange</option>
+            <option>Navy Blue</option><option>Light Cream</option><option>Red</option><option>Purple</option>
+            <option>Blue</option><option>Olive</option><option>Bottle Green</option><option>Maroon</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-zipper-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Number</label>
+          <select class="form-control" id="f-zipper-number">
+            <option value="">Select...</option>
+            <option>No.3</option><option>No.5</option><option>No.8</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-zippers-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- LACE -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Lace</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-lace-color" onchange="toggleMECustom('f-lace-color','f-lace-color-custom')">
+            <option value="">Select color...</option>
+            <option>Cream</option><option>White</option><option>Baby Pink</option><option>Light Blue</option>
+            <option>Dark Blue</option><option>Blue Zari</option><option>Black with Juco</option>
+            <option>Pink with Juco</option><option>Light Green with Juco</option><option>Black Zari</option>
+            <option>Green Zari</option><option>Maroon Zari</option><option>Gold Zari</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-lace-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Size</label>
+          <select class="form-control" id="f-lace-size">
+            <option value="">Select size...</option>
+            <option>1 inch</option><option>1.5 inch</option><option>2 inch</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Type</label>
+        <select class="form-control" id="f-lace-type">
+          <option value="">Select type...</option>
+          <option>Plain</option><option>Zari</option><option>With Juco</option><option>Cotton</option>
+        </select>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-lace-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- WEBBING -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Webbing</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-webbing-color" onchange="toggleMECustom('f-webbing-color','f-webbing-color-custom')">
+            <option value="">Select color...</option>
+            <option>Juco</option><option>Cream</option><option>Orange</option><option>Green</option>
+            <option>Yellow</option><option>Mustard</option><option>Bottle Green</option><option>Parrot Green</option>
+            <option>Purple</option><option>Black</option><option>Light Blue</option><option>Pink</option>
+            <option>Red</option><option>Maroon</option><option>Grey</option><option>White</option>
+            <option>Navy Blue</option><option>Teal</option><option>Multicolor</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-webbing-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Width</label>
+          <select class="form-control" id="f-webbing-width">
+            <option value="">Select width...</option>
+            <option>1 inch</option><option>1.5 inch</option><option>2 inch</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group" style="margin-bottom:0;margin-top:8px">
+        <label>Quantity (metres)</label>
+        <input class="form-control" id="f-webbing-qty" type="number" placeholder="0" min="0" step="0.1">
+      </div>
+    </div>
+
+    <!-- THREADS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Threads</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Color</label>
+          <select class="form-control" id="f-thread-color" onchange="toggleMECustom('f-thread-color','f-thread-color-custom')">
+            <option value="">Select color...</option>
+            <option>Cream</option><option>Black</option><option>Light Blue</option><option>Red</option>
+            <option>Purple</option><option>Light Green</option><option>Bottle Green</option><option>Maroon</option>
+            <option>Blue Dark</option><option>Navy Blue</option><option>Brown</option><option>White</option>
+            <option>Yellow</option><option>Parrot Green</option><option>Orange</option><option>Baby Pink</option>
+            <option>Grey</option><option>Teal</option><option>Mustard</option><option>Thin Cream</option>
+            <option value="Other">Other (type below)</option>
+          </select>
+          <input class="form-control" id="f-thread-color-custom" placeholder="Enter color" style="display:none;margin-top:4px">
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Quantity (nos/boxes)</label>
+          <input class="form-control" id="f-thread-qty" type="number" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- RUNNERS -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:8px">Runners</div>
+      <div class="form-row">
+        <div class="form-group" style="margin-bottom:0">
+          <label>Number</label>
+          <select class="form-control" id="f-runner-number">
+            <option value="">Select...</option>
+            <option>No.3</option><option>No.5</option><option>No.8</option>
+          </select>
+        </div>
+        <div class="form-group" style="margin-bottom:0">
+          <label>Quantity (nos)</label>
+          <input class="form-control" id="f-runners-qty" type="number" placeholder="0" min="0" step="1">
+        </div>
+      </div>
+    </div>
+
+    <!-- HARDWARE CHECKBOXES -->
+    <div style="background:var(--cream);border-radius:8px;padding:12px;border:1px solid var(--border);margin-bottom:10px">
+      <div style="font-size:11px;font-weight:700;color:rgba(44,31,20,0.5);text-transform:uppercase;letter-spacing:.4px;margin-bottom:10px">Hardware &amp; Accessories (check if used)</div>
+      <div id="hardware-checkboxes" style="display:flex;flex-direction:column;gap:8px">
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-doghooks" onchange="toggleHardware('doghooks')"> Dog Hooks
+          </label>
+          <div id="hw-qty-doghooks" style="display:none;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <select class="form-control" id="hw-size-doghooks" style="width:130px"><option value="">Size...</option><option>Big (1.5 inch)</option><option>Medium (1 inch)</option><option>Small (0.5 inch)</option></select>
+            <select class="form-control" id="hw-finish-doghooks" style="width:100px"><option>Steel</option><option>Antique</option></select>
+            <input class="form-control" id="hw-qty-input-doghooks" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-buckles" onchange="toggleHardware('buckles')"> Buckles
+          </label>
+          <div id="hw-qty-buckles" style="display:none;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <select class="form-control" id="hw-size-buckles" style="width:130px"><option value="">Size...</option><option>Big (1.5 inch)</option><option>Medium (1 inch)</option><option>Small (0.5 inch)</option></select>
+            <select class="form-control" id="hw-finish-buckles" style="width:100px"><option>Steel</option><option>Antique</option><option>Plastic</option></select>
+            <input class="form-control" id="hw-qty-input-buckles" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-dring" onchange="toggleHardware('dring')"> D-Ring
+          </label>
+          <div id="hw-qty-dring" style="display:none;display:flex;gap:6px;align-items:center;flex-wrap:wrap">
+            <select class="form-control" id="hw-size-dring" style="width:130px"><option value="">Size...</option><option>Big (1.5 inch)</option><option>Medium (1 inch)</option><option>Small (0.5 inch)</option><option>Tiny (1 cm)</option></select>
+            <select class="form-control" id="hw-finish-dring" style="width:100px"><option>Steel</option><option>Antique</option></select>
+            <input class="form-control" id="hw-qty-input-dring" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-snapbtn" onchange="toggleHardware('snapbtn')"> Snap Magnetic Button
+          </label>
+          <div id="hw-qty-snapbtn" style="display:none;display:flex;gap:6px;align-items:center">
+            <input class="form-control" id="hw-qty-input-snapbtn" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-highlight" onchange="toggleHardware('highlight')"> Highlight
+          </label>
+          <div id="hw-qty-highlight" style="display:none;display:flex;gap:6px;align-items:center">
+            <input class="form-control" id="hw-qty-input-highlight" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap">
+          <label style="display:flex;align-items:center;gap:6px;min-width:140px;cursor:pointer;font-weight:400;text-transform:none;letter-spacing:0;font-size:13px">
+            <input type="checkbox" id="hw-reveat" onchange="toggleHardware('reveat')"> Reveat
+          </label>
+          <div id="hw-qty-reveat" style="display:none;display:flex;gap:6px;align-items:center">
+            <input class="form-control" id="hw-qty-input-reveat" type="number" placeholder="Qty" min="1" style="width:80px">
+            <span style="font-size:11px">nos</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- DEDUCT STOCK CHECKBOX -->
+    <div style="display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--cream);border-radius:8px;border:1px solid var(--border);margin-top:16px">
+      <input type="checkbox" id="cb-deduct-stock" checked style="width:16px;height:16px;accent-color:var(--moss);cursor:pointer;flex-shrink:0">
+      <div>
+        <div style="font-size:13px;font-weight:600;color:var(--bark)">Deduct stock automatically</div>
+        <div style="font-size:11px;color:rgba(44,31,20,0.5);margin-top:2px">Uncheck if inventory hasn't been set up yet — order will save without affecting stock levels</div>
+      </div>
+    </div>
+
     <div class="section-label">Sale By</div>
     <div class="sale-by-grid">
       <div class="sale-by-btn" onclick="selectSaleBy('Sridevi')">Sridevi</div>
@@ -204,6 +545,7 @@
 
 <script>
 const SHEET_URL="https://script.google.com/macros/s/AKfycbx2nMzO-uy4ycFkFIccnoh7BFVxst0WeDzZOAKcjEzNSWSmg-6B6mRHbJtv6BRKzn33/exec";
+const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH0-Hrp13qP_PcA7h-1KddIPx6TzfMzY6KoYnTMxaa8mnSa/exec";
 
 const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},'Designer Fabric':{variations:['Kalamkari','Ikat'],gsm:[]}};
 
@@ -220,8 +562,69 @@ function setSyncStatus(state,msg){
 
 async function initApp(){
   document.getElementById('live-date').textContent=new Date().toLocaleDateString('en-IN',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
-  try{const data=await fetch(`${SHEET_URL}?action=getConfig`).then(r=>r.json());if(data)configData=data;populateConfigDropdowns();}catch(err){console.error(err);}
+  try{
+    const data=await fetch(CONFIG_URL+'?action=getConfig').then(r=>r.json());
+    if(data){configData=data;buildFabricConfigFromSettings(data);}
+  }catch(err){console.error('Config load failed:',err);}
   setSyncStatus('ok','Ready');
+}
+
+function buildFabricConfigFromSettings(cfg){
+  if(!cfg||!cfg.fabrics||!cfg.fabrics.length)return;
+  cfg.fabrics.forEach(fabric=>{
+    if(!fabric.name)return;
+    FABRIC_CONFIG[fabric.name]={variations:fabric.variations||[],gsm:fabric.gsm||[]};
+  });
+  // Rebuild primary material dropdown
+  const primarySel=document.getElementById('f-primary-material');
+  if(primarySel){
+    const placeholder=primarySel.options[0];
+    primarySel.innerHTML='';
+    primarySel.appendChild(placeholder);
+    cfg.fabrics.forEach(fabric=>{
+      if(!fabric.name)return;
+      const opt=document.createElement('option');
+      opt.value=fabric.name;
+      opt.textContent=fabric.name==='Designer Fabric'?'✨ Designer Fabric':fabric.name;
+      primarySel.appendChild(opt);
+    });
+    ['Non-woven','POV Sheet','Parachute','Matt Fabric'].forEach(name=>{
+      if(!cfg.fabrics.find(f=>f.name===name)){
+        const opt=document.createElement('option');opt.value=name;opt.textContent=name;
+        primarySel.appendChild(opt);
+      }
+    });
+  }
+  // Rebuild secondary material dropdown
+  const secondarySel=document.getElementById('f-secondary-material');
+  if(secondarySel){
+    const placeholder=secondarySel.options[0];
+    secondarySel.innerHTML='';
+    secondarySel.appendChild(placeholder);
+    cfg.fabrics.forEach(fabric=>{
+      if(!fabric.name)return;
+      const opt=document.createElement('option');
+      opt.value=fabric.name;
+      opt.textContent=fabric.name==='Designer Fabric'?'✨ Designer Fabric':fabric.name;
+      secondarySel.appendChild(opt);
+    });
+  }
+  // Rebuild Sale By from config people
+  if(cfg.people&&cfg.people.length){
+    const saleReps=cfg.people.filter(p=>p.type==='sales');
+    if(saleReps.length){
+      const grid=document.querySelector('.sale-by-grid');
+      if(grid){
+        grid.innerHTML='';
+        saleReps.forEach(p=>{
+          const btn=document.createElement('div');btn.className='sale-by-btn';btn.textContent=p.name;
+          btn.onclick=function(){selectSaleBy(p.name);};grid.appendChild(btn);
+        });
+        const otherBtn=document.createElement('div');otherBtn.className='sale-by-btn';otherBtn.textContent='Other…';
+        otherBtn.onclick=function(){selectSaleBy('Other');};grid.appendChild(otherBtn);
+      }
+    }
+  }
 }
 
 function populateConfigDropdowns(){
@@ -317,6 +720,78 @@ function selectSaleBy(v){
   document.getElementById('f-sale-other').style.display=v==='Other'?'block':'none';
 }
 
+
+function buildDimensions(){
+  const h=document.getElementById('f-dim-height').value;
+  const l=document.getElementById('f-dim-length').value;
+  const b=document.getElementById('f-dim-base').value;
+  const preview=document.getElementById('f-dim-preview');
+  const hidden=document.getElementById('f-dimensions');
+  if(!h&&!l&&!b){
+    if(preview)preview.style.display='none';
+    if(hidden)hidden.value='';
+    return;
+  }
+  let parts=[];
+  if(h)parts.push('H:'+h+'"');
+  if(l)parts.push('L:'+l+'"');
+  if(b)parts.push('Base:'+b+'"');
+  const dimStr=parts.join(' × ');
+  if(hidden)hidden.value=dimStr;
+  if(preview){preview.style.display='block';preview.textContent='→ '+dimStr;}
+}
+
+function toggleMECustom(selectId,customId){
+  const sel=document.getElementById(selectId);
+  const custom=document.getElementById(customId);
+  if(!sel||!custom)return;
+  custom.style.display=sel.value==='Other'?'block':'none';
+}
+
+function toggleHardware(key){
+  const cb=document.getElementById('hw-'+key);
+  const wrap=document.getElementById('hw-qty-'+key);
+  if(!wrap)return;
+  wrap.style.display=cb&&cb.checked?'flex':'none';
+}
+
+function getHardwareItems(){
+  const hwMap=[
+    {key:'doghooks',mat:'Dog Hooks',hasSize:true,hasFinish:true},
+    {key:'buckles',mat:'Buckles',hasSize:true,hasFinish:true},
+    {key:'dring',mat:'D-Ring',hasSize:true,hasFinish:true},
+    {key:'snapbtn',mat:'Snap Magnetic Button',hasSize:false,hasFinish:false},
+    {key:'highlight',mat:'Highlight',hasSize:false,hasFinish:false},
+    {key:'reveat',mat:'Reveat',hasSize:false,hasFinish:false},
+  ];
+  const result=[];
+  hwMap.forEach(h=>{
+    const cb=document.getElementById('hw-'+h.key);
+    if(cb&&cb.checked){
+      const qty=Number(document.getElementById('hw-qty-input-'+h.key).value)||0;
+      if(qty>0){
+        const size=h.hasSize?(document.getElementById('hw-size-'+h.key)?document.getElementById('hw-size-'+h.key).value:''):'';
+        const finish=h.hasFinish?(document.getElementById('hw-finish-'+h.key)?document.getElementById('hw-finish-'+h.key).value:''):'';
+        result.push({material:h.mat,qty,size,finish});
+      }
+    }
+  });
+  return result;
+}
+
+function getMEFieldValue(selectId, customId){
+  const sel=document.getElementById(selectId);
+  const custom=document.getElementById(customId);
+  if(!sel)return'';
+  return sel.value==='Other'?(custom?custom.value.trim():''):sel.value;
+}
+
+function getSelectedFeatures(){
+  const features=[];
+  document.querySelectorAll('#features-wrap input[type=checkbox]:checked').forEach(cb=>features.push(cb.value));
+  return features.join(', ');
+}
+
 async function submitOrder(){
   const client=document.getElementById('f-client').value.trim();
   const qty=parseInt(document.getElementById('f-qty').value)||0;
@@ -333,27 +808,62 @@ async function submitOrder(){
   const secondaryVariation=document.getElementById('f-secondary-variation').value;
   const secondaryGSM=document.getElementById('f-secondary-gsm').value;
   const secondaryPattern=document.getElementById('f-secondary-pattern').value;
-  
+  const advance=Number(document.getElementById('f-advance')?document.getElementById('f-advance').value:0)||0;
+  const priority=document.getElementById('f-priority')?document.getElementById('f-priority').value:'Normal';
+  const stage=document.getElementById('f-stage')?document.getElementById('f-stage').value:'Cutting';
+  const remarks=document.getElementById('f-remarks')?document.getElementById('f-remarks').value:'';
+  const time=document.getElementById('f-time')?document.getElementById('f-time').value:'';
+  const dimensions=document.getElementById('f-dimensions')?document.getElementById('f-dimensions').value:'';
+  const print=document.getElementById('f-print')?document.getElementById('f-print').value:'none';
+  const printCost=Number(document.getElementById('f-print-cost')?document.getElementById('f-print-cost').value:0)||0;
+  const features=getSelectedFeatures();
+  const primaryFabricQty=Number(document.getElementById('f-primary-fabric-qty')?document.getElementById('f-primary-fabric-qty').value:0)||0;
+  const secondaryFabricQty=Number(document.getElementById('f-secondary-fabric-qty')?document.getElementById('f-secondary-fabric-qty').value:0)||0;
+  const handlesQty=Number(document.getElementById('f-handles-qty')?document.getElementById('f-handles-qty').value:0)||0;
+  const zippersQty=Number(document.getElementById('f-zippers-qty')?document.getElementById('f-zippers-qty').value:0)||0;
+  const laceQty=Number(document.getElementById('f-lace-qty')?document.getElementById('f-lace-qty').value:0)||0;
+  const webbingQty=Number(document.getElementById('f-webbing-qty')?document.getElementById('f-webbing-qty').value:0)||0;
+  const threadQty=Number(document.getElementById('f-thread-qty')?document.getElementById('f-thread-qty').value:0)||0;
+  const runnersQty=Number(document.getElementById('f-runners-qty')?document.getElementById('f-runners-qty').value:0)||0;
+  const handleType=document.getElementById('f-handle-type')?document.getElementById('f-handle-type').value:'';
+  const handleColor=getMEFieldValue('f-handle-color','f-handle-color-custom');
+  const zipperColor=getMEFieldValue('f-zipper-color','f-zipper-color-custom');
+  const zipperNumber=document.getElementById('f-zipper-number')?document.getElementById('f-zipper-number').value:'';
+  const laceColor=getMEFieldValue('f-lace-color','f-lace-color-custom');
+  const laceSize=document.getElementById('f-lace-size')?document.getElementById('f-lace-size').value:'';
+  const laceType=document.getElementById('f-lace-type')?document.getElementById('f-lace-type').value:'';
+  const webbingColor=getMEFieldValue('f-webbing-color','f-webbing-color-custom');
+  const webbingWidth=document.getElementById('f-webbing-width')?document.getElementById('f-webbing-width').value:'';
+  const threadColor=getMEFieldValue('f-thread-color','f-thread-color-custom');
+  const runnerNumber=document.getElementById('f-runner-number')?document.getElementById('f-runner-number').value:'';
+  const hardwareItems=getHardwareItems();
+  const deductStock=document.getElementById('cb-deduct-stock')?document.getElementById('cb-deduct-stock').checked:false;
+
   const order={
-    Client:client,
-    Product:document.getElementById('f-product').value||'—',
-    Qty:qty,
-    'Delivery Date':document.getElementById('f-date').value||'',
-    'Primary Material':primaryMaterial,
-    'Primary Variation':primaryVariation,
-    'Primary GSM':primaryGSM,
-    'Secondary Material':secondaryMaterial,
-    'Secondary Variation':secondaryVariation,
-    'Secondary GSM':secondaryGSM,
-    Color:document.getElementById('f-color').value||'',
-    Pattern:pattern,
-    'Order Value':orderValue,
-    'Sale By':saleBy,
-    'Created At':new Date().toLocaleString()
+    action:'addOrder',
+    client,product:document.getElementById('f-product').value||'',
+    qty,date:document.getElementById('f-date').value||'',time,
+    stage,status:priority==='Urgent'?'urgent':priority==='High'?'urgent':'ok',
+    print,printCost,saleBy,remarks,advance,orderValue,
+    dimensions,features,
+    primaryMaterial,primaryVariation,primaryGSM,
+    secondaryMaterial,secondaryVariation,secondaryGSM,
+    color:document.getElementById('f-color')?document.getElementById('f-color').value:'',
+    pattern,secondaryPattern,
+    primaryFabricQty,secondaryFabricQty,handlesQty,zippersQty,
+    laceQty,laceColor,laceSize,laceType,
+    webbingQty,webbingColor,webbingWidth,
+    threadQty,threadColor,
+    handleType,handleColor,
+    zipperColor,zipperNumber,
+    runnerNumber,runnersQty,
+    hardwareItems:JSON.stringify(hardwareItems),
+    deductStock,
+    entryDate:new Date().toLocaleString('en-IN',{timeZone:'Asia/Kolkata'})
   };
   
   try{
-    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify({action:'addOrder',...order})});
+    const res=await fetch(SHEET_URL,{method:'POST',body:JSON.stringify(order)});
     const data=await res.json();
     if(data.success){
       document.getElementById('form-body').style.display='none';
@@ -366,7 +876,7 @@ async function submitOrder(){
 function resetForm(){
   document.getElementById('form-body').style.display='block';
   document.getElementById('success-screen').classList.remove('visible');
-  ['f-client','f-product','f-qty','f-date','f-order-value','f-color','f-primary-material','f-primary-variation','f-primary-gsm','f-pattern','f-secondary-material','f-secondary-variation','f-secondary-gsm','f-secondary-pattern','f-sale-other'].forEach(id=>{document.getElementById(id).value='';});
+  ['f-client','f-product','f-qty','f-date','f-time','f-order-value','f-advance','f-remarks','f-color','f-primary-material','f-primary-variation','f-primary-gsm','f-pattern','f-secondary-material','f-secondary-variation','f-secondary-gsm','f-secondary-pattern','f-sale-other','f-dim-height','f-dim-length','f-dim-base','f-dimensions','f-primary-fabric-qty','f-secondary-fabric-qty','f-handles-qty','f-zippers-qty','f-lace-qty','f-webbing-qty','f-thread-qty','f-runners-qty','f-print-cost'].forEach(id=>{document.getElementById(id).value='';});
   selectedSaleBy='';
   document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
   onPrimaryMaterialChange();
