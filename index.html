@@ -38,9 +38,13 @@
 <div class="form-card" style="margin-top:24px">
   <div class="form-card-header">
     <div class="form-card-icon">📦</div>
-    <div>
+    <div style="flex:1">
       <div class="form-card-title">New Order Entry</div>
       <div class="form-card-sub">Saved to Google Sheets · Stock deducted automatically</div>
+    </div>
+    <div style="background:var(--moss);color:#fff;padding:8px 16px;border-radius:8px;font-family:'DM Mono',monospace;font-size:14px;font-weight:700;display:flex;align-items:center;gap:8px">
+      <span style="opacity:0.7;font-size:12px">Creating Order</span>
+      <span style="font-size:22px">#<span id="next-order-id">...</span></span>
     </div>
   </div>
 
@@ -519,7 +523,7 @@
     <table class="overview-table">
       <thead>
         <tr>
-          <th>#</th><th>Client</th><th>Product</th><th>Qty</th>
+          <th>ID</th><th>Client</th><th>Product</th><th>Qty</th>
           <th>Delivery</th><th>Stage</th><th>Material</th>
           <th>Order ₹</th><th>Actions</th>
         </tr>
@@ -544,7 +548,7 @@
 <div class="toast" id="toast"></div>
 
 <script>
-const SHEET_URL="https://script.google.com/macros/s/AKfycbx2nMzO-uy4ycFkFIccnoh7BFVxst0WeDzZOAKcjEzNSWSmg-6B6mRHbJtv6BRKzn33/exec";
+const SHEET_URL="https://script.google.com/macros/s/AKfycbzFjeuSQroz9_ZNyEPCl64sqSNsL_OqJIe38PjGK8HJd2opEycbQtgVUb2ye_i2jVEb/exec";
 const CONFIG_URL="https://script.google.com/macros/s/AKfycbxRr3o5M_bYR3V9oZf2qMH0-Hrp13qP_PcA7h-1KddIPx6TzfMzY6KoYnTMxaa8mnSa/exec";
 
 const FABRIC_CONFIG={'Jute Fabric':{variations:['Half-White','Natural','Oxford Jute','Printed','Colored'],gsm:['14/15','13/13','12/12']},'Cotton Canvas':{variations:['Natural','Colored','Laminated'],gsm:['225','300','310','340','400','490','570']},'Juco Fabric':{variations:['Laminated','Non-Laminated'],gsm:[]},'Kadhi Fabric':{variations:['Natural'],gsm:['90','120','135','150']},'Designer Fabric':{variations:['Kalamkari','Ikat'],gsm:[]}};
@@ -567,6 +571,20 @@ async function initApp(){
     if(data){configData=data;buildFabricConfigFromSettings(data);}
   }catch(err){console.error('Config load failed:',err);}
   setSyncStatus('ok','Ready');
+  loadNextOrderId();
+}
+
+async function loadNextOrderId(){
+  try{
+    const res=await fetch(`${SHEET_URL}?action=getNextOrderId`);
+    const data=await res.json();
+    if(data && data.nextId){
+      document.getElementById('next-order-id').textContent=data.nextId;
+    }
+  }catch(err){
+    console.error('Failed to load next Order ID:',err);
+    document.getElementById('next-order-id').textContent='?';
+  }
 }
 
 function buildFabricConfigFromSettings(cfg){
@@ -869,6 +887,7 @@ async function submitOrder(){
       document.getElementById('form-body').style.display='none';
       document.getElementById('success-screen').classList.add('visible');
       showToast('✓ Order saved!');
+      loadNextOrderId();
     }else{showToast('Error: '+data.error);}
   }catch(err){showToast('Error saving order');}
 }
@@ -880,6 +899,7 @@ function resetForm(){
   selectedSaleBy='';
   document.querySelectorAll('.sale-by-btn').forEach(b=>b.classList.remove('active'));
   onPrimaryMaterialChange();
+  loadNextOrderId();
 }
 
 function switchTab(tab){
@@ -965,7 +985,7 @@ function renderOverview(){
     const sc={'Cutting':{bg:'#FEF3C7',text:'#92400E'},'Printing':{bg:'#DBEAFE',text:'#1E40AF'},'Stitching':{bg:'#FDE8D8',text:'#9A3412'},'Finishing':{bg:'#FAE8FF',text:'#6B21A8'},'Packing & Del':{bg:'#DCFCE7',text:'#166534'},'Done':{bg:'#F3F4F6',text:'#374151'}}[o.stage]||{bg:'#F3F4F6',text:'#374151'};
     
     return `<tr>
-      <td style="color:rgba(44,31,20,0.4);font-size:11px">${i+1}</td>
+      <td style="font-family:'DM Mono',monospace;font-weight:700;color:var(--bark)">${o.id}</td>
       <td><strong>${o.client}</strong></td>
       <td style="color:rgba(44,31,20,0.6);font-size:12px">${o.product||'—'}</td>
       <td style="font-family:'DM Mono',monospace;font-weight:600">${o.qty}</td>
